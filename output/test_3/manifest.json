@@ -1,0 +1,134 @@
+{
+  "job_id": "test_3",
+  "renderer": "remotion",
+  "review_status": "review_required",
+  "artifacts": [
+    {
+      "type": "analysis",
+      "path": "analysis.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "story",
+      "path": "story.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "variable_map",
+      "path": "variable_map.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "blueprint",
+      "path": "blueprint.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "audio",
+      "path": "source_audio.mp3",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "reference_image",
+      "path": "scene_001_reference.png",
+      "scene_id": "scene_001",
+      "status": "created"
+    },
+    {
+      "type": "reference_image",
+      "path": "scene_002_reference.png",
+      "scene_id": "scene_002",
+      "status": "created"
+    },
+    {
+      "type": "reference_image",
+      "path": "scene_003_reference.png",
+      "scene_id": "scene_003",
+      "status": "created"
+    },
+    {
+      "type": "remotion_package",
+      "path": "remotion_package",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "remotion_readme",
+      "path": "remotion_package/README.md",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "remotion_partition",
+      "path": "remotion_package/template-partition.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "remotion_entry",
+      "path": "remotion_package/src/index.jsx",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "remotion_root",
+      "path": "remotion_package/src/Root.jsx",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "remotion_component",
+      "path": "remotion_package/src/Test3GlossaryTemplate.jsx",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "remotion_props",
+      "path": "remotion_package/props/default-props.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "remotion_props_variant",
+      "path": "remotion_package/props/variant-props.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "remotion_public_audio",
+      "path": "remotion_package/public/source_audio.mp3",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "remotion_asset",
+      "path": "remotion_package/public/assets/scene_001_dictionary_plate.png",
+      "scene_id": "scene_001",
+      "status": "created"
+    },
+    {
+      "type": "remotion_asset",
+      "path": "remotion_package/public/assets/scene_002_neural_plate.png",
+      "scene_id": "scene_002",
+      "status": "created"
+    },
+    {
+      "type": "remotion_asset",
+      "path": "remotion_package/public/assets/scene_003_card_plate.png",
+      "scene_id": "scene_003",
+      "status": "created"
+    }
+  ],
+  "notes": [
+    "All three scenes intentionally omit standalone startframe and video prompt files because blueprint.renderer is remotion and every scene uses code-driven animation.",
+    "Scene backdrops are now explicitly split into swappable input-media plates under remotion_package/public/assets while editable text and transitions remain in code.",
+    "source_audio.mp3 is duplicated into remotion_package/public/source_audio.mp3 so the Remotion composition can reuse the extracted input audio without external URLs.",
+    "No preview renders are included at the review gate. Install dependencies and run Remotion commands only after template review approval.",
+    "The package is designed for JSON prop swaps through remotion_package/props/default-props.json and remotion_package/props/variant-props.json."
+  ]
+}

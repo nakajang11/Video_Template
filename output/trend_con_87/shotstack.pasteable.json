@@ -1,0 +1,102 @@
+{
+  "timeline": {
+    "background": "#000000",
+    "tracks": [
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "text",
+              "text": "Yor Forger cosplay?",
+              "font": {
+                "family": "OpenSans Bold",
+                "color": "#FFFFFF",
+                "size": 42,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              },
+              "width": 620,
+              "height": 92
+            },
+            "start": 0,
+            "length": 3.666667,
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.105
+            }
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "image",
+              "src": "https://res.cloudinary.com/dreyduqqw/image/upload/v1775521476/codex/trend_con_87/scene_001_overlay_001_20260407.png"
+            },
+            "start": 0,
+            "length": 3.666667,
+            "fit": "contain",
+            "scale": 0.3125,
+            "position": "topRight",
+            "offset": {
+              "x": -0.0625,
+              "y": -0.0684
+            }
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519000/codex/trend_con_87/scene_001_source_clip_20260407.mp4"
+            },
+            "start": 0,
+            "length": 3.666667,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519003/codex/trend_con_87/scene_002_source_clip_20260407.mp4"
+            },
+            "start": 3.666667,
+            "length": 5.78526,
+            "fit": "cover"
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "audio",
+              "src": "https://res.cloudinary.com/dreyduqqw/raw/upload/v1775518998/codex/trend_con_87/source_audio_20260407.mp3",
+              "volume": 1
+            },
+            "start": 0,
+            "length": 9.451927
+          }
+        ]
+      }
+    ]
+  },
+  "output": {
+    "format": "mp4",
+    "fps": 25,
+    "size": {
+      "width": 1080,
+      "height": 1920
+    }
+  }
+}

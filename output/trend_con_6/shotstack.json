@@ -1,0 +1,108 @@
+{
+  "timeline": {
+    "background": "#000000",
+    "tracks": [
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "audio",
+              "src": "{{ SOURCE_AUDIO_MP3 }}",
+              "volume": 1
+            },
+            "start": 0,
+            "length": 9.2
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "alias": "SCENE_001",
+            "asset": {
+              "type": "video",
+              "src": "{{ SCENE_001_MEDIA }}"
+            },
+            "start": "auto",
+            "length": 5.6,
+            "fit": "cover"
+          },
+          {
+            "alias": "SCENE_002",
+            "asset": {
+              "type": "video",
+              "src": "{{ SCENE_002_MEDIA }}"
+            },
+            "start": "auto",
+            "length": 0.2,
+            "fit": "cover"
+          },
+          {
+            "alias": "SCENE_003",
+            "asset": {
+              "type": "video",
+              "src": "{{ SCENE_003_MEDIA }}"
+            },
+            "start": "auto",
+            "length": 3.4,
+            "fit": "cover"
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_001_OVERLAY_001_IMAGE }}"
+            },
+            "start": "alias://SCENE_001",
+            "length": 5.6,
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": 0.22
+            },
+            "width": 0.56,
+            "height": 0.315
+          }
+        ]
+      }
+    ]
+  },
+  "output": {
+    "format": "mp4",
+    "fps": 25,
+    "size": {
+      "width": 1080,
+      "height": 1920
+    },
+    "destinations": [
+      {
+        "provider": "shotstack"
+      }
+    ]
+  },
+  "merge": [
+    {
+      "find": "SOURCE_AUDIO_MP3",
+      "replace": "source_audio.mp3"
+    },
+    {
+      "find": "SCENE_001_MEDIA",
+      "replace": "https://example.com/trend_con_6/scene_001.mp4"
+    },
+    {
+      "find": "SCENE_002_MEDIA",
+      "replace": "https://example.com/trend_con_6/scene_002.mp4"
+    },
+    {
+      "find": "SCENE_003_MEDIA",
+      "replace": "https://example.com/trend_con_6/scene_003.mp4"
+    },
+    {
+      "find": "SCENE_001_OVERLAY_001_IMAGE",
+      "replace": "https://example.com/trend_con_6/scene_001_overlay_001.png"
+    }
+  ]
+}

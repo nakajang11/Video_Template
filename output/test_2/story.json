@@ -1,0 +1,43 @@
+{
+  "job_id": "test_2",
+  "premise": "A dramatic quote video layers one persistent armored king figure over changing fantasy landscape plates while a line of text is revealed one word at a time.",
+  "plot_type": "single-word quote reveal over persistent hero cutout and swappable scenic plates",
+  "cast": [
+    {
+      "cast_id": "armored_king_overlay",
+      "role": "persistent foreground fantasy character",
+      "required": true,
+      "description": "A dark armored king or knight stands in the lower center across nearly the whole clip. This figure behaves like a reusable foreground asset."
+    }
+  ],
+  "continuity_rules": [
+    "The armored king overlay should remain stable across the full short.",
+    "Backgrounds can change freely as long as they stay within a warm fantasy or medieval-painting aesthetic.",
+    "Text should appear as one centered serif word at a time, with white fill and dark shadow.",
+    "The opening split-curtain reveal is part of the recognizable hook and should stay editable as code-driven transition logic.",
+    "Any extra background figures belong to the scenic plate and do not count as persistent cast."
+  ],
+  "supporting_character_policy": {
+    "required": false,
+    "allowed_types": [],
+    "rationale": "Only the foreground armored king needs continuity. Any secondary figure inside a background painting should stay part of the swappable background asset."
+  },
+  "scene_arc": [
+    {
+      "scene_id": "scene_001",
+      "beat": "Use a black split-curtain reveal to introduce the visual style."
+    },
+    {
+      "scene_id": "scene_002",
+      "beat": "Establish the core grammar: changing scenic plates, persistent king overlay, and single-word quote reveals."
+    },
+    {
+      "scene_id": "scene_003",
+      "beat": "Continue the quote with darker and denser fantasy plates."
+    },
+    {
+      "scene_id": "scene_004",
+      "beat": "Close the sequence with the final words over warm forest imagery."
+    }
+  ]
+}

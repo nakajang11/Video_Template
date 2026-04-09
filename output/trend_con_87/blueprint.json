@@ -1,0 +1,129 @@
+{
+  "contract_version": "1.0",
+  "job_id": "trend_con_87",
+  "source_video": "input/trend_con_87.mp4",
+  "audio": {
+    "strategy": "use_input_audio",
+    "source_file": "source_audio.mp3",
+    "shotstack_merge_key": "SOURCE_AUDIO_MP3"
+  },
+  "review_status": "review_required",
+  "scene_order": [
+    "scene_001",
+    "scene_002"
+  ],
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "duration_sec": 3.666667,
+      "story_role": "pre-transform cosplay teaser",
+      "cast": [
+        "adult_blonde_cosplayer"
+      ],
+      "locks": [
+        "same blonde creator identity",
+        "green bow headband",
+        "yellow teaser dress",
+        "same beige bedroom"
+      ],
+      "variables": [
+        "editable question caption added later in Shotstack",
+        "Yor reference insert supplied as a separate overlay asset in canonical Shotstack"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_001_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_001_reference.png"
+        ],
+        "goal": "Recreate the teaser frame cleanly with no baked-in caption text or anime insert because those elements are rebuilt in Shotstack."
+      },
+      "video": {
+        "mode": "generate",
+        "model": "kling v3",
+        "prompt_file": "scene_001_video_prompt.md",
+        "reference_assets": [
+          "scene_001_reference.png"
+        ],
+        "motion_intent": "small handheld sway and natural breathing while holding the teaser pose",
+        "camera_lock": "vertical creator-video framing",
+        "negative_motion": [
+          "no extra characters",
+          "no room redesign",
+          "no baked-in watermark or caption"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "video",
+        "alias": "SCENE_001",
+        "merge_key": "SCENE_001_MEDIA",
+        "clip_length_sec": 3.666667,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_001_QUESTION",
+            "placement": "center_lower",
+            "style": "OpenSans-like white question text with black stroke, positioned using source-derived caption center coordinates"
+          }
+        ],
+        "overlay_layers": [
+          {
+            "merge_key": "SCENE_001_OVERLAY_001_IMAGE",
+            "relative_start_sec": 0.0,
+            "duration_sec": 3.666667,
+            "placement": "upper_right",
+            "style": "source-authentic Yor reference insert card anchored from the top-right source margins"
+          }
+        ]
+      }
+    },
+    {
+      "scene_id": "scene_002",
+      "duration_sec": 5.78526,
+      "story_role": "Yor-inspired reveal pose",
+      "cast": [
+        "adult_blonde_cosplayer"
+      ],
+      "locks": [
+        "same creator identity",
+        "same bedroom layout",
+        "black Yor-inspired reveal wardrobe"
+      ],
+      "variables": [
+        "pose nuance and small handheld movement only"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_002_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_002_reference.png"
+        ],
+        "goal": "Recreate the reveal frame as a clean live-action cosplay still without platform UI."
+      },
+      "video": {
+        "mode": "generate",
+        "model": "kling v3",
+        "prompt_file": "scene_002_video_prompt.md",
+        "reference_assets": [
+          "scene_002_reference.png"
+        ],
+        "motion_intent": "subtle reveal pose shift and breathing in the same room",
+        "camera_lock": "vertical creator-video framing",
+        "negative_motion": [
+          "no extra props",
+          "no text overlay",
+          "no watermarks"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "video",
+        "alias": "SCENE_002",
+        "merge_key": "SCENE_002_MEDIA",
+        "clip_length_sec": 5.78526,
+        "text_overlays": [],
+        "overlay_layers": []
+      }
+    }
+  ]
+}

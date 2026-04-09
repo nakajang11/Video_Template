@@ -1,0 +1,114 @@
+{
+  "job_id": "trend_con_90",
+  "cloud_name": "dreyduqqw",
+  "uploaded_at": "2026-04-07T08:43:59+09:00",
+  "assets": [
+    {
+      "type": "audio",
+      "path": "source_audio.mp3",
+      "resource_type": "raw",
+      "public_id": "codex/trend_con_90/source_audio_20260407.mp3",
+      "secure_url": "https://res.cloudinary.com/dreyduqqw/raw/upload/v1775519014/codex/trend_con_90/source_audio_20260407.mp3",
+      "duration_sec": 11.770998,
+      "used_in": [
+        "shotstack.pasteable.json"
+      ]
+    },
+    {
+      "type": "video",
+      "path": "rendervid_poc/assets/scene_001_source_clip.mp4",
+      "resource_type": "video",
+      "public_id": "codex/trend_con_90/scene_001_source_clip_20260407",
+      "secure_url": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519016/codex/trend_con_90/scene_001_source_clip_20260407.mp4",
+      "duration_sec": 2.933333,
+      "scene_id": "scene_001",
+      "used_in": [
+        "shotstack.pasteable.json"
+      ]
+    },
+    {
+      "type": "video",
+      "path": "rendervid_poc/assets/scene_002_source_clip.mp4",
+      "resource_type": "video",
+      "public_id": "codex/trend_con_90/scene_002_source_clip_20260407",
+      "secure_url": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519018/codex/trend_con_90/scene_002_source_clip_20260407.mp4",
+      "duration_sec": 3.0,
+      "scene_id": "scene_002",
+      "used_in": [
+        "shotstack.pasteable.json"
+      ]
+    },
+    {
+      "type": "video",
+      "path": "rendervid_poc/assets/scene_003_source_clip.mp4",
+      "resource_type": "video",
+      "public_id": "codex/trend_con_90/scene_003_source_clip_20260407",
+      "secure_url": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519020/codex/trend_con_90/scene_003_source_clip_20260407.mp4",
+      "duration_sec": 0.633334,
+      "scene_id": "scene_003",
+      "used_in": [
+        "shotstack.pasteable.json"
+      ]
+    },
+    {
+      "type": "video",
+      "path": "rendervid_poc/assets/scene_004_source_clip.mp4",
+      "resource_type": "video",
+      "public_id": "codex/trend_con_90/scene_004_source_clip_20260407",
+      "secure_url": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519022/codex/trend_con_90/scene_004_source_clip_20260407.mp4",
+      "duration_sec": 1.066666,
+      "scene_id": "scene_004",
+      "used_in": [
+        "shotstack.pasteable.json"
+      ]
+    },
+    {
+      "type": "video",
+      "path": "rendervid_poc/assets/scene_005_source_clip.mp4",
+      "resource_type": "video",
+      "public_id": "codex/trend_con_90/scene_005_source_clip_20260407",
+      "secure_url": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519032/codex/trend_con_90/scene_005_source_clip_20260407.mp4",
+      "duration_sec": 0.666667,
+      "scene_id": "scene_005",
+      "used_in": [
+        "shotstack.pasteable.json"
+      ]
+    },
+    {
+      "type": "video",
+      "path": "rendervid_poc/assets/scene_006_source_clip.mp4",
+      "resource_type": "video",
+      "public_id": "codex/trend_con_90/scene_006_source_clip_20260407",
+      "secure_url": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519034/codex/trend_con_90/scene_006_source_clip_20260407.mp4",
+      "duration_sec": 1.0,
+      "scene_id": "scene_006",
+      "used_in": [
+        "shotstack.pasteable.json"
+      ]
+    },
+    {
+      "type": "video",
+      "path": "rendervid_poc/assets/scene_007_source_clip.mp4",
+      "resource_type": "video",
+      "public_id": "codex/trend_con_90/scene_007_source_clip_20260407",
+      "secure_url": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519037/codex/trend_con_90/scene_007_source_clip_20260407.mp4",
+      "duration_sec": 0.766667,
+      "scene_id": "scene_007",
+      "used_in": [
+        "shotstack.pasteable.json"
+      ]
+    },
+    {
+      "type": "video",
+      "path": "rendervid_poc/assets/scene_008_source_clip.mp4",
+      "resource_type": "video",
+      "public_id": "codex/trend_con_90/scene_008_source_clip_20260407",
+      "secure_url": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519039/codex/trend_con_90/scene_008_source_clip_20260407.mp4",
+      "duration_sec": 1.704331,
+      "scene_id": "scene_008",
+      "used_in": [
+        "shotstack.pasteable.json"
+      ]
+    }
+  ]
+}

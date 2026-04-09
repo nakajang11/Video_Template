@@ -1,0 +1,122 @@
+{
+  "contract_version": "1.0",
+  "job_id": "trend_con_3",
+  "source_video": "input/trend_con_3.mp4",
+  "audio": {
+    "strategy": "use_input_audio",
+    "source_file": "source_audio.mp3",
+    "shotstack_merge_key": "SOURCE_AUDIO_MP3"
+  },
+  "review_status": "approved_for_packaging",
+  "scene_order": [
+    "scene_001",
+    "scene_002"
+  ],
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "duration_sec": 8.133,
+      "story_role": "garment teaser / setup",
+      "cast": [],
+      "locks": [
+        "no visible person beyond a single pair of hands",
+        "plain warm off-white wall",
+        "tight vertical smartphone close-up",
+        "same gray garment continuity into scene_002"
+      ],
+      "variables": [
+        "hands-only crop",
+        "heather-gray garment texture and wrinkles",
+        "tiny fabric wobble"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_001_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_001_reference.png"
+        ],
+        "goal": "Rebuild the teaser shot as a clean hands-only garment display without any visible logo or source artifacts."
+      },
+      "video": {
+        "mode": "generate",
+        "model": "kling v3",
+        "prompt_file": "scene_001_video_prompt.md",
+        "reference_assets": [
+          "scene_001_reference.png"
+        ],
+        "motion_intent": "tiny natural hand tremble while the garment stays flat toward camera",
+        "camera_lock": "locked smartphone framing",
+        "negative_motion": [
+          "no face reveal",
+          "no large arm repositioning",
+          "no camera movement",
+          "no extra props or text"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "video",
+        "alias": "SCENE_001",
+        "merge_key": "SCENE_001_MEDIA",
+        "clip_length_sec": 8.133,
+        "text_overlays": [],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_002",
+      "duration_sec": 1.014,
+      "story_role": "outfit reveal / payoff",
+      "cast": [
+        "lead_female_influencer"
+      ],
+      "locks": [
+        "single adult female lead identity",
+        "plain warm off-white wall",
+        "centered mid-thigh vertical framing",
+        "soft neutral indoor light"
+      ],
+      "variables": [
+        "gray tube-top styling",
+        "sheer white open overshirt",
+        "black mini skirt",
+        "turquoise pendant necklace"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_002_startframe_image_prompt.md",
+        "reference_assets": [
+          "assets/default_influencer/profile_image/base_upscaled.jpg",
+          "assets/default_influencer/profile_image/base_full_body.jpg",
+          "scene_002_reference.png"
+        ],
+        "goal": "Match the final fashion reveal while preserving the remake subject identity and minimal wall background."
+      },
+      "video": {
+        "mode": "generate",
+        "model": "kling v3",
+        "prompt_file": "scene_002_video_prompt.md",
+        "reference_assets": [
+          "scene_002_reference.png"
+        ],
+        "motion_intent": "brief confident pose hold with subtle sway, breathing, and overshirt drift",
+        "camera_lock": "locked smartphone framing",
+        "negative_motion": [
+          "no stepping",
+          "no zoom",
+          "no camera movement",
+          "no extra characters or text"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "video",
+        "alias": "SCENE_002",
+        "merge_key": "SCENE_002_MEDIA",
+        "clip_length_sec": 1.014,
+        "text_overlays": [],
+        "overlay_layers": []
+      }
+    }
+  ]
+}

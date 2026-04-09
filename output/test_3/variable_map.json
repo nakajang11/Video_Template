@@ -1,0 +1,130 @@
+{
+  "job_id": "test_3",
+  "locks": {
+    "identity": {
+      "lead_count": 0,
+      "lead_description": "No identifiable live-action lead should appear. If a human form is shown, keep it as a generic black silhouette with no facial detail or wardrobe specificity.",
+      "reference_assets": [
+        "scene_002_reference.png",
+        "scene_003_reference.png"
+      ]
+    },
+    "wardrobe": {
+      "change_policy": "This is not a wardrobe-driven job. The silhouette remains featureless and should not acquire fashion, costume, or influencer-specific styling.",
+      "locked_relationships": [
+        "scene_002 may include only a neutral silhouette body shape",
+        "scene_001 and scene_003 should stay fully typography-driven with no wardrobe concept"
+      ]
+    },
+    "background": {
+      "scene_signatures": [
+        "scene_001: bright blurred dictionary paper with a yellow highlight block",
+        "scene_002: dark neural starfield with electric radial glow",
+        "scene_003: black educational definition card with pale footer strip"
+      ],
+      "change_policy": "Preserve the editorial-learning aesthetic. Do not replace these scenes with rooms, live sets, or stock footage."
+    },
+    "composition": {
+      "camera": "16:9 code-driven motion graphic layout",
+      "framing": "centered typography hierarchy with strong lower-footer retention bar",
+      "look": "educational vocabulary card with glow accents, staged text reveals, and reusable JSON-driven wording"
+    }
+  },
+  "variables": {
+    "wardrobe": [],
+    "text": [
+      {
+        "scene_id": "scene_001",
+        "editable_fields": [
+          "intro.preWord",
+          "intro.word",
+          "intro.backgroundLines",
+          "intro.questionMarkColor"
+        ],
+        "pattern": "question-led highlighted dictionary word"
+      },
+      {
+        "scene_id": "scene_002",
+        "editable_fields": [
+          "cloud.word",
+          "cloud.pronunciation",
+          "cloud.definition",
+          "cloud.entries",
+          "cloud.memoryScore"
+        ],
+        "pattern": "central hero word plus repeated peripheral mini glossary entries"
+      },
+      {
+        "scene_id": "scene_003",
+        "editable_fields": [
+          "finale.finalWord",
+          "finale.pronunciation",
+          "finale.definition",
+          "finale.exampleLabel",
+          "finale.exampleEn",
+          "finale.exampleVi",
+          "finale.memoryScore"
+        ],
+        "pattern": "large payoff title plus bilingual example card"
+      }
+    ],
+    "motion": {
+      "global": [
+        "kinetic typography with sequenced opacity, lift, and scale reveals",
+        "code-driven transition overlaps between scenes",
+        "footer bar retained as an explicit learning-progress motif"
+      ],
+      "scene_overrides": [
+        {
+          "scene_id": "scene_001",
+          "motion_intent": "slow push on a blurred dictionary background while the highlighted word settles into focus"
+        },
+        {
+          "scene_id": "scene_002",
+          "motion_intent": "small glossary entries accumulate around the center while the source-derived neural plate stays underneath and the memory score advances"
+        },
+        {
+          "scene_id": "scene_003",
+          "motion_intent": "the title and definition card reveal upward into a stable study-card layout"
+        }
+      ]
+    },
+    "input_media": [
+      {
+        "scene_id": "scene_001",
+        "slot": "mediaInputs.introBackground",
+        "default_asset": "remotion_package/public/assets/scene_001_dictionary_plate.png",
+        "source_type": "source-derived screenshot plate",
+        "editable_in_code": false
+      },
+      {
+        "scene_id": "scene_002",
+        "slot": "mediaInputs.cloudBackground",
+        "default_asset": "remotion_package/public/assets/scene_002_neural_plate.png",
+        "source_type": "source-derived screenshot plate",
+        "editable_in_code": false
+      },
+      {
+        "scene_id": "scene_003",
+        "slot": "mediaInputs.finaleBackground",
+        "default_asset": "remotion_package/public/assets/scene_003_card_plate.png",
+        "source_type": "dummy image plate",
+        "editable_in_code": false
+      }
+    ],
+    "supporting_cast_requirements": [],
+    "overlay_layer_requirements": []
+  },
+  "model_routing": {
+    "startframe_default": "nano banana2",
+    "wardrobe_edit": "grok imagine",
+    "video_default": "kling v3",
+    "motion_transfer": "kling v3 motion control",
+    "renderer": "remotion",
+    "notes": [
+      "This job routes to Remotion because all three scenes rely on code-driven typography, glow fields, and reusable structured text rather than standalone generated media.",
+      "Some background fidelity is handled through swappable input-media plates so the editable text and transitions can remain deterministic code.",
+      "Provider routing remains documented for repository consistency, but no startframe prompts or Kling prompts are planned for this package."
+    ]
+  }
+}

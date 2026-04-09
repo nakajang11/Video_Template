@@ -1,0 +1,278 @@
+{
+  "contract_version": "1.1",
+  "job_id": "test_3",
+  "source_video": "input/test_3.mp4",
+  "renderer": "remotion",
+  "audio": {
+    "strategy": "use_input_audio",
+    "source_file": "source_audio.mp3",
+    "shotstack_merge_key": "SOURCE_AUDIO_MP3"
+  },
+  "review_status": "approved_for_packaging",
+  "remotion_package": {
+    "package_dir": "remotion_package",
+    "entry_file": "remotion_package/src/index.jsx",
+    "composition_id": "Test3GlossaryTemplate",
+    "props_file": "remotion_package/props/default-props.json",
+    "partition_file": "remotion_package/template-partition.json",
+    "editable_props": [
+      "mediaInputs.introBackground.kind",
+      "mediaInputs.introBackground.src",
+      "mediaInputs.cloudBackground.kind",
+      "mediaInputs.cloudBackground.src",
+      "mediaInputs.finaleBackground.kind",
+      "mediaInputs.finaleBackground.src",
+      "transitions.introToCloud.durationFrames",
+      "transitions.cloudToFinale.durationFrames",
+      "intro.preWord",
+      "intro.word",
+      "intro.questionMarkColor",
+      "cloud.word",
+      "cloud.pronunciation",
+      "cloud.definition",
+      "cloud.entries",
+      "cloud.memoryScore",
+      "finale.finalWord",
+      "finale.definition",
+      "finale.exampleEn",
+      "finale.exampleVi",
+      "finale.memoryScore",
+      "palette.accent",
+      "palette.titleGlow"
+    ]
+  },
+  "transitions": [
+    {
+      "transition_id": "introToCloud",
+      "kind": "crossfade_glow",
+      "from_scene_id": "scene_001",
+      "to_scene_id": "scene_002",
+      "start_frame": 96,
+      "duration_frames": 12,
+      "handled_by": "code"
+    },
+    {
+      "transition_id": "cloudToFinale",
+      "kind": "card_fade_up",
+      "from_scene_id": "scene_002",
+      "to_scene_id": "scene_003",
+      "start_frame": 244,
+      "duration_frames": 10,
+      "handled_by": "code"
+    }
+  ],
+  "scene_order": [
+    "scene_001",
+    "scene_002",
+    "scene_003"
+  ],
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "duration_sec": 3.6,
+      "story_role": "hook / question-led glossary introduction",
+      "cast": [],
+      "locks": [
+        "blurred dictionary-page background",
+        "yellow highlight block under the hero word",
+        "large central epiphany typography with a red question mark",
+        "16:9 editorial composition with no live-action subjects"
+      ],
+      "variables": [
+        "intro pre-word copy",
+        "hero word string",
+        "background dictionary fragments",
+        "question-mark color"
+      ],
+      "startframe": {
+        "required": false,
+        "model": "not_applicable",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_001_reference.png"
+        ],
+        "goal": "No standalone startframe is generated because the scene is rebuilt directly as a Remotion typography composition."
+      },
+      "video": {
+        "mode": "code-driven",
+        "model": "remotion",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_001_reference.png",
+          "remotion_package/public/assets/scene_001_dictionary_plate.png",
+          "remotion_package/props/default-props.json"
+        ],
+        "implementation": "remotion_package/src/Test3GlossaryTemplate.jsx",
+        "omission_reason": "Prompt files are intentionally omitted because the animation is deterministic code rather than provider-generated media."
+      },
+      "remotion_sequence": {
+        "sequence_id": "intro_query",
+        "start_frame": 0,
+        "duration_frames": 108,
+        "editable_props": [
+          "mediaInputs.introBackground.kind",
+          "mediaInputs.introBackground.src",
+          "intro.preWord",
+          "intro.word",
+          "intro.questionMarkColor"
+        ]
+      },
+      "implementation_strategy": {
+        "input_media": [
+          "mediaInputs.introBackground"
+        ],
+        "animation": [
+          "highlight block scale-in",
+          "hero word reveal",
+          "question mark entrance",
+          "subtle plate push"
+        ],
+        "transitions": [
+          "introToCloud"
+        ]
+      }
+    },
+    {
+      "scene_id": "scene_002",
+      "duration_sec": 4.8667,
+      "story_role": "semantic expansion / memory-cloud build",
+      "cast": [
+        "abstract_silhouette_figure"
+      ],
+      "locks": [
+        "anonymous black silhouette at lower center",
+        "electric neural-glow background",
+        "central yellow hero word with pronunciation underneath",
+        "bottom learning-progress footer"
+      ],
+      "variables": [
+        "hero word and pronunciation",
+        "central short definition",
+        "peripheral mini glossary entries",
+        "memory-score percentage",
+        "accent and glow colors"
+      ],
+      "startframe": {
+        "required": false,
+        "model": "not_applicable",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_002_reference.png"
+        ],
+        "goal": "The middle scene is rebuilt as a code-driven text-and-shape animation, so no provider startframe is needed."
+      },
+      "video": {
+        "mode": "code-driven",
+        "model": "remotion",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_002_reference.png",
+          "remotion_package/public/assets/scene_002_neural_plate.png",
+          "remotion_package/props/default-props.json"
+        ],
+        "implementation": "remotion_package/src/Test3GlossaryTemplate.jsx",
+        "omission_reason": "Prompt files are intentionally omitted because repeated text clusters and glow animation are generated in code."
+      },
+      "remotion_sequence": {
+        "sequence_id": "semantic_cloud",
+        "start_frame": 108,
+        "duration_frames": 146,
+        "editable_props": [
+          "mediaInputs.cloudBackground.kind",
+          "mediaInputs.cloudBackground.src",
+          "cloud.word",
+          "cloud.pronunciation",
+          "cloud.definition",
+          "cloud.entries",
+          "cloud.memoryScore",
+          "palette.accent"
+        ]
+      },
+      "implementation_strategy": {
+        "input_media": [
+          "mediaInputs.cloudBackground"
+        ],
+        "animation": [
+          "glossary entry stagger reveals",
+          "hero word scale and pronunciation reveal",
+          "footer persistence"
+        ],
+        "transitions": [
+          "introToCloud",
+          "cloudToFinale"
+        ]
+      }
+    },
+    {
+      "scene_id": "scene_003",
+      "duration_sec": 5.7666,
+      "story_role": "definition payoff / retention card",
+      "cast": [],
+      "locks": [
+        "clean black title-card background",
+        "large outlined EPIPHANY payoff title",
+        "yellow example label and bilingual example lines",
+        "pale gray memory-score footer strip"
+      ],
+      "variables": [
+        "final title casing",
+        "long-form definition text",
+        "example label",
+        "English example sentence",
+        "Vietnamese example sentence",
+        "final memory-score percentage"
+      ],
+      "startframe": {
+        "required": false,
+        "model": "not_applicable",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_003_reference.png"
+        ],
+        "goal": "The payoff scene is a Remotion title card, so no separate startframe asset is generated."
+      },
+      "video": {
+        "mode": "code-driven",
+        "model": "remotion",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_003_reference.png",
+          "remotion_package/public/assets/scene_003_card_plate.png",
+          "remotion_package/props/default-props.json"
+        ],
+        "implementation": "remotion_package/src/Test3GlossaryTemplate.jsx",
+        "omission_reason": "Prompt files are intentionally omitted because the scene is an editable Remotion definition card."
+      },
+      "remotion_sequence": {
+        "sequence_id": "definition_payoff",
+        "start_frame": 254,
+        "duration_frames": 173,
+        "editable_props": [
+          "mediaInputs.finaleBackground.kind",
+          "mediaInputs.finaleBackground.src",
+          "finale.finalWord",
+          "finale.pronunciation",
+          "finale.definition",
+          "finale.exampleLabel",
+          "finale.exampleEn",
+          "finale.exampleVi",
+          "finale.memoryScore",
+          "palette.titleGlow"
+        ]
+      },
+      "implementation_strategy": {
+        "input_media": [
+          "mediaInputs.finaleBackground"
+        ],
+        "animation": [
+          "outlined title lift-in",
+          "definition reveal",
+          "example-card fade-in"
+        ],
+        "transitions": [
+          "cloudToFinale"
+        ]
+      }
+    }
+  ]
+}

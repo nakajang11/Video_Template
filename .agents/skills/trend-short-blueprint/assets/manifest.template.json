@@ -1,0 +1,43 @@
+{
+  "job_id": "replace-me",
+  "review_status": "review_required",
+  "artifacts": [
+    {
+      "type": "analysis",
+      "path": "analysis.json",
+      "scene_id": null,
+      "status": "pending"
+    },
+    {
+      "type": "story",
+      "path": "story.json",
+      "scene_id": null,
+      "status": "pending"
+    },
+    {
+      "type": "variable_map",
+      "path": "variable_map.json",
+      "scene_id": null,
+      "status": "pending"
+    },
+    {
+      "type": "blueprint",
+      "path": "blueprint.json",
+      "scene_id": null,
+      "status": "pending"
+    },
+    {
+      "type": "source_audio",
+      "path": "source_audio.mp3",
+      "scene_id": null,
+      "status": "pending"
+    },
+    {
+      "type": "shotstack",
+      "path": "shotstack.json",
+      "scene_id": null,
+      "status": "pending"
+    }
+  ],
+  "notes": "Expand this manifest as prompt files and scene-level artifacts are created."
+}

@@ -1,0 +1,4 @@
+The video begins exactly from the uploaded start frame and maintains the exact same pose and composition throughout.  
+A graceful young woman stands perfectly still in center frame, with only the most subtle, barely perceptible natural human micro-movements: gentle slow breathing visible in very slight chest rise and fall, tiny natural fabric flutter from breathing, micro hair strand drift, occasional ultra-slight eyelid flutter or soft blink.  
+Almost no body movement at all — no swaying, no hip rolls, no shoulder shifts, no arm gestures, no head tilting, no rhythmic motion whatsoever. Extremely minimal and realistic living stillness.  
+Completely stationary locked-off camera, fixed tripod shot, no camera movement, no zoom, no pan, no tracking at all. Medium full-body centered composition preserved perfectly from start frame. Soft cinematic lighting, shallow depth of field, high realism, natural skin texture and breathing, 8-10 seconds duration

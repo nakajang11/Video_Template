@@ -1,0 +1,79 @@
+{
+  "job_id": "trend_con_3",
+  "locks": {
+    "identity": {
+      "lead_count": 1,
+      "lead_description": "Adult female influencer remake subject drawn from the default influencer references for the reveal scene only. Scene_001 is a hands-only prop teaser and should not use face or full-body identity references.",
+      "reference_assets": [
+        "assets/default_influencer/profile_image/base_upscaled.jpg",
+        "assets/default_influencer/profile_image/base_full_body.jpg"
+      ]
+    },
+    "background": {
+      "room_signature": [
+        "plain warm off-white wall",
+        "soft neutral indoor light",
+        "minimal uncluttered background"
+      ],
+      "change_policy": "Do not introduce furniture, graphics, or a new location."
+    },
+    "composition": {
+      "camera": "locked vertical smartphone framing",
+      "framing": "scene_001 is a garment-only close-up; scene_002 is a centered mid-thigh fashion reveal",
+      "look": "clean minimal fashion short with casual indoor realism"
+    }
+  },
+  "variables": {
+    "wardrobe": [
+      {
+        "scene_id": "scene_001",
+        "look_name": "garment_teaser",
+        "elements": [
+          "heather-gray strapless knit garment held flat toward camera",
+          "both hands pinching the upper corners",
+          "no face or torso visible"
+        ]
+      },
+      {
+        "scene_id": "scene_002",
+        "look_name": "outfit_reveal",
+        "elements": [
+          "heather-gray tube top matching the teased garment",
+          "sheer white open overshirt",
+          "black mini skirt",
+          "small turquoise pendant necklace",
+          "short black bob with soft bangs"
+        ]
+      }
+    ],
+    "text": [],
+    "motion": {
+      "global": [
+        "locked-camera micro movement only",
+        "no walking or camera travel",
+        "clean natural pose-hold realism"
+      ],
+      "scene_overrides": [
+        {
+          "scene_id": "scene_001",
+          "motion_intent": "tiny natural hand tremble with barely perceptible fabric flutter and no body reveal"
+        },
+        {
+          "scene_id": "scene_002",
+          "motion_intent": "subtle confident sway with light overshirt drift and breathing"
+        }
+      ]
+    },
+    "supporting_cast_requirements": []
+  },
+  "model_routing": {
+    "startframe_default": "nano banana2",
+    "wardrobe_edit": "grok imagine",
+    "video_default": "kling v3",
+    "motion_transfer": "kling v3 motion control",
+    "notes": [
+      "Nano Banana 2 remains the default because both scenes are easiest to build from reference-led composition rather than isolated wardrobe editing.",
+      "Grok Imagine is still the preferred fallback if a later workflow edits only the reveal outfit on an already-approved base frame."
+    ]
+  }
+}

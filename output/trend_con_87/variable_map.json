@@ -1,0 +1,96 @@
+{
+  "job_id": "trend_con_87",
+  "locks": {
+    "identity": {
+      "lead_count": 1,
+      "lead_description": "One blonde adult woman remains the featured subject in both scenes.",
+      "reference_assets": [
+        "scene_001_reference.png",
+        "scene_002_reference.png"
+      ]
+    },
+    "wardrobe": {
+      "change_policy": "Scene_001 teaser outfit changes into the Yor-inspired reveal outfit in scene_002.",
+      "locked_relationships": [
+        "scene_001 keeps the oversized green bow and yellow teaser dress",
+        "scene_002 changes into the black Yor-inspired mini dress with black neck and arm accessories"
+      ]
+    },
+    "background": {
+      "room_signature": [
+        "beige bedroom wall",
+        "anime figure shelf on frame-left",
+        "door and handle on frame-right"
+      ],
+      "change_policy": "Keep the room layout constant across teaser and reveal."
+    },
+    "composition": {
+      "camera": "vertical handheld social-video portrait framing",
+      "framing": "medium-full body mirrorless-phone feel",
+      "look": "warm indoor creator video with cosplay reveal timing"
+    }
+  },
+  "variables": {
+    "wardrobe": [
+      {
+        "scene_id": "scene_001",
+        "look_name": "teaser_look",
+        "elements": [
+          "long blonde hair",
+          "oversized green bow headband",
+          "yellow strapless ribbed dress",
+          "soft glam makeup"
+        ]
+      },
+      {
+        "scene_id": "scene_002",
+        "look_name": "yor_reveal",
+        "elements": [
+          "same long blonde hair",
+          "black fitted Yor-inspired mini dress",
+          "black choker",
+          "black arm wraps",
+          "gold/flower hair accessories"
+        ]
+      }
+    ],
+    "text": [
+      {
+        "scene_id": "scene_001",
+        "text_key": "SCENE_001_QUESTION",
+        "default_text": "Yor Forger cosplay?",
+        "treatment": "editable white stroked question overlay added in Shotstack over the teaser scene"
+      },
+      {
+        "pattern": "Ignore TikTok watermark and username UI in remake media."
+      }
+    ],
+    "motion": {
+      "global": [
+        "small handheld sway",
+        "subtle head tilt and breathing",
+        "no fast camera movement"
+      ],
+      "scene_overrides": [
+        {
+          "scene_id": "scene_002",
+          "motion_intent": "brief reveal pose adjustment with soft body sway"
+        }
+      ]
+    },
+    "supporting_cast_requirements": [],
+    "overlay_layer_requirements": [
+      "Scene_001 keeps the Yor reference insert as a source-authentic overlay asset in canonical Shotstack packaging."
+    ]
+  },
+  "model_routing": {
+    "startframe_default": "nano banana2",
+    "wardrobe_edit": "grok imagine",
+    "video_default": "kling v3",
+    "motion_transfer": "kling v3 motion control",
+    "notes": [
+      "Scene_001 and scene_002 are live-action remake shots with one lead subject.",
+      "Use the local Yor overlay crop only as a Shotstack layer; do not ask the generator to bake it into the clean base media."
+    ]
+  }
+}

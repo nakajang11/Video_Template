@@ -1,0 +1,32 @@
+{
+  "job_id": "trend_con_87",
+  "assets": [
+    {
+      "path": "source_audio.mp3",
+      "file_url": "https://tmpfiles.org/dl/32386275/source_audio.mp3",
+      "resource_type": "raw",
+      "public_id": "codex/trend_con_87/source_audio_20260407.mp3",
+      "scene_id": null,
+      "duration_sec": 9.451927,
+      "type": "audio"
+    },
+    {
+      "path": "rendervid_poc/assets/scene_001_source_clip.mp4",
+      "file_url": "https://tmpfiles.org/dl/32386276/scene_001_source_clip.mp4",
+      "resource_type": "video",
+      "public_id": "codex/trend_con_87/scene_001_source_clip_20260407",
+      "scene_id": "scene_001",
+      "duration_sec": 3.666667,
+      "type": "video"
+    },
+    {
+      "path": "rendervid_poc/assets/scene_002_source_clip.mp4",
+      "file_url": "https://tmpfiles.org/dl/32386280/scene_002_source_clip.mp4",
+      "resource_type": "video",
+      "public_id": "codex/trend_con_87/scene_002_source_clip_20260407",
+      "scene_id": "scene_002",
+      "duration_sec": 5.78526,
+      "type": "video"
+    }
+  ]
+}

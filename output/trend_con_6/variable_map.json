@@ -1,0 +1,108 @@
+{
+  "job_id": "trend_con_6",
+  "locks": {
+    "identity": {
+      "lead_count": 1,
+      "lead_description": "Single female influencer remake subject driven by the default influencer references, preserved as the same recognizable person before and after the outfit change.",
+      "reference_assets": [
+        "assets/default_influencer/profile_image/base_upscaled.jpg",
+        "assets/default_influencer/profile_image/base_full_body.jpg"
+      ]
+    },
+    "wardrobe": {
+      "change_policy": "Treat the casual look and the cosplay look as separate scene-bound outfits connected only by the dedicated hand-wipe transition.",
+      "locked_relationships": [
+        "scene_001 uses a casual pink tee and gray sweatpants baseline look",
+        "scene_003 uses a Finn-inspired cosplay silhouette that should visibly match the preview card shown in scene_001",
+        "scene_002 is a transition wipe and should not introduce a third wardrobe concept"
+      ]
+    },
+    "background": {
+      "room_signature": [
+        "beige bedroom",
+        "slanted ceiling",
+        "black ceiling fan at the top edge",
+        "white door in the back",
+        "small shelf on the left wall",
+        "desk and hanging vine decor on the right"
+      ],
+      "change_policy": "Do not move to a new room, change lighting dramatically, or redesign the bedroom."
+    },
+    "composition": {
+      "camera": "locked vertical smartphone framing",
+      "framing": "centered upper-thigh or full-body framing with the performer facing camera",
+      "look": "clean social-video realism with space reserved for the scene_001 overlay card"
+    }
+  },
+  "variables": {
+    "wardrobe": [
+      {
+        "scene_id": "scene_001",
+        "look_name": "casual_reference_setup",
+        "elements": [
+          "pale pink fitted baby tee with cute cartoon-cat chest graphic",
+          "gray drawstring sweatpants",
+          "long straight hair with small side clips"
+        ]
+      },
+      {
+        "scene_id": "scene_003",
+        "look_name": "finn_inspired_cosplay_reveal",
+        "elements": [
+          "white bear-ear hat with ear flaps",
+          "fitted turquoise long-sleeve body silhouette",
+          "cobalt blue mini-skirt or lower hem",
+          "lime-green backpack",
+          "white thigh-high socks"
+        ]
+      }
+    ],
+    "text": [
+      {
+        "pattern": "No intentional text. Source TikTok watermark and username drift between lower-left and lower-right positions and should be removed rather than recreated."
+      }
+    ],
+    "motion": {
+      "global": [
+        "locked-camera in-place performance only",
+        "small playful hand choreography and light torso sway",
+        "no walking away from camera and no camera travel"
+      ],
+      "scene_overrides": [
+        {
+          "scene_id": "scene_001",
+          "motion_intent": "light TikTok-style hand shapes near the face with small hip and shoulder sway"
+        },
+        {
+          "scene_id": "scene_002",
+          "motion_intent": "fast practical hand-over-lens wipe that creates a full-frame skin-toned blur"
+        },
+        {
+          "scene_id": "scene_003",
+          "motion_intent": "playful cosplay sway with wrist flicks, shoulder bops, and slight backpack bounce"
+        }
+      ]
+    },
+    "supporting_cast_requirements": [],
+    "overlay_layer_requirements": [
+      {
+        "scene_id": "scene_001",
+        "layer_id": "overlay_001",
+        "asset_type": "image",
+        "description": "Square lower-center reference card showing a blonde cartoon adventurer in a white bear-ear hat, turquoise outfit, and lime-green backpack",
+        "compositing_rule": "Keep it as a separate image overlay for the whole scene instead of baking it into the generated base clip."
+      }
+    ]
+  },
+  "model_routing": {
+    "startframe_default": "nano banana2",
+    "wardrobe_edit": "grok imagine",
+    "video_default": "kling v3",
+    "motion_transfer": "kling v3 motion control",
+    "notes": [
+      "Nano Banana 2 is the default startframe model because both main looks depend on multi-reference composition of the locked lead identity plus the source-scene framing.",
+      "Grok Imagine remains the outfit-edit fallback if a later workflow preserves an approved base frame and only swaps the wardrobe.",
+      "Kling V3 is sufficient for the dance beats and the short hand-wipe transition because no explicit motion-transfer clip is required."
+    ]
+  }
+}

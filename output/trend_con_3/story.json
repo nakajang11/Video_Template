@@ -1,0 +1,36 @@
+{
+  "job_id": "trend_con_3",
+  "premise": "A fashion teaser short first withholds the wearer by showing only a gray knit garment in close-up, then reveals a single adult female lead modeling the matching outfit against the same plain wall.",
+  "plot_type": "garment teaser to outfit reveal",
+  "cast": [
+    {
+      "cast_id": "lead_female_influencer",
+      "role": "single on-camera adult lead",
+      "required": true,
+      "description": "One adult female lead is the only implied person in the package; scene_001 shows only her hands, while scene_002 shows the full reveal."
+    }
+  ],
+  "continuity_rules": [
+    "Only one adult female lead is needed. Do not add friends, stylists, partners, parents, or alternate-age variants.",
+    "Scene_001 must stay a hands-only teaser shot; do not reveal the face or torso until scene_002.",
+    "Scene_001 should be treated as a prop-only teaser when prompting; do not attach face or full-body identity references to that scene.",
+    "The same minimal warm off-white wall and soft indoor lighting should carry across both scenes.",
+    "The gray garment shown in scene_001 must clearly connect to the gray tube-top styling in scene_002.",
+    "No intentional on-screen text is required in the remake. Remove any visible brand tag, watermark, or source artifacts."
+  ],
+  "supporting_character_policy": {
+    "required": false,
+    "allowed_types": [],
+    "rationale": "The full story is a single-performer fashion reveal. No additional cast is implied by the source video."
+  },
+  "scene_arc": [
+    {
+      "scene_id": "scene_001",
+      "beat": "Tease the garment in close-up without revealing the wearer."
+    },
+    {
+      "scene_id": "scene_002",
+      "beat": "Pay off the tease with a quick identity-locked outfit reveal."
+    }
+  ]
+}

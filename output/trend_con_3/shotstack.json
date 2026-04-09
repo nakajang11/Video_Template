@@ -1,0 +1,71 @@
+{
+  "timeline": {
+    "background": "#000000",
+    "tracks": [
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "audio",
+              "src": "{{ SOURCE_AUDIO_MP3 }}",
+              "volume": 1
+            },
+            "start": 0,
+            "length": 9.147
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "alias": "SCENE_001",
+            "asset": {
+              "type": "video",
+              "src": "{{ SCENE_001_MEDIA }}"
+            },
+            "start": "auto",
+            "length": 8.133,
+            "fit": "cover"
+          },
+          {
+            "alias": "SCENE_002",
+            "asset": {
+              "type": "video",
+              "src": "{{ SCENE_002_MEDIA }}"
+            },
+            "start": "auto",
+            "length": 1.014,
+            "fit": "cover"
+          }
+        ]
+      }
+    ]
+  },
+  "output": {
+    "format": "mp4",
+    "fps": 25,
+    "size": {
+      "width": 1080,
+      "height": 1920
+    },
+    "destinations": [
+      {
+        "provider": "shotstack"
+      }
+    ]
+  },
+  "merge": [
+    {
+      "find": "SOURCE_AUDIO_MP3",
+      "replace": "source_audio.mp3"
+    },
+    {
+      "find": "SCENE_001_MEDIA",
+      "replace": "https://example.com/trend_con_3/scene_001.mp4"
+    },
+    {
+      "find": "SCENE_002_MEDIA",
+      "replace": "https://example.com/trend_con_3/scene_002.mp4"
+    }
+  ]
+}

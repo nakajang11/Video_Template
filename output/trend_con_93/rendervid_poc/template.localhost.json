@@ -1,0 +1,159 @@
+{
+  "name": "trend_con_93-rendervid-poc",
+  "description": "Local Rendervid proof-of-concept built from the existing trend_con_93 analysis/blueprint package.",
+  "version": "0.1.0",
+  "tags": [
+    "poc",
+    "rendervid",
+    "trend-short",
+    "portrait"
+  ],
+  "output": {
+    "type": "video",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "duration": 21.133333333333333,
+    "backgroundColor": "#000000"
+  },
+  "inputs": [],
+  "composition": {
+    "scenes": [
+      {
+        "id": "scene_001",
+        "name": "mother beach card",
+        "startFrame": 0,
+        "endFrame": 171,
+        "backgroundColor": "#000000",
+        "layers": [
+          {
+            "id": "scene_001_video",
+            "type": "video",
+            "name": "scene_001 source clip",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "width": 1080,
+              "height": 1920
+            },
+            "props": {
+              "src": "http://127.0.0.1:8765/output/trend_con_93/rendervid_poc/assets/scene_001_source_clip.mp4",
+              "fit": "cover",
+              "volume": 1
+            }
+          }
+        ]
+      },
+      {
+        "id": "scene_002",
+        "name": "father portrait card",
+        "startFrame": 171,
+        "endFrame": 301,
+        "backgroundColor": "#000000",
+        "layers": [
+          {
+            "id": "scene_002_video",
+            "type": "video",
+            "name": "scene_002 source clip",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "width": 1080,
+              "height": 1920
+            },
+            "props": {
+              "src": "http://127.0.0.1:8765/output/trend_con_93/rendervid_poc/assets/scene_002_source_clip.mp4",
+              "fit": "cover",
+              "volume": 1
+            }
+          }
+        ]
+      },
+      {
+        "id": "scene_003",
+        "name": "parents love card",
+        "startFrame": 301,
+        "endFrame": 456,
+        "backgroundColor": "#000000",
+        "layers": [
+          {
+            "id": "scene_003_video",
+            "type": "video",
+            "name": "scene_003 source clip",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "width": 1080,
+              "height": 1920
+            },
+            "props": {
+              "src": "http://127.0.0.1:8765/output/trend_con_93/rendervid_poc/assets/scene_003_source_clip.mp4",
+              "fit": "cover",
+              "volume": 1
+            }
+          }
+        ]
+      },
+      {
+        "id": "scene_004",
+        "name": "childhood santa card",
+        "startFrame": 456,
+        "endFrame": 530,
+        "backgroundColor": "#000000",
+        "layers": [
+          {
+            "id": "scene_004_video",
+            "type": "video",
+            "name": "scene_004 source clip",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "width": 1080,
+              "height": 1920
+            },
+            "props": {
+              "src": "http://127.0.0.1:8765/output/trend_con_93/rendervid_poc/assets/scene_004_source_clip.mp4",
+              "fit": "cover",
+              "volume": 1
+            }
+          }
+        ]
+      },
+      {
+        "id": "scene_005",
+        "name": "present-day gym card",
+        "startFrame": 530,
+        "endFrame": 634,
+        "backgroundColor": "#000000",
+        "layers": [
+          {
+            "id": "scene_005_video",
+            "type": "video",
+            "name": "scene_005 source clip",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "width": 1080,
+              "height": 1920
+            },
+            "props": {
+              "src": "http://127.0.0.1:8765/output/trend_con_93/rendervid_poc/assets/scene_005_source_clip.mp4",
+              "fit": "cover",
+              "volume": 1
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

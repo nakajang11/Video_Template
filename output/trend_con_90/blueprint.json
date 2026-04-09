@@ -1,0 +1,767 @@
+{
+  "contract_version": "1.1",
+  "job_id": "trend_con_90",
+  "source_video": "input/trend_con_90.mp4",
+  "audio": {
+    "strategy": "use_input_audio",
+    "source_file": "source_audio.mp3",
+    "shotstack_merge_key": "SOURCE_AUDIO_MP3"
+  },
+  "review_status": "review_required",
+  "scene_order": [
+    "scene_001",
+    "scene_002",
+    "scene_003",
+    "scene_004",
+    "scene_005",
+    "scene_006",
+    "scene_007",
+    "scene_008"
+  ],
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "duration_sec": 2.933333,
+      "story_role": "before portrait card one",
+      "cast": [
+        "lead_transition_subject"
+      ],
+      "locks": [
+        "same transformation subject arc",
+        "source-faithful portrait crop",
+        "editable label box handled in Shotstack"
+      ],
+      "variables": [
+        "top white banner text remains editable",
+        "small wait-for-it box remains editable"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_001_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_001_reference.png"
+        ],
+        "goal": "Recreate before transition jacket-and-scarf portrait card with no text baked in."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_001_reference.png"
+        ],
+        "motion_intent": "static hold on a source-faithful still card",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action motion",
+          "no watermark",
+          "no baked-in label text"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_001",
+        "merge_key": "SCENE_001_IMAGE",
+        "clip_length_sec": 2.933333,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_001_TOP_LABEL",
+            "placement": "top_center",
+            "style": "Montserrat-like all-caps white banner with source-derived top margin and source-derived box dimensions",
+            "source_geometry": {
+              "design_role": "boxed_label",
+              "reference_asset": "scene_001_reference.png",
+              "anchor": "top",
+              "editor_preview_strategy": "editable_over_box_background",
+              "font_candidates": [
+                "Montserrat ExtraBold",
+                "OpenSans Bold"
+              ],
+              "font_size_hint": 46,
+              "stroke_px": 0,
+              "box_bbox_px": {
+                "x": 67,
+                "y": 150,
+                "width": 447,
+                "height": 55
+              },
+              "text_bbox_px": {
+                "x": 83,
+                "y": 165,
+                "width": 410,
+                "height": 26
+              },
+              "padding_px": {
+                "top": 15,
+                "right": 21,
+                "bottom": 14,
+                "left": 16
+              }
+            }
+          },
+          {
+            "text_key": "SCENE_001_SUBLABEL",
+            "placement": "center_upper",
+            "style": "small white wait-box with source-derived top margin and source-derived box dimensions",
+            "source_geometry": {
+              "design_role": "boxed_label",
+              "reference_asset": "scene_001_reference.png",
+              "anchor": "top",
+              "editor_preview_strategy": "editable_over_box_background",
+              "font_candidates": [
+                "Montserrat Bold",
+                "OpenSans Bold"
+              ],
+              "font_size_hint": 30,
+              "stroke_px": 0,
+              "box_bbox_px": {
+                "x": 216,
+                "y": 620,
+                "width": 144,
+                "height": 36
+              },
+              "text_bbox_px": {
+                "x": 225,
+                "y": 622,
+                "width": 125,
+                "height": 33
+              },
+              "padding_px": {
+                "top": 2,
+                "right": 10,
+                "bottom": 1,
+                "left": 9
+              }
+            }
+          }
+        ],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_002",
+      "duration_sec": 3.0,
+      "story_role": "before portrait card two",
+      "cast": [
+        "lead_transition_subject"
+      ],
+      "locks": [
+        "same transformation subject arc",
+        "source-faithful portrait crop",
+        "editable label box handled in Shotstack"
+      ],
+      "variables": [
+        "top white banner text remains editable",
+        "small wait-for-it box remains editable"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_002_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_002_reference.png"
+        ],
+        "goal": "Recreate before transition white-T-shirt portrait card with no text baked in."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_002_reference.png"
+        ],
+        "motion_intent": "static hold on a source-faithful still card",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action motion",
+          "no watermark",
+          "no baked-in label text"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_002",
+        "merge_key": "SCENE_002_IMAGE",
+        "clip_length_sec": 3.0,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_002_TOP_LABEL",
+            "placement": "top_center",
+            "style": "Montserrat-like all-caps white banner with source-derived top margin and source-derived box dimensions",
+            "source_geometry": {
+              "design_role": "boxed_label",
+              "reference_asset": "scene_001_reference.png",
+              "anchor": "top",
+              "editor_preview_strategy": "editable_over_box_background",
+              "font_candidates": [
+                "Montserrat ExtraBold",
+                "OpenSans Bold"
+              ],
+              "font_size_hint": 46,
+              "stroke_px": 0,
+              "box_bbox_px": {
+                "x": 67,
+                "y": 150,
+                "width": 447,
+                "height": 55
+              },
+              "text_bbox_px": {
+                "x": 83,
+                "y": 165,
+                "width": 410,
+                "height": 26
+              },
+              "padding_px": {
+                "top": 15,
+                "right": 21,
+                "bottom": 14,
+                "left": 16
+              }
+            }
+          },
+          {
+            "text_key": "SCENE_002_SUBLABEL",
+            "placement": "center_upper",
+            "style": "small white wait-box with source-derived top margin and source-derived box dimensions",
+            "source_geometry": {
+              "design_role": "boxed_label",
+              "reference_asset": "scene_001_reference.png",
+              "anchor": "top",
+              "editor_preview_strategy": "editable_over_box_background",
+              "font_candidates": [
+                "Montserrat Bold",
+                "OpenSans Bold"
+              ],
+              "font_size_hint": 30,
+              "stroke_px": 0,
+              "box_bbox_px": {
+                "x": 216,
+                "y": 620,
+                "width": 144,
+                "height": 36
+              },
+              "text_bbox_px": {
+                "x": 225,
+                "y": 622,
+                "width": 125,
+                "height": 33
+              },
+              "padding_px": {
+                "top": 2,
+                "right": 10,
+                "bottom": 1,
+                "left": 9
+              }
+            }
+          }
+        ],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_003",
+      "duration_sec": 0.633334,
+      "story_role": "after rooftop card one",
+      "cast": [
+        "lead_transition_subject"
+      ],
+      "locks": [
+        "same transformation subject arc",
+        "source-faithful portrait crop",
+        "editable label box handled in Shotstack"
+      ],
+      "variables": [
+        "top white banner text remains editable"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_003_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_003_reference.png"
+        ],
+        "goal": "Recreate after transition rooftop fashion card with no text baked in."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_003_reference.png"
+        ],
+        "motion_intent": "static hold on a source-faithful still card",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action motion",
+          "no watermark",
+          "no baked-in label text"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_003",
+        "merge_key": "SCENE_003_IMAGE",
+        "clip_length_sec": 0.633334,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_003_TOP_LABEL",
+            "placement": "top_center",
+            "style": "OpenSans-like white banner with black text, matched to the source top card width and top margin",
+            "source_geometry": {
+              "design_role": "boxed_label",
+              "reference_asset": "scene_003_reference.png",
+              "anchor": "top",
+              "editor_preview_strategy": "editable_over_box_background",
+              "font_candidates": [
+                "Montserrat ExtraBold",
+                "OpenSans Bold"
+              ],
+              "font_size_hint": 44,
+              "stroke_px": 0,
+              "box_bbox_px": {
+                "x": 78,
+                "y": 152,
+                "width": 424,
+                "height": 52
+              },
+              "text_bbox_px": {
+                "x": 92,
+                "y": 165,
+                "width": 391,
+                "height": 26
+              },
+              "padding_px": {
+                "top": 13,
+                "right": 19,
+                "bottom": 13,
+                "left": 14
+              }
+            }
+          }
+        ],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_004",
+      "duration_sec": 1.066666,
+      "story_role": "after rooftop card two",
+      "cast": [
+        "lead_transition_subject"
+      ],
+      "locks": [
+        "same transformation subject arc",
+        "source-faithful portrait crop",
+        "editable label box handled in Shotstack"
+      ],
+      "variables": [
+        "top white banner text remains editable"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_004_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_004_reference.png"
+        ],
+        "goal": "Recreate after transition rooftop pose card with no text baked in."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_004_reference.png"
+        ],
+        "motion_intent": "static hold on a source-faithful still card",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action motion",
+          "no watermark",
+          "no baked-in label text"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_004",
+        "merge_key": "SCENE_004_IMAGE",
+        "clip_length_sec": 1.066666,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_004_TOP_LABEL",
+            "placement": "top_center",
+            "style": "OpenSans-like white banner with black text, matched to the source top card width and top margin",
+            "source_geometry": {
+              "design_role": "boxed_label",
+              "reference_asset": "scene_003_reference.png",
+              "anchor": "top",
+              "editor_preview_strategy": "editable_over_box_background",
+              "font_candidates": [
+                "Montserrat ExtraBold",
+                "OpenSans Bold"
+              ],
+              "font_size_hint": 44,
+              "stroke_px": 0,
+              "box_bbox_px": {
+                "x": 78,
+                "y": 152,
+                "width": 424,
+                "height": 52
+              },
+              "text_bbox_px": {
+                "x": 92,
+                "y": 165,
+                "width": 391,
+                "height": 26
+              },
+              "padding_px": {
+                "top": 13,
+                "right": 19,
+                "bottom": 13,
+                "left": 14
+              }
+            }
+          }
+        ],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_005",
+      "duration_sec": 0.666667,
+      "story_role": "after rooftop card three",
+      "cast": [
+        "lead_transition_subject"
+      ],
+      "locks": [
+        "same transformation subject arc",
+        "source-faithful portrait crop",
+        "editable label box handled in Shotstack"
+      ],
+      "variables": [
+        "top white banner text remains editable"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_005_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_005_reference.png"
+        ],
+        "goal": "Recreate after transition rooftop pose card with no text baked in."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_005_reference.png"
+        ],
+        "motion_intent": "static hold on a source-faithful still card",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action motion",
+          "no watermark",
+          "no baked-in label text"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_005",
+        "merge_key": "SCENE_005_IMAGE",
+        "clip_length_sec": 0.666667,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_005_TOP_LABEL",
+            "placement": "top_center",
+            "style": "OpenSans-like white banner with black text, matched to the source top card width and top margin",
+            "source_geometry": {
+              "design_role": "boxed_label",
+              "reference_asset": "scene_003_reference.png",
+              "anchor": "top",
+              "editor_preview_strategy": "editable_over_box_background",
+              "font_candidates": [
+                "Montserrat ExtraBold",
+                "OpenSans Bold"
+              ],
+              "font_size_hint": 44,
+              "stroke_px": 0,
+              "box_bbox_px": {
+                "x": 78,
+                "y": 152,
+                "width": 424,
+                "height": 52
+              },
+              "text_bbox_px": {
+                "x": 92,
+                "y": 165,
+                "width": 391,
+                "height": 26
+              },
+              "padding_px": {
+                "top": 13,
+                "right": 19,
+                "bottom": 13,
+                "left": 14
+              }
+            }
+          }
+        ],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_006",
+      "duration_sec": 1.0,
+      "story_role": "after rooftop card four",
+      "cast": [
+        "lead_transition_subject"
+      ],
+      "locks": [
+        "same transformation subject arc",
+        "source-faithful portrait crop",
+        "editable label box handled in Shotstack"
+      ],
+      "variables": [
+        "top white banner text remains editable"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_006_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_006_reference.png"
+        ],
+        "goal": "Recreate after transition rooftop close portrait card with no text baked in."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_006_reference.png"
+        ],
+        "motion_intent": "static hold on a source-faithful still card",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action motion",
+          "no watermark",
+          "no baked-in label text"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_006",
+        "merge_key": "SCENE_006_IMAGE",
+        "clip_length_sec": 1.0,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_006_TOP_LABEL",
+            "placement": "top_center",
+            "style": "OpenSans-like white banner with black text, matched to the source top card width and top margin",
+            "source_geometry": {
+              "design_role": "boxed_label",
+              "reference_asset": "scene_003_reference.png",
+              "anchor": "top",
+              "editor_preview_strategy": "editable_over_box_background",
+              "font_candidates": [
+                "Montserrat ExtraBold",
+                "OpenSans Bold"
+              ],
+              "font_size_hint": 44,
+              "stroke_px": 0,
+              "box_bbox_px": {
+                "x": 78,
+                "y": 152,
+                "width": 424,
+                "height": 52
+              },
+              "text_bbox_px": {
+                "x": 92,
+                "y": 165,
+                "width": 391,
+                "height": 26
+              },
+              "padding_px": {
+                "top": 13,
+                "right": 19,
+                "bottom": 13,
+                "left": 14
+              }
+            }
+          }
+        ],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_007",
+      "duration_sec": 0.766667,
+      "story_role": "after rooftop card five",
+      "cast": [
+        "lead_transition_subject"
+      ],
+      "locks": [
+        "same transformation subject arc",
+        "source-faithful portrait crop",
+        "editable label box handled in Shotstack"
+      ],
+      "variables": [
+        "top white banner text remains editable"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_007_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_007_reference.png"
+        ],
+        "goal": "Recreate after transition rooftop seated-or-leaned card with no text baked in."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_007_reference.png"
+        ],
+        "motion_intent": "static hold on a source-faithful still card",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action motion",
+          "no watermark",
+          "no baked-in label text"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_007",
+        "merge_key": "SCENE_007_IMAGE",
+        "clip_length_sec": 0.766667,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_007_TOP_LABEL",
+            "placement": "top_center",
+            "style": "OpenSans-like white banner with black text, matched to the source top card width and top margin",
+            "source_geometry": {
+              "design_role": "boxed_label",
+              "reference_asset": "scene_003_reference.png",
+              "anchor": "top",
+              "editor_preview_strategy": "editable_over_box_background",
+              "font_candidates": [
+                "Montserrat ExtraBold",
+                "OpenSans Bold"
+              ],
+              "font_size_hint": 44,
+              "stroke_px": 0,
+              "box_bbox_px": {
+                "x": 78,
+                "y": 152,
+                "width": 424,
+                "height": 52
+              },
+              "text_bbox_px": {
+                "x": 92,
+                "y": 165,
+                "width": 391,
+                "height": 26
+              },
+              "padding_px": {
+                "top": 13,
+                "right": 19,
+                "bottom": 13,
+                "left": 14
+              }
+            }
+          }
+        ],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_008",
+      "duration_sec": 1.704331,
+      "story_role": "after rooftop card six",
+      "cast": [
+        "lead_transition_subject"
+      ],
+      "locks": [
+        "same transformation subject arc",
+        "source-faithful portrait crop",
+        "editable label box handled in Shotstack"
+      ],
+      "variables": [
+        "top white banner text remains editable"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_008_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_008_reference.png"
+        ],
+        "goal": "Recreate after transition rooftop hold card with no text baked in."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_008_reference.png"
+        ],
+        "motion_intent": "static hold on a source-faithful still card",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action motion",
+          "no watermark",
+          "no baked-in label text"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_008",
+        "merge_key": "SCENE_008_IMAGE",
+        "clip_length_sec": 1.704331,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_008_TOP_LABEL",
+            "placement": "top_center",
+            "style": "OpenSans-like white banner with black text, matched to the source top card width and top margin",
+            "source_geometry": {
+              "design_role": "boxed_label",
+              "reference_asset": "scene_003_reference.png",
+              "anchor": "top",
+              "editor_preview_strategy": "editable_over_box_background",
+              "font_candidates": [
+                "Montserrat ExtraBold",
+                "OpenSans Bold"
+              ],
+              "font_size_hint": 44,
+              "stroke_px": 0,
+              "box_bbox_px": {
+                "x": 78,
+                "y": 152,
+                "width": 424,
+                "height": 52
+              },
+              "text_bbox_px": {
+                "x": 92,
+                "y": 165,
+                "width": 391,
+                "height": 26
+              },
+              "padding_px": {
+                "top": 13,
+                "right": 19,
+                "bottom": 13,
+                "left": 14
+              }
+            }
+          }
+        ],
+        "overlay_layers": []
+      }
+    }
+  ]
+}

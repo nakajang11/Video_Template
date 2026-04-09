@@ -1,0 +1,101 @@
+{
+  "job_id": "test_3",
+  "source_video": "input/test_3.mp4",
+  "media": {
+    "duration_sec": 14.2333,
+    "width": 1024,
+    "height": 576,
+    "fps": 30.0,
+    "orientation": "landscape"
+  },
+  "analysis_confidence": "high",
+  "story_summary": "A vocabulary-learning motion graphic introduces the word epiphany as a question on a blurred dictionary page, expands into a glowing semantic cloud around an anonymous silhouette, then resolves into a bilingual definition card with an example sentence and memory-score footer.",
+  "source_sampling": {
+    "method": "ffprobe metadata plus ffmpeg still extraction at representative timestamps and transition-window inspection",
+    "notes": "Representative frames were captured around 1.5s, 6.7s, and 13.0s, with additional checks around the mid-sequence typography buildup to confirm the three-scene structure."
+  },
+  "audio_notes": "Source audio was extracted to source_audio.mp3 for packaging. The soundtrack was reused as-is and not separately transcribed.",
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "start_sec": 0.0,
+      "end_sec": 3.6,
+      "duration_sec": 3.6,
+      "summary": "A faux dictionary spread fills the frame with heavy blur and shallow-depth motion while the highlighted word epiphany appears large at center with a red question mark, framed by oversized cropped typography from surrounding dictionary text.",
+      "characters": [],
+      "camera": {
+        "framing": "full-frame graphic composition in 16:9 landscape",
+        "movement": "subtle push and blur drift inside a static editorial layout",
+        "stability": "fully designed motion graphic with no live camera"
+      },
+      "on_screen_text": [
+        "Large central word: epiphany",
+        "Red question mark after the word",
+        "Background dictionary fragments remain blurred and only partially readable"
+      ],
+      "environment": "Bright paper-like dictionary texture with soft gray text columns and a yellow highlight block under the main word.",
+      "overlay_observations": [
+        "No inserted photos or picture-in-picture layers. The entire scene is a single editorial composition built from typography, blur, and highlight shapes."
+      ],
+      "transformation_role": "hook / question-form vocabulary introduction",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_002",
+      "start_sec": 3.6,
+      "end_sec": 8.4667,
+      "duration_sec": 4.8667,
+      "summary": "The design cuts to a dark neural or cosmic background where repeated mini glossary entries for epiphany orbit a center-aligned yellow title and pronunciation, while a black anonymous silhouette anchors the lower center and a memory-score footer bar grows along the bottom.",
+      "characters": [
+        "abstract_silhouette_figure"
+      ],
+      "camera": {
+        "framing": "wide graphic tableau with centered hero word and lower-center silhouette",
+        "movement": "glow pulses, word accumulation, and light background parallax",
+        "stability": "code-driven animation rather than handheld footage"
+      },
+      "on_screen_text": [
+        "Central word: epiphany",
+        "Central pronunciation: /ɪˈpɪfəni/",
+        "Central short definition: n. giác ngộ",
+        "Repeated peripheral mini entries including n. giác ngộ, n. Lễ Hiển Linh, and n. nhận thức đột ngột",
+        "Bottom memory footer such as Nạp từ vào trí nhớ: 36%"
+      ],
+      "environment": "Dark starfield and branching electric glow pattern radiating behind a faceless silhouette.",
+      "overlay_observations": [
+        "The silhouette is part of the designed animation, not a separate live-action insert.",
+        "Small glossary entries are independently positioned text clusters rather than one flat background image."
+      ],
+      "transformation_role": "semantic expansion / mental association cloud",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_003",
+      "start_sec": 8.4667,
+      "end_sec": 14.2333,
+      "duration_sec": 5.7666,
+      "summary": "The sequence resolves onto a clean black definition card showing a large outlined EPIPHANY title, pronunciation, a longer Vietnamese definition, a yellow example label, bilingual example sentences, and a high completion-score footer.",
+      "characters": [],
+      "camera": {
+        "framing": "full-frame title card in 16:9 landscape",
+        "movement": "text fade-and-lift reveals with otherwise stable card composition",
+        "stability": "static graphic layout with subtle code-driven entry motion"
+      },
+      "on_screen_text": [
+        "Title: EPIPHANY",
+        "Pronunciation: /ɪˈpɪfəni/",
+        "Definition line: n. giác ngộ, Lễ Hiển Linh, nhận thức đột ngột",
+        "Example label: Ví dụ",
+        "English example sentence beginning Failure became an epiphany...",
+        "Vietnamese example translation beginning Thất bại trở thành...",
+        "Bottom memory footer: Nạp từ vào trí nhớ: 91%"
+      ],
+      "environment": "Minimal black card with soft title glow and a pale gray footer strip.",
+      "overlay_observations": [
+        "No live-action footage remains in the payoff scene; it is entirely editorial text and shape design."
+      ],
+      "transformation_role": "definition payoff / retention card",
+      "evidence_confidence": "high"
+    }
+  ]
+}

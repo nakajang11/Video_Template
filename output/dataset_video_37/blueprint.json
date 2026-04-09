@@ -1,0 +1,304 @@
+{
+  "contract_version": "1.0",
+  "job_id": "dataset_video_37",
+  "source_video": "input/dataset_video_37.mp4",
+  "review_status": "approved_for_packaging",
+  "scene_order": [
+    "scene_001",
+    "scene_002",
+    "scene_003",
+    "scene_004",
+    "scene_005"
+  ],
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "duration_sec": 2.9,
+      "story_role": "hook / baseline outfit introduction",
+      "cast": [
+        "lead_female_influencer"
+      ],
+      "locks": [
+        "single adult female lead identity",
+        "same pastel living-room set",
+        "full-body centered framing",
+        "locked camera"
+      ],
+      "variables": [
+        "baseline white top and black pleated skirt",
+        "centered hook headline"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_001_startframe_image_prompt.md",
+        "reference_assets": [
+          "assets/default_influencer/profile_image/base_upscaled.jpg",
+          "assets/default_influencer/profile_image/base_full_body.jpg",
+          "scene_001_reference.png"
+        ],
+        "goal": "Establish the baseline look and room without watermark or burned-in text."
+      },
+      "video": {
+        "mode": "generate",
+        "model": "kling v3",
+        "prompt_file": "scene_001_video_prompt.md",
+        "reference_assets": [
+          "scene_001_reference.png"
+        ],
+        "motion_intent": "small intro sway while lightly holding the skirt edges",
+        "camera_lock": "locked tripod",
+        "negative_motion": [
+          "no stepping",
+          "no zoom",
+          "no camera movement",
+          "no extra characters"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "video",
+        "alias": "SCENE_001",
+        "merge_key": "SCENE_001_MEDIA",
+        "text_overlays": [
+          {
+            "text_key": "SCENE_001_HEADLINE",
+            "placement": "center",
+            "style": "large centered hook"
+          }
+        ]
+      }
+    },
+    {
+      "scene_id": "scene_002",
+      "duration_sec": 3.1,
+      "story_role": "first labeled archetype reveal",
+      "cast": [
+        "lead_female_influencer"
+      ],
+      "locks": [
+        "single adult female lead identity",
+        "same pastel living-room set",
+        "full-body centered framing",
+        "locked camera"
+      ],
+      "variables": [
+        "nerdy school-inspired wardrobe",
+        "glasses accessory",
+        "top-left label"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_002_startframe_image_prompt.md",
+        "reference_assets": [
+          "assets/default_influencer/profile_image/base_upscaled.jpg",
+          "assets/default_influencer/profile_image/base_full_body.jpg",
+          "scene_002_reference.png"
+        ],
+        "goal": "Match the nerdy wardrobe and room while preserving the locked lead identity."
+      },
+      "video": {
+        "mode": "generate",
+        "model": "kling v3",
+        "prompt_file": "scene_002_video_prompt.md",
+        "reference_assets": [
+          "scene_002_reference.png"
+        ],
+        "motion_intent": "coy side sway with tiny wrist pulses and a friendly smile",
+        "camera_lock": "locked tripod",
+        "negative_motion": [
+          "no stepping",
+          "no zoom",
+          "no camera movement",
+          "no extra characters"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "video",
+        "alias": "SCENE_002",
+        "merge_key": "SCENE_002_MEDIA",
+        "text_overlays": [
+          {
+            "text_key": "SCENE_002_LABEL",
+            "placement": "top_left",
+            "style": "small archetype label"
+          }
+        ]
+      }
+    },
+    {
+      "scene_id": "scene_003",
+      "duration_sec": 2.95,
+      "story_role": "second labeled archetype reveal",
+      "cast": [
+        "lead_female_influencer"
+      ],
+      "locks": [
+        "single adult female lead identity",
+        "same pastel living-room set",
+        "full-body centered framing",
+        "locked camera"
+      ],
+      "variables": [
+        "girly floral dress",
+        "hair clips",
+        "top-left label"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_003_startframe_image_prompt.md",
+        "reference_assets": [
+          "assets/default_influencer/profile_image/base_upscaled.jpg",
+          "assets/default_influencer/profile_image/base_full_body.jpg",
+          "scene_003_reference.png"
+        ],
+        "goal": "Match the floral romantic look and pose while preserving the locked lead identity."
+      },
+      "video": {
+        "mode": "generate",
+        "model": "kling v3",
+        "prompt_file": "scene_003_video_prompt.md",
+        "reference_assets": [
+          "scene_003_reference.png"
+        ],
+        "motion_intent": "soft romantic sway with delicate arm float",
+        "camera_lock": "locked tripod",
+        "negative_motion": [
+          "no stepping",
+          "no zoom",
+          "no camera movement",
+          "no extra characters"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "video",
+        "alias": "SCENE_003",
+        "merge_key": "SCENE_003_MEDIA",
+        "text_overlays": [
+          {
+            "text_key": "SCENE_003_LABEL",
+            "placement": "top_left",
+            "style": "small archetype label"
+          }
+        ]
+      }
+    },
+    {
+      "scene_id": "scene_004",
+      "duration_sec": 2.15,
+      "story_role": "third labeled archetype reveal",
+      "cast": [
+        "lead_female_influencer"
+      ],
+      "locks": [
+        "single adult female lead identity",
+        "same pastel living-room set",
+        "full-body centered framing",
+        "locked camera"
+      ],
+      "variables": [
+        "sporty wardrobe",
+        "high ponytail",
+        "top-left label"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_004_startframe_image_prompt.md",
+        "reference_assets": [
+          "assets/default_influencer/profile_image/base_upscaled.jpg",
+          "assets/default_influencer/profile_image/base_full_body.jpg",
+          "scene_004_reference.png"
+        ],
+        "goal": "Match the activewear styling and ponytail while preserving the locked lead identity."
+      },
+      "video": {
+        "mode": "generate",
+        "model": "kling v3",
+        "prompt_file": "scene_004_video_prompt.md",
+        "reference_assets": [
+          "scene_004_reference.png"
+        ],
+        "motion_intent": "slightly brisker athletic bounce with small arm pulses",
+        "camera_lock": "locked tripod",
+        "negative_motion": [
+          "no stepping",
+          "no zoom",
+          "no camera movement",
+          "no extra characters"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "video",
+        "alias": "SCENE_004",
+        "merge_key": "SCENE_004_MEDIA",
+        "text_overlays": [
+          {
+            "text_key": "SCENE_004_LABEL",
+            "placement": "top_left",
+            "style": "small archetype label"
+          }
+        ]
+      }
+    },
+    {
+      "scene_id": "scene_005",
+      "duration_sec": 2.345,
+      "story_role": "comedic final costume punchline",
+      "cast": [
+        "lead_female_influencer"
+      ],
+      "locks": [
+        "single adult female lead identity",
+        "same pastel living-room set",
+        "full-body centered framing",
+        "locked camera"
+      ],
+      "variables": [
+        "penguin costume silhouette",
+        "hood and mitten details",
+        "top-left label"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_005_startframe_image_prompt.md",
+        "reference_assets": [
+          "assets/default_influencer/profile_image/base_upscaled.jpg",
+          "assets/default_influencer/profile_image/base_full_body.jpg",
+          "scene_005_reference.png"
+        ],
+        "goal": "Match the comedic penguin costume while preserving the locked lead identity and room."
+      },
+      "video": {
+        "mode": "generate",
+        "model": "kling v3",
+        "prompt_file": "scene_005_video_prompt.md",
+        "reference_assets": [
+          "scene_005_reference.png"
+        ],
+        "motion_intent": "playful penguin-like bounce with tiny flipper-style arm motion",
+        "camera_lock": "locked tripod",
+        "negative_motion": [
+          "no stepping",
+          "no zoom",
+          "no camera movement",
+          "no extra characters"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "video",
+        "alias": "SCENE_005",
+        "merge_key": "SCENE_005_MEDIA",
+        "text_overlays": [
+          {
+            "text_key": "SCENE_005_LABEL",
+            "placement": "top_left",
+            "style": "small archetype label"
+          }
+        ]
+      }
+    }
+  ]
+}

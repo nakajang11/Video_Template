@@ -1,0 +1,325 @@
+{
+  "contract_version": "1.1",
+  "job_id": "test_2",
+  "source_video": "input/test_2.mp4",
+  "renderer": "remotion",
+  "audio": {
+    "strategy": "use_input_audio",
+    "source_file": "source_audio.mp3",
+    "shotstack_merge_key": "SOURCE_AUDIO_MP3"
+  },
+  "review_status": "approved_for_packaging",
+  "remotion_package": {
+    "package_dir": "remotion_package",
+    "entry_file": "remotion_package/src/index.jsx",
+    "composition_id": "Test2QuoteTemplate",
+    "props_file": "remotion_package/props/default-props.json",
+    "partition_file": "remotion_package/template-partition.json",
+    "editable_props": [
+      "mediaInputs.knightOverlay.src",
+      "mediaInputs.backgrounds[].src",
+      "wordBeats[].text",
+      "wordBeats[].startFrame",
+      "wordBeats[].durationFrames",
+      "transitions.curtainReveal.durationFrames",
+      "transitions.backgroundFade.durationFrames",
+      "textStyle.fontSize",
+      "textStyle.shadowColor"
+    ]
+  },
+  "transitions": [
+    {
+      "transition_id": "curtainReveal",
+      "kind": "split_curtain_vertical_open",
+      "from_scene_id": "scene_001",
+      "to_scene_id": "scene_001",
+      "start_frame": 0,
+      "duration_frames": 36,
+      "handled_by": "code"
+    },
+    {
+      "transition_id": "backgroundFade",
+      "kind": "crossfade",
+      "from_scene_id": "scene_002",
+      "to_scene_id": "scene_004",
+      "start_frame": 180,
+      "duration_frames": 18,
+      "handled_by": "code"
+    }
+  ],
+  "scene_order": [
+    "scene_001",
+    "scene_002",
+    "scene_003",
+    "scene_004"
+  ],
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "duration_sec": 4.0,
+      "story_role": "opening split-curtain reveal",
+      "cast": [
+        "armored_king_overlay"
+      ],
+      "locks": [
+        "black curtain panels",
+        "persistent lower-center armored king",
+        "single serif word reveal"
+      ],
+      "variables": [
+        "first two or three word tokens",
+        "opening scenic plate",
+        "curtain speed"
+      ],
+      "startframe": {
+        "required": false,
+        "model": "not_applicable",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_001_reference.png"
+        ],
+        "goal": "No provider startframe is generated; the scene is rebuilt with a scenic image plate, foreground cutout, and code-driven curtain reveal."
+      },
+      "video": {
+        "mode": "code-driven",
+        "model": "remotion",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_001_reference.png",
+          "remotion_package/public/assets/bg_01.png",
+          "remotion_package/public/assets/knight_cutout.png"
+        ],
+        "implementation": "remotion_package/src/Test2QuoteTemplate.jsx",
+        "omission_reason": "Prompt files are intentionally omitted because the reusable logic is animation code plus input image assets."
+      },
+      "remotion_sequence": {
+        "sequence_id": "intro_curtain",
+        "start_frame": 0,
+        "duration_frames": 120,
+        "editable_props": [
+          "mediaInputs.backgrounds[0].src",
+          "mediaInputs.knightOverlay.src",
+          "wordBeats[0].text",
+          "wordBeats[1].text",
+          "transitions.curtainReveal.durationFrames"
+        ]
+      },
+      "implementation_strategy": {
+        "input_media": [
+          "mediaInputs.backgrounds[0]",
+          "mediaInputs.knightOverlay"
+        ],
+        "animation": [
+          "word fade and lift",
+          "ambient plate zoom"
+        ],
+        "transitions": [
+          "curtainReveal"
+        ]
+      }
+    },
+    {
+      "scene_id": "scene_002",
+      "duration_sec": 14.0,
+      "story_role": "quote sequence phase 1",
+      "cast": [
+        "armored_king_overlay"
+      ],
+      "locks": [
+        "persistent knight overlay",
+        "warm fantasy scenic plates",
+        "one-word serif caption grammar"
+      ],
+      "variables": [
+        "background slots 1-2",
+        "word tokens",
+        "crossfade timing"
+      ],
+      "startframe": {
+        "required": false,
+        "model": "not_applicable",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_002_reference.png"
+        ],
+        "goal": "The scene uses image slots and code timing rather than a generated clip."
+      },
+      "video": {
+        "mode": "code-driven",
+        "model": "remotion",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_002_reference.png",
+          "remotion_package/public/assets/bg_01.png",
+          "remotion_package/public/assets/bg_02.png",
+          "remotion_package/public/assets/bg_03.png",
+          "remotion_package/public/assets/knight_cutout.png"
+        ],
+        "implementation": "remotion_package/src/Test2QuoteTemplate.jsx",
+        "omission_reason": "Prompt files are intentionally omitted because this phase is a timed sequence of reusable image slots and text beats."
+      },
+      "remotion_sequence": {
+        "sequence_id": "quote_phase_one",
+        "start_frame": 120,
+        "duration_frames": 420,
+        "editable_props": [
+          "mediaInputs.backgrounds[0].src",
+          "mediaInputs.backgrounds[1].src",
+          "mediaInputs.backgrounds[2].src",
+          "wordBeats[2].text",
+          "wordBeats[3].text",
+          "wordBeats[4].text",
+          "wordBeats[5].text"
+        ]
+      },
+      "implementation_strategy": {
+        "input_media": [
+          "mediaInputs.backgrounds[0]",
+          "mediaInputs.backgrounds[1]",
+          "mediaInputs.backgrounds[2]",
+          "mediaInputs.knightOverlay"
+        ],
+        "animation": [
+          "word fade and lift",
+          "plate drift"
+        ],
+        "transitions": [
+          "backgroundFade"
+        ]
+      }
+    },
+    {
+      "scene_id": "scene_003",
+      "duration_sec": 14.0,
+      "story_role": "quote sequence phase 2",
+      "cast": [
+        "armored_king_overlay"
+      ],
+      "locks": [
+        "persistent knight overlay",
+        "darker or denser fantasy backgrounds",
+        "same centered word style"
+      ],
+      "variables": [
+        "background slots 3-4",
+        "middle quote words"
+      ],
+      "startframe": {
+        "required": false,
+        "model": "not_applicable",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_003_reference.png"
+        ],
+        "goal": "Reused composition logic with alternate scenic plate slots."
+      },
+      "video": {
+        "mode": "code-driven",
+        "model": "remotion",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_003_reference.png",
+          "remotion_package/public/assets/bg_03.png",
+          "remotion_package/public/assets/bg_04.png",
+          "remotion_package/public/assets/bg_05.png",
+          "remotion_package/public/assets/knight_cutout.png"
+        ],
+        "implementation": "remotion_package/src/Test2QuoteTemplate.jsx",
+        "omission_reason": "Prompt files are intentionally omitted because the phase is assembled from scenic image slots and code-timed word beats."
+      },
+      "remotion_sequence": {
+        "sequence_id": "quote_phase_two",
+        "start_frame": 540,
+        "duration_frames": 420,
+        "editable_props": [
+          "mediaInputs.backgrounds[2].src",
+          "mediaInputs.backgrounds[3].src",
+          "mediaInputs.backgrounds[4].src",
+          "wordBeats[6].text",
+          "wordBeats[7].text",
+          "wordBeats[8].text"
+        ]
+      },
+      "implementation_strategy": {
+        "input_media": [
+          "mediaInputs.backgrounds[2]",
+          "mediaInputs.backgrounds[3]",
+          "mediaInputs.backgrounds[4]",
+          "mediaInputs.knightOverlay"
+        ],
+        "animation": [
+          "word fade and lift",
+          "plate drift"
+        ],
+        "transitions": [
+          "backgroundFade"
+        ]
+      }
+    },
+    {
+      "scene_id": "scene_004",
+      "duration_sec": 12.953,
+      "story_role": "closing quote phase",
+      "cast": [
+        "armored_king_overlay"
+      ],
+      "locks": [
+        "same knight overlay",
+        "warm closing scenic plate",
+        "same centered serif word style"
+      ],
+      "variables": [
+        "final two scenic slots",
+        "final word tokens"
+      ],
+      "startframe": {
+        "required": false,
+        "model": "not_applicable",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_004_reference.png"
+        ],
+        "goal": "Close with the same template grammar over the final background slots."
+      },
+      "video": {
+        "mode": "code-driven",
+        "model": "remotion",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_004_reference.png",
+          "remotion_package/public/assets/bg_05.png",
+          "remotion_package/public/assets/bg_06.png",
+          "remotion_package/public/assets/knight_cutout.png"
+        ],
+        "implementation": "remotion_package/src/Test2QuoteTemplate.jsx",
+        "omission_reason": "Prompt files are intentionally omitted because the close is still an image-slot and text-beat sequence."
+      },
+      "remotion_sequence": {
+        "sequence_id": "quote_close",
+        "start_frame": 960,
+        "duration_frames": 389,
+        "editable_props": [
+          "mediaInputs.backgrounds[4].src",
+          "mediaInputs.backgrounds[5].src",
+          "wordBeats[9].text",
+          "wordBeats[10].text",
+          "wordBeats[11].text"
+        ]
+      },
+      "implementation_strategy": {
+        "input_media": [
+          "mediaInputs.backgrounds[4]",
+          "mediaInputs.backgrounds[5]",
+          "mediaInputs.knightOverlay"
+        ],
+        "animation": [
+          "word fade and lift",
+          "plate drift"
+        ],
+        "transitions": [
+          "backgroundFade"
+        ]
+      }
+    }
+  ]
+}

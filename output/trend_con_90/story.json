@@ -1,0 +1,58 @@
+{
+  "job_id": "trend_con_90",
+  "premise": "A before/after transition montage contrasts two pre-transition portraits against six rooftop post-transition fashion cards, all with editable white label boxes.",
+  "plot_type": "multi-card identity transition comparison montage",
+  "cast": [
+    {
+      "cast_id": "lead_transition_subject",
+      "role": "single transformation subject across before and after cards",
+      "required": true,
+      "description": "One featured person anchors the before/after meme arc, even though the visual presentation changes from earlier portraits to later rooftop fashion imagery."
+    }
+  ],
+  "continuity_rules": [
+    "The overall story is a before/after transformation arc for one lead subject; before cards and after cards should feel related even if the source uses different photos.",
+    "The top white banner design is part of the creative content and should be rebuilt as editable Shotstack text with a white box background, not baked into media.",
+    "The small “wait for it!” box appears only in the two before cards and should remain editable too.",
+    "Platform watermark and username UI are ignored by default."
+  ],
+  "supporting_character_policy": {
+    "required": false,
+    "allowed_types": [],
+    "rationale": "Other partial figures in the source are incidental crop remnants, not featured supporting cast."
+  },
+  "scene_arc": [
+    {
+      "scene_id": "scene_001",
+      "beat": "Open on the first pre-transition portrait with the large before banner."
+    },
+    {
+      "scene_id": "scene_002",
+      "beat": "Hold on a second pre-transition portrait with the same labels."
+    },
+    {
+      "scene_id": "scene_003",
+      "beat": "Flip into the first golden-hour after-transition rooftop card."
+    },
+    {
+      "scene_id": "scene_004",
+      "beat": "Continue the rooftop reveal with a second pose."
+    },
+    {
+      "scene_id": "scene_005",
+      "beat": "Show a third rooftop pose with hair-touch styling."
+    },
+    {
+      "scene_id": "scene_006",
+      "beat": "Tighten to a closer rooftop portrait."
+    },
+    {
+      "scene_id": "scene_007",
+      "beat": "Hold a lower, more relaxed rooftop pose."
+    },
+    {
+      "scene_id": "scene_008",
+      "beat": "Finish on the longest after-transition rooftop card."
+    }
+  ]
+}

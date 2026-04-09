@@ -1,0 +1,479 @@
+{
+  "timeline": {
+    "background": "#000000",
+    "tracks": [
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_001_TITLE }}",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 72,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": "alias://SCENE_001",
+            "length": "alias://SCENE_001",
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.23
+            },
+            "width": 820,
+            "height": 170
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_002_LABEL }}",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 64,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": "alias://SCENE_002",
+            "length": "alias://SCENE_002",
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.09
+            },
+            "width": 540,
+            "height": 120
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_003_LABEL }}",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 68,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": "alias://SCENE_003",
+            "length": "alias://SCENE_003",
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.04
+            },
+            "width": 420,
+            "height": 120
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_004_LABEL }}",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 64,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": "alias://SCENE_004",
+            "length": "alias://SCENE_004",
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.11
+            },
+            "width": 540,
+            "height": 120
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_005_LABEL }}",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 68,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": "alias://SCENE_005",
+            "length": "alias://SCENE_005",
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.12
+            },
+            "width": 420,
+            "height": 120
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_006_LABEL }}",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 64,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": "alias://SCENE_006",
+            "length": "alias://SCENE_006",
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.09
+            },
+            "width": 540,
+            "height": 120
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_007_LABEL }}",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 68,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": "alias://SCENE_007",
+            "length": "alias://SCENE_007",
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.03
+            },
+            "width": 420,
+            "height": 120
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_008_LABEL }}",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 64,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": "alias://SCENE_008",
+            "length": "alias://SCENE_008",
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.11
+            },
+            "width": 540,
+            "height": 120
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_009_LABEL }}",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 68,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": "alias://SCENE_009",
+            "length": "alias://SCENE_009",
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.04
+            },
+            "width": 420,
+            "height": 120
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "alias": "SCENE_001",
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_001_IMAGE }}"
+            },
+            "start": "auto",
+            "length": 2.125,
+            "fit": "cover",
+            "effect": "zoomInSlow"
+          },
+          {
+            "alias": "SCENE_002",
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_002_IMAGE }}"
+            },
+            "start": "auto",
+            "length": 1.708333,
+            "fit": "cover",
+            "effect": "zoomInSlow"
+          },
+          {
+            "alias": "SCENE_003",
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_003_IMAGE }}"
+            },
+            "start": "auto",
+            "length": 2.416667,
+            "fit": "cover",
+            "effect": "zoomInSlow"
+          },
+          {
+            "alias": "SCENE_004",
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_004_IMAGE }}"
+            },
+            "start": "auto",
+            "length": 3.625,
+            "fit": "cover",
+            "effect": "zoomInSlow"
+          },
+          {
+            "alias": "SCENE_005",
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_005_IMAGE }}"
+            },
+            "start": "auto",
+            "length": 2.416667,
+            "fit": "cover",
+            "effect": "zoomInSlow"
+          },
+          {
+            "alias": "SCENE_006",
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_006_IMAGE }}"
+            },
+            "start": "auto",
+            "length": 3.708333,
+            "fit": "cover",
+            "effect": "zoomInSlow"
+          },
+          {
+            "alias": "SCENE_007",
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_007_IMAGE }}"
+            },
+            "start": "auto",
+            "length": 2.25,
+            "fit": "cover",
+            "effect": "zoomInSlow"
+          },
+          {
+            "alias": "SCENE_008",
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_008_IMAGE }}"
+            },
+            "start": "auto",
+            "length": 3.833333,
+            "fit": "cover",
+            "effect": "zoomInSlow"
+          },
+          {
+            "alias": "SCENE_009",
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_009_IMAGE }}"
+            },
+            "start": "auto",
+            "length": 2.291667,
+            "fit": "cover",
+            "effect": "zoomInSlow"
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "audio",
+              "src": "{{ SOURCE_AUDIO_MP3 }}",
+              "volume": 1
+            },
+            "start": 0,
+            "length": 24.375
+          }
+        ]
+      }
+    ]
+  },
+  "output": {
+    "format": "mp4",
+    "fps": 25,
+    "size": {
+      "width": 1080,
+      "height": 1920
+    },
+    "destinations": [
+      {
+        "provider": "shotstack"
+      }
+    ]
+  },
+  "merge": [
+    {
+      "find": "SOURCE_AUDIO_MP3",
+      "replace": "source_audio.mp3"
+    },
+    {
+      "find": "SCENE_001_IMAGE",
+      "replace": "https://example.com/trend_con_70/scene_001_image.png"
+    },
+    {
+      "find": "SCENE_001_TITLE",
+      "replace": "2006 vs 2026"
+    },
+    {
+      "find": "SCENE_002_IMAGE",
+      "replace": "https://example.com/trend_con_70/scene_002_image.png"
+    },
+    {
+      "find": "SCENE_002_LABEL",
+      "replace": "Jessica"
+    },
+    {
+      "find": "SCENE_003_IMAGE",
+      "replace": "https://example.com/trend_con_70/scene_003_image.png"
+    },
+    {
+      "find": "SCENE_003_LABEL",
+      "replace": "2026"
+    },
+    {
+      "find": "SCENE_004_IMAGE",
+      "replace": "https://example.com/trend_con_70/scene_004_image.png"
+    },
+    {
+      "find": "SCENE_004_LABEL",
+      "replace": "Lina"
+    },
+    {
+      "find": "SCENE_005_IMAGE",
+      "replace": "https://example.com/trend_con_70/scene_005_image.png"
+    },
+    {
+      "find": "SCENE_005_LABEL",
+      "replace": "2026"
+    },
+    {
+      "find": "SCENE_006_IMAGE",
+      "replace": "https://example.com/trend_con_70/scene_006_image.png"
+    },
+    {
+      "find": "SCENE_006_LABEL",
+      "replace": "Rachel"
+    },
+    {
+      "find": "SCENE_007_IMAGE",
+      "replace": "https://example.com/trend_con_70/scene_007_image.png"
+    },
+    {
+      "find": "SCENE_007_LABEL",
+      "replace": "2026"
+    },
+    {
+      "find": "SCENE_008_IMAGE",
+      "replace": "https://example.com/trend_con_70/scene_008_image.png"
+    },
+    {
+      "find": "SCENE_008_LABEL",
+      "replace": "Amanda"
+    },
+    {
+      "find": "SCENE_009_IMAGE",
+      "replace": "https://example.com/trend_con_70/scene_009_image.png"
+    },
+    {
+      "find": "SCENE_009_LABEL",
+      "replace": "2026"
+    }
+  ]
+}

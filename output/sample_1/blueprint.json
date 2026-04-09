@@ -1,0 +1,42 @@
+[
+ {
+    "no": 1,
+    "startframe" : {
+        "prompt": "",
+        "input image": [
+            "...wardrobe...",
+            "...room..."
+        ],
+        "model": "nano banana2",
+        "length": 7
+    },
+    "video": {
+        "prompt": "",
+        "input image": [
+            "...startframe..."
+        ],
+        "model": "kling",
+        "length": 7
+   }
+ },
+ {
+    "no": 2,
+    "startframe": {
+        "prompt": "",
+        "input image": [
+            "...room_1_thighs_up...",
+            "...wardrobe..."
+        ],
+        "model": "grok",
+        "length": 3
+    },
+    "video": {
+        "prompt": "",
+        "input image": [
+            "...startframe..."
+        ],
+        "model": "kling",
+        "length": 3
+   }
+ }
+]

@@ -1,0 +1,90 @@
+{
+  "job_id": "trend_con_90",
+  "source_video": "input/trend_con_90.mp4",
+  "assumptions": [
+    "PoC uses locally extracted source-video scene clips as Rendervid media assets.",
+    "Each Rendervid scene maps one source-derived clip to one video layer.",
+    "Audio is carried by the extracted clip files in each video layer."
+  ],
+  "frame_quantization": {
+    "fps": 30,
+    "analysis_duration_sec": 11.770998,
+    "template_duration_sec": 11.766666666666667,
+    "duration_delta_sec": -0.004331
+  },
+  "scene_frames": [
+    {
+      "scene_id": "scene_001",
+      "start_frame": 0,
+      "end_frame": 88,
+      "duration_frames": 88,
+      "source_start_sec": 0.0,
+      "source_end_sec": 2.933333,
+      "clip_file": "output/trend_con_90/rendervid_poc/assets/scene_001_source_clip.mp4"
+    },
+    {
+      "scene_id": "scene_002",
+      "start_frame": 88,
+      "end_frame": 178,
+      "duration_frames": 90,
+      "source_start_sec": 2.933333,
+      "source_end_sec": 5.933333,
+      "clip_file": "output/trend_con_90/rendervid_poc/assets/scene_002_source_clip.mp4"
+    },
+    {
+      "scene_id": "scene_003",
+      "start_frame": 178,
+      "end_frame": 197,
+      "duration_frames": 19,
+      "source_start_sec": 5.933333,
+      "source_end_sec": 6.566667,
+      "clip_file": "output/trend_con_90/rendervid_poc/assets/scene_003_source_clip.mp4"
+    },
+    {
+      "scene_id": "scene_004",
+      "start_frame": 197,
+      "end_frame": 229,
+      "duration_frames": 32,
+      "source_start_sec": 6.566667,
+      "source_end_sec": 7.633333,
+      "clip_file": "output/trend_con_90/rendervid_poc/assets/scene_004_source_clip.mp4"
+    },
+    {
+      "scene_id": "scene_005",
+      "start_frame": 229,
+      "end_frame": 249,
+      "duration_frames": 20,
+      "source_start_sec": 7.633333,
+      "source_end_sec": 8.3,
+      "clip_file": "output/trend_con_90/rendervid_poc/assets/scene_005_source_clip.mp4"
+    },
+    {
+      "scene_id": "scene_006",
+      "start_frame": 249,
+      "end_frame": 279,
+      "duration_frames": 30,
+      "source_start_sec": 8.3,
+      "source_end_sec": 9.3,
+      "clip_file": "output/trend_con_90/rendervid_poc/assets/scene_006_source_clip.mp4"
+    },
+    {
+      "scene_id": "scene_007",
+      "start_frame": 279,
+      "end_frame": 302,
+      "duration_frames": 23,
+      "source_start_sec": 9.3,
+      "source_end_sec": 10.066667,
+      "clip_file": "output/trend_con_90/rendervid_poc/assets/scene_007_source_clip.mp4"
+    },
+    {
+      "scene_id": "scene_008",
+      "start_frame": 302,
+      "end_frame": 353,
+      "duration_frames": 51,
+      "source_start_sec": 10.066667,
+      "source_end_sec": 11.770998,
+      "clip_file": "output/trend_con_90/rendervid_poc/assets/scene_008_source_clip.mp4"
+    }
+  ],
+  "localhost_asset_base_url": "http://127.0.0.1:8765"
+}

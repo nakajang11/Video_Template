@@ -1,0 +1,131 @@
+{
+  "job_id": "dataset_video_37",
+  "review_status": "review_required",
+  "artifacts": [
+    {
+      "type": "analysis",
+      "path": "analysis.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "story",
+      "path": "story.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "variable_map",
+      "path": "variable_map.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "blueprint",
+      "path": "blueprint.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "reference_image",
+      "path": "scene_001_reference.png",
+      "scene_id": "scene_001",
+      "status": "created"
+    },
+    {
+      "type": "reference_image",
+      "path": "scene_002_reference.png",
+      "scene_id": "scene_002",
+      "status": "created"
+    },
+    {
+      "type": "reference_image",
+      "path": "scene_003_reference.png",
+      "scene_id": "scene_003",
+      "status": "created"
+    },
+    {
+      "type": "reference_image",
+      "path": "scene_004_reference.png",
+      "scene_id": "scene_004",
+      "status": "created"
+    },
+    {
+      "type": "reference_image",
+      "path": "scene_005_reference.png",
+      "scene_id": "scene_005",
+      "status": "created"
+    },
+    {
+      "type": "startframe_prompt",
+      "path": "scene_001_startframe_image_prompt.md",
+      "scene_id": "scene_001",
+      "status": "created"
+    },
+    {
+      "type": "video_prompt",
+      "path": "scene_001_video_prompt.md",
+      "scene_id": "scene_001",
+      "status": "created"
+    },
+    {
+      "type": "startframe_prompt",
+      "path": "scene_002_startframe_image_prompt.md",
+      "scene_id": "scene_002",
+      "status": "created"
+    },
+    {
+      "type": "video_prompt",
+      "path": "scene_002_video_prompt.md",
+      "scene_id": "scene_002",
+      "status": "created"
+    },
+    {
+      "type": "startframe_prompt",
+      "path": "scene_003_startframe_image_prompt.md",
+      "scene_id": "scene_003",
+      "status": "created"
+    },
+    {
+      "type": "video_prompt",
+      "path": "scene_003_video_prompt.md",
+      "scene_id": "scene_003",
+      "status": "created"
+    },
+    {
+      "type": "startframe_prompt",
+      "path": "scene_004_startframe_image_prompt.md",
+      "scene_id": "scene_004",
+      "status": "created"
+    },
+    {
+      "type": "video_prompt",
+      "path": "scene_004_video_prompt.md",
+      "scene_id": "scene_004",
+      "status": "created"
+    },
+    {
+      "type": "startframe_prompt",
+      "path": "scene_005_startframe_image_prompt.md",
+      "scene_id": "scene_005",
+      "status": "created"
+    },
+    {
+      "type": "video_prompt",
+      "path": "scene_005_video_prompt.md",
+      "scene_id": "scene_005",
+      "status": "created"
+    },
+    {
+      "type": "shotstack",
+      "path": "shotstack.json",
+      "scene_id": null,
+      "status": "created"
+    }
+  ],
+  "notes": [
+    "Blueprint confidence is high enough for packaging, but the package remains at the repository review gate before any paid generation or rendering.",
+    "Scene boundaries were inferred from representative frames rather than frame-by-frame playback.",
+    "Source audio is represented as a merge placeholder and should be replaced after ingest."
+  ]
+}

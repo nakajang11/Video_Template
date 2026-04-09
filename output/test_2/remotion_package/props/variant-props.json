@@ -1,0 +1,118 @@
+{
+  "audioFile": "source_audio.mp3",
+  "mediaInputs": {
+    "knightOverlay": {
+      "src": "assets/knight_cutout.png",
+      "role": "input_media",
+      "width": 360
+    },
+    "backgrounds": [
+      {
+        "src": "assets/bg_06.png",
+        "startFrame": 0,
+        "endFrame": 240
+      },
+      {
+        "src": "assets/bg_05.png",
+        "startFrame": 210,
+        "endFrame": 510
+      },
+      {
+        "src": "assets/bg_04.png",
+        "startFrame": 480,
+        "endFrame": 780
+      },
+      {
+        "src": "assets/bg_03.png",
+        "startFrame": 750,
+        "endFrame": 990
+      },
+      {
+        "src": "assets/bg_02.png",
+        "startFrame": 960,
+        "endFrame": 1170
+      },
+      {
+        "src": "assets/bg_01.png",
+        "startFrame": 1140,
+        "endFrame": 1349
+      }
+    ]
+  },
+  "transitions": {
+    "curtainReveal": {
+      "durationFrames": 42
+    },
+    "backgroundFade": {
+      "durationFrames": 20
+    }
+  },
+  "textStyle": {
+    "fontSize": 86,
+    "color": "#fff6dc",
+    "shadowColor": "rgba(45, 20, 5, 0.72)",
+    "letterSpacing": -1
+  },
+  "wordBeats": [
+    {
+      "text": "hold",
+      "startFrame": 24,
+      "endFrame": 84
+    },
+    {
+      "text": "the",
+      "startFrame": 96,
+      "endFrame": 156
+    },
+    {
+      "text": "line",
+      "startFrame": 168,
+      "endFrame": 228
+    },
+    {
+      "text": "through",
+      "startFrame": 252,
+      "endFrame": 336
+    },
+    {
+      "text": "every",
+      "startFrame": 396,
+      "endFrame": 480
+    },
+    {
+      "text": "storm",
+      "startFrame": 510,
+      "endFrame": 594
+    },
+    {
+      "text": "until",
+      "startFrame": 654,
+      "endFrame": 750
+    },
+    {
+      "text": "the",
+      "startFrame": 780,
+      "endFrame": 864
+    },
+    {
+      "text": "light",
+      "startFrame": 900,
+      "endFrame": 984
+    },
+    {
+      "text": "finds",
+      "startFrame": 1020,
+      "endFrame": 1104
+    },
+    {
+      "text": "you",
+      "startFrame": 1140,
+      "endFrame": 1224
+    },
+    {
+      "text": "again",
+      "startFrame": 1254,
+      "endFrame": 1338
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "job_id": "test_2",
+  "source_video": "input/test_2.mp4",
+  "media": {
+    "duration_sec": 44.953,
+    "width": 1280,
+    "height": 720,
+    "fps": 30.0,
+    "orientation": "landscape"
+  },
+  "analysis_confidence": "medium",
+  "story_summary": "A dramatic quote-style short uses a persistent armored king figure over a sequence of warm fantasy landscape images while one serif word appears at a time, beginning with a black split-curtain reveal.",
+  "source_sampling": {
+    "method": "ffprobe metadata plus ffmpeg frame extraction across the full clip",
+    "notes": "Representative frames were sampled at 0.25s, 1s, 3s, 5s, 12s, 18s, 28s, and 40s to identify the opening curtain reveal, the persistent knight overlay, and recurring background changes."
+  },
+  "audio_notes": "Source audio was extracted to source_audio.mp3 for packaging. The audio was reused directly and not separately transcribed.",
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "start_sec": 0.0,
+      "end_sec": 4.0,
+      "duration_sec": 4.0,
+      "summary": "A black frame opens into a narrow horizontal slit that reveals a warm landscape plate behind it while the armored king figure already stands at lower center and the first single-word caption appears.",
+      "characters": [
+        "armored_king_overlay"
+      ],
+      "camera": {
+        "framing": "landscape editorial composition with lower-center hero figure",
+        "movement": "graphic matte reveal rather than live camera movement",
+        "stability": "static composition with code-driven panel animation"
+      },
+      "on_screen_text": [
+        "single centered serif word at a time",
+        "opening words include I and in"
+      ],
+      "environment": "Black letterbox-style cover panels with a warm painterly background visible through a thin horizontal opening.",
+      "overlay_observations": [
+        "The armored king remains visually consistent and appears to function like a persistent overlaid foreground element rather than a newly generated character in each shot."
+      ],
+      "transformation_role": "hook / split-curtain reveal",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_002",
+      "start_sec": 4.0,
+      "end_sec": 18.0,
+      "duration_sec": 14.0,
+      "summary": "The curtain resolves into full-frame warm sky and cloud landscapes while the knight remains at lower center and individual words continue to appear one by one near the upper middle of frame.",
+      "characters": [
+        "armored_king_overlay"
+      ],
+      "camera": {
+        "framing": "full-frame cinematic landscape with centered overlay figure",
+        "movement": "light scale drift and crossfade between background plates",
+        "stability": "static image sequence with editorial timing"
+      },
+      "on_screen_text": [
+        "single-word serif captions such as we, please, and much"
+      ],
+      "environment": "Painterly golden skies, cloud banks, and warm horizon imagery.",
+      "overlay_observations": [
+        "The same knight figure continues across changing backgrounds."
+      ],
+      "transformation_role": "quote-body phase 1",
+      "evidence_confidence": "medium"
+    },
+    {
+      "scene_id": "scene_003",
+      "start_sec": 18.0,
+      "end_sec": 32.0,
+      "duration_sec": 14.0,
+      "summary": "The clip shifts into moodier cloud and forest plates, occasionally including a second distant seated armored figure within the background art, while the main foreground knight and one-word caption rhythm continue.",
+      "characters": [
+        "armored_king_overlay"
+      ],
+      "camera": {
+        "framing": "landscape scenic art with lower-center foreground figure",
+        "movement": "background crossfades with minimal editorial drift",
+        "stability": "static fantasy artwork sequence"
+      },
+      "on_screen_text": [
+        "single-word captions such as only, crowded, how, and it"
+      ],
+      "environment": "Fantasy-cloud and forest artwork with warm amber lighting and occasional secondary figure embedded in the background image itself.",
+      "overlay_observations": [
+        "Any extra figures appear inside the background plate and should be treated as part of the source-derived background image, not as reusable foreground cast."
+      ],
+      "transformation_role": "quote-body phase 2",
+      "evidence_confidence": "medium"
+    },
+    {
+      "scene_id": "scene_004",
+      "start_sec": 32.0,
+      "end_sec": 44.953,
+      "duration_sec": 12.953,
+      "summary": "The final phase continues the same compositing grammar with amber forest backgrounds, the lower-center knight overlay, and the remaining single-word captions toward the close.",
+      "characters": [
+        "armored_king_overlay"
+      ],
+      "camera": {
+        "framing": "same lower-center figure over full-frame cinematic background art",
+        "movement": "steady crossfades and word reveals",
+        "stability": "static image-plus-text composition"
+      },
+      "on_screen_text": [
+        "late single-word captions such as let, you, and and"
+      ],
+      "environment": "Golden forest and sunset-like fantasy imagery.",
+      "overlay_observations": [
+        "The visual system remains constant: swappable background plate, persistent knight overlay, and centered word reveal."
+      ],
+      "transformation_role": "closing quote phase",
+      "evidence_confidence": "medium"
+    }
+  ]
+}

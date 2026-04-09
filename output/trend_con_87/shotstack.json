@@ -1,0 +1,131 @@
+{
+  "timeline": {
+    "background": "#000000",
+    "tracks": [
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_001_QUESTION }}",
+              "font": {
+                "family": "OpenSans Bold",
+                "color": "#FFFFFF",
+                "size": 42,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              },
+              "width": 620,
+              "height": 92
+            },
+            "start": "alias://SCENE_001",
+            "length": "alias://SCENE_001",
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.105
+            }
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_001_OVERLAY_001_IMAGE }}"
+            },
+            "start": "alias://SCENE_001",
+            "length": "alias://SCENE_001",
+            "fit": "contain",
+            "scale": 0.3125,
+            "position": "topRight",
+            "offset": {
+              "x": -0.0625,
+              "y": -0.0684
+            }
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "alias": "SCENE_001",
+            "asset": {
+              "type": "video",
+              "src": "{{ SCENE_001_MEDIA }}"
+            },
+            "start": "auto",
+            "length": 3.666667,
+            "fit": "cover"
+          },
+          {
+            "alias": "SCENE_002",
+            "asset": {
+              "type": "video",
+              "src": "{{ SCENE_002_MEDIA }}"
+            },
+            "start": "auto",
+            "length": 5.78526,
+            "fit": "cover"
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "audio",
+              "src": "{{ SOURCE_AUDIO_MP3 }}",
+              "volume": 1
+            },
+            "start": 0,
+            "length": 9.451927
+          }
+        ]
+      }
+    ]
+  },
+  "output": {
+    "format": "mp4",
+    "fps": 25,
+    "size": {
+      "width": 1080,
+      "height": 1920
+    },
+    "destinations": [
+      {
+        "provider": "shotstack"
+      }
+    ]
+  },
+  "merge": [
+    {
+      "find": "SOURCE_AUDIO_MP3",
+      "replace": "source_audio.mp3"
+    },
+    {
+      "find": "SCENE_001_MEDIA",
+      "replace": "https://example.com/trend_con_87/scene_001.mp4"
+    },
+    {
+      "find": "SCENE_002_MEDIA",
+      "replace": "https://example.com/trend_con_87/scene_002.mp4"
+    },
+    {
+      "find": "SCENE_001_OVERLAY_001_IMAGE",
+      "replace": "https://example.com/trend_con_87/scene_001_overlay_001.png"
+    },
+    {
+      "find": "SCENE_001_QUESTION",
+      "replace": "Yor Forger cosplay?"
+    }
+  ]
+}

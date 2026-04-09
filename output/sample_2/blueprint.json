@@ -1,0 +1,64 @@
+[
+ {
+    "no": 1,
+    "text": {
+        "year1": "...year_1...",
+        "age1": "...age_1..."
+    },
+    "startframe" : {
+        "prompt": "",
+        "input image": [
+            "...base_upscaled..."
+        ],
+        "model": "nano banana2",
+        "length": 1.2
+    },
+    "video": {
+        "effect": "zoomInSlow",
+   }
+ },
+ {
+    "no": 2,
+    "text": {
+        "year2": "...year_2...",
+        "age2": "...age_2..."
+    },
+    "startframe": {
+        "prompt": "",
+        "input image": [
+            "...room_1_thighs_up...",
+            "...wardrobe..."
+        ],
+        "model": "grok",
+        "length": 3
+    },
+    "video": {
+        "effect": "zoomOut",
+        "length": 3
+   }
+ },
+ {
+    "no": 3,
+    "text": {
+        "year3": "...year_3...",
+        "age3": "...age_3..."
+    },
+    "startframe": {
+        "prompt": "",
+        "input image": [
+            "...room_1_thighs_up...",
+            "...wardrobe..."
+        ],
+        "model": "grok",
+        "length": 3
+    },
+    "video": {
+        "prompt": "",
+        "input image": [
+            "...startframe..."
+        ],
+        "model": "kling",
+        "length": 3
+   }
+ }
+]

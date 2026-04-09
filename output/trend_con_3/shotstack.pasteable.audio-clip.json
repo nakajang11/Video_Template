@@ -1,0 +1,50 @@
+{
+  "timeline": {
+    "background": "#000000",
+    "tracks": [
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "audio",
+              "src": "https://res.cloudinary.com/dreyduqqw/raw/upload/v1775503822/codex/trend_con_3/source_audio_20260407.mp3",
+              "volume": 1
+            },
+            "start": 0,
+            "length": 9.147
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775503819/codex/trend_con_3/scene_001_source_clip_20260407.mp4"
+            },
+            "start": 0,
+            "length": 8.133,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775503793/codex/trend_con_3/scene_002_source_clip_20260407.mp4"
+            },
+            "start": 8.133,
+            "length": 1.014,
+            "fit": "cover"
+          }
+        ]
+      }
+    ]
+  },
+  "output": {
+    "format": "mp4",
+    "fps": 25,
+    "size": {
+      "width": 1080,
+      "height": 1920
+    }
+  }
+}

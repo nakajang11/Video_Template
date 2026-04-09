@@ -1,0 +1,201 @@
+{
+  "contract_version": "1.0",
+  "job_id": "trend_con_6",
+  "source_video": "input/trend_con_6.mp4",
+  "audio": {
+    "strategy": "use_input_audio",
+    "source_file": "source_audio.mp3",
+    "shotstack_merge_key": "SOURCE_AUDIO_MP3"
+  },
+  "review_status": "approved_for_packaging",
+  "scene_order": [
+    "scene_001",
+    "scene_002",
+    "scene_003"
+  ],
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "duration_sec": 5.6,
+      "story_role": "hook / casual setup with reference-card preview",
+      "cast": [
+        "lead_female_influencer"
+      ],
+      "locks": [
+        "single female lead identity",
+        "same beige bedroom with slanted ceiling and white door",
+        "centered upper-thigh smartphone framing",
+        "overlay card must stay separate from the base clip"
+      ],
+      "variables": [
+        "pale pink cartoon tee",
+        "gray sweatpants",
+        "small hair clips",
+        "playful hand choreography",
+        "separate lower-center square character card overlay"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_001_startframe_image_prompt.md",
+        "reference_assets": [
+          "assets/default_influencer/profile_image/base_upscaled.jpg",
+          "assets/default_influencer/profile_image/base_full_body.jpg",
+          "scene_001_reference.png"
+        ],
+        "goal": "Rebuild the casual setup as a clean remake while reserving the lower-center space for a separately composited character card overlay."
+      },
+      "video": {
+        "mode": "generate",
+        "model": "kling v3",
+        "prompt_file": "scene_001_video_prompt.md",
+        "reference_assets": [
+          "scene_001_reference.png"
+        ],
+        "motion_intent": "small TikTok-style hand choreography with light shoulder sway while preserving open space for the later overlay card",
+        "camera_lock": "locked vertical smartphone framing",
+        "negative_motion": [
+          "no camera movement",
+          "no extra characters",
+          "no baked-in overlay card",
+          "no watermark or readable text"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "video",
+        "alias": "SCENE_001",
+        "merge_key": "SCENE_001_MEDIA",
+        "clip_length_sec": 5.6,
+        "text_overlays": [],
+        "overlay_layers": [
+          {
+            "asset_type": "image",
+            "merge_key": "SCENE_001_OVERLAY_001_IMAGE",
+            "relative_start_sec": 0.0,
+            "duration_sec": 5.6,
+            "position": "center",
+            "width": 0.56,
+            "height": 0.315,
+            "offset": {
+              "x": 0,
+              "y": 0.22
+            },
+            "description": "Square lower-center character reference card overlay"
+          }
+        ]
+      }
+    },
+    {
+      "scene_id": "scene_002",
+      "duration_sec": 0.2,
+      "story_role": "hand-over-lens wipe transition",
+      "cast": [
+        "lead_female_influencer"
+      ],
+      "locks": [
+        "same lead identity",
+        "same room context implied under the occlusion",
+        "transition exists only to bridge scene_001 and scene_003"
+      ],
+      "variables": [
+        "speed of hand wipe",
+        "amount of full-frame skin-toned blur",
+        "brief edge glimpse of the casual look before full occlusion"
+      ],
+      "startframe": {
+        "required": false,
+        "model": "nano banana2",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_001_reference.png",
+          "scene_002_reference.png",
+          "scene_003_reference.png"
+        ],
+        "goal": "No separate startframe is required because this scene functions as a very short motion-only transition."
+      },
+      "video": {
+        "mode": "generate",
+        "model": "kling v3",
+        "prompt_file": "scene_002_video_prompt.md",
+        "reference_assets": [
+          "scene_001_reference.png",
+          "scene_002_reference.png",
+          "scene_003_reference.png"
+        ],
+        "motion_intent": "fast practical hand wipe that covers the lens and hides the wardrobe change",
+        "camera_lock": "camera remains fixed while the subject-driven occlusion creates the edit",
+        "negative_motion": [
+          "no second person",
+          "no new location",
+          "no readable text",
+          "no lingering on either outfit"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "video",
+        "alias": "SCENE_002",
+        "merge_key": "SCENE_002_MEDIA",
+        "clip_length_sec": 0.2,
+        "text_overlays": [],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_003",
+      "duration_sec": 3.4,
+      "story_role": "costume payoff / Finn-inspired reveal",
+      "cast": [
+        "lead_female_influencer"
+      ],
+      "locks": [
+        "single female lead identity",
+        "same beige bedroom with matching furniture and decor",
+        "centered full-body or mid-thigh smartphone framing",
+        "costume should visually match the scene_001 reference card"
+      ],
+      "variables": [
+        "white bear-ear hat",
+        "turquoise bodycon long-sleeve silhouette",
+        "blue mini-skirt or lower hem",
+        "lime-green backpack",
+        "white thigh-high socks",
+        "playful wrist-flick choreography"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_003_startframe_image_prompt.md",
+        "reference_assets": [
+          "assets/default_influencer/profile_image/base_upscaled.jpg",
+          "assets/default_influencer/profile_image/base_full_body.jpg",
+          "scene_003_reference.png"
+        ],
+        "goal": "Match the cosplay reveal silhouette and room while preserving the locked remake identity."
+      },
+      "video": {
+        "mode": "generate",
+        "model": "kling v3",
+        "prompt_file": "scene_003_video_prompt.md",
+        "reference_assets": [
+          "scene_003_reference.png"
+        ],
+        "motion_intent": "playful centered cosplay sway with wrist flicks, shoulder bops, and slight backpack motion",
+        "camera_lock": "locked vertical smartphone framing",
+        "negative_motion": [
+          "no camera movement",
+          "no extra characters",
+          "no watermark or text",
+          "no major location drift"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "video",
+        "alias": "SCENE_003",
+        "merge_key": "SCENE_003_MEDIA",
+        "clip_length_sec": 3.4,
+        "text_overlays": [],
+        "overlay_layers": []
+      }
+    }
+  ]
+}

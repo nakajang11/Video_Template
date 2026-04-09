@@ -1,0 +1,86 @@
+{
+  "job_id": "trend_con_90",
+  "assets": [
+    {
+      "path": "source_audio.mp3",
+      "file_url": "https://tmpfiles.org/dl/32386283/source_audio.mp3",
+      "resource_type": "raw",
+      "public_id": "codex/trend_con_90/source_audio_20260407.mp3",
+      "scene_id": null,
+      "duration_sec": 11.770998,
+      "type": "audio"
+    },
+    {
+      "path": "rendervid_poc/assets/scene_001_source_clip.mp4",
+      "file_url": "https://tmpfiles.org/dl/32386284/scene_001_source_clip.mp4",
+      "resource_type": "video",
+      "public_id": "codex/trend_con_90/scene_001_source_clip_20260407",
+      "scene_id": "scene_001",
+      "duration_sec": 2.933333,
+      "type": "video"
+    },
+    {
+      "path": "rendervid_poc/assets/scene_002_source_clip.mp4",
+      "file_url": "https://tmpfiles.org/dl/32386285/scene_002_source_clip.mp4",
+      "resource_type": "video",
+      "public_id": "codex/trend_con_90/scene_002_source_clip_20260407",
+      "scene_id": "scene_002",
+      "duration_sec": 3.0,
+      "type": "video"
+    },
+    {
+      "path": "rendervid_poc/assets/scene_003_source_clip.mp4",
+      "file_url": "https://tmpfiles.org/dl/32386287/scene_003_source_clip.mp4",
+      "resource_type": "video",
+      "public_id": "codex/trend_con_90/scene_003_source_clip_20260407",
+      "scene_id": "scene_003",
+      "duration_sec": 0.633334,
+      "type": "video"
+    },
+    {
+      "path": "rendervid_poc/assets/scene_004_source_clip.mp4",
+      "file_url": "https://tmpfiles.org/dl/32386289/scene_004_source_clip.mp4",
+      "resource_type": "video",
+      "public_id": "codex/trend_con_90/scene_004_source_clip_20260407",
+      "scene_id": "scene_004",
+      "duration_sec": 1.066666,
+      "type": "video"
+    },
+    {
+      "path": "rendervid_poc/assets/scene_005_source_clip.mp4",
+      "file_url": "https://tmpfiles.org/dl/32386295/scene_005_source_clip.mp4",
+      "resource_type": "video",
+      "public_id": "codex/trend_con_90/scene_005_source_clip_20260407",
+      "scene_id": "scene_005",
+      "duration_sec": 0.666667,
+      "type": "video"
+    },
+    {
+      "path": "rendervid_poc/assets/scene_006_source_clip.mp4",
+      "file_url": "https://tmpfiles.org/dl/32386299/scene_006_source_clip.mp4",
+      "resource_type": "video",
+      "public_id": "codex/trend_con_90/scene_006_source_clip_20260407",
+      "scene_id": "scene_006",
+      "duration_sec": 1.0,
+      "type": "video"
+    },
+    {
+      "path": "rendervid_poc/assets/scene_007_source_clip.mp4",
+      "file_url": "https://tmpfiles.org/dl/32386300/scene_007_source_clip.mp4",
+      "resource_type": "video",
+      "public_id": "codex/trend_con_90/scene_007_source_clip_20260407",
+      "scene_id": "scene_007",
+      "duration_sec": 0.766667,
+      "type": "video"
+    },
+    {
+      "path": "rendervid_poc/assets/scene_008_source_clip.mp4",
+      "file_url": "https://tmpfiles.org/dl/32386304/scene_008_source_clip.mp4",
+      "resource_type": "video",
+      "public_id": "codex/trend_con_90/scene_008_source_clip_20260407",
+      "scene_id": "scene_008",
+      "duration_sec": 1.704331,
+      "type": "video"
+    }
+  ]
+}

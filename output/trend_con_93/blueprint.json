@@ -1,0 +1,291 @@
+{
+  "contract_version": "1.0",
+  "job_id": "trend_con_93",
+  "source_video": "input/trend_con_93.mp4",
+  "audio": {
+    "strategy": "use_input_audio",
+    "source_file": "source_audio.mp3",
+    "shotstack_merge_key": "SOURCE_AUDIO_MP3"
+  },
+  "review_status": "review_required",
+  "scene_order": [
+    "scene_001",
+    "scene_002",
+    "scene_003",
+    "scene_004",
+    "scene_005"
+  ],
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "duration_sec": 5.7,
+      "story_role": "mother beach card",
+      "cast": [
+        "mother_archival"
+      ],
+      "locks": [
+        "family-lineage photo-card structure",
+        "source-authentic era and environment",
+        "plain white stroked label recreated in Shotstack"
+      ],
+      "variables": [
+        "editable label text only"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_001_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_001_reference.png"
+        ],
+        "goal": "Recreate the beach archival photo card with no baked-in label text or watermark UI."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_001_reference.png"
+        ],
+        "motion_intent": "static hold on a family montage still",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action motion",
+          "no watermark",
+          "no baked-in label text"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_001",
+        "merge_key": "SCENE_001_IMAGE",
+        "clip_length_sec": 5.7,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_001_LABEL",
+            "placement": "source_matched",
+            "style": "plain white label with black stroke and no backdrop"
+          }
+        ],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_002",
+      "duration_sec": 4.333333,
+      "story_role": "father portrait card",
+      "cast": [
+        "father_archival"
+      ],
+      "locks": [
+        "family-lineage photo-card structure",
+        "source-authentic era and environment",
+        "plain white stroked label recreated in Shotstack"
+      ],
+      "variables": [
+        "editable label text only"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_002_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_002_reference.png"
+        ],
+        "goal": "Recreate the father archival portrait card with no baked-in label text or watermark UI."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_002_reference.png"
+        ],
+        "motion_intent": "static hold on a family montage still",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action motion",
+          "no watermark",
+          "no baked-in label text"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_002",
+        "merge_key": "SCENE_002_IMAGE",
+        "clip_length_sec": 4.333333,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_002_LABEL",
+            "placement": "source_matched",
+            "style": "plain white label with black stroke and no backdrop"
+          }
+        ],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_003",
+      "duration_sec": 5.166667,
+      "story_role": "parents love card",
+      "cast": [
+        "mother_archival",
+        "father_archival"
+      ],
+      "locks": [
+        "family-lineage photo-card structure",
+        "source-authentic era and environment",
+        "plain white stroked label recreated in Shotstack"
+      ],
+      "variables": [
+        "editable label text only"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_003_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_003_reference.png"
+        ],
+        "goal": "Recreate the couple portrait card with no baked-in label text or watermark UI."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_003_reference.png"
+        ],
+        "motion_intent": "static hold on a family montage still",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action motion",
+          "no watermark",
+          "no baked-in label text"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_003",
+        "merge_key": "SCENE_003_IMAGE",
+        "clip_length_sec": 5.166667,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_003_LABEL",
+            "placement": "source_matched",
+            "style": "plain white label with black stroke and no backdrop"
+          }
+        ],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_004",
+      "duration_sec": 2.466667,
+      "story_role": "childhood santa card",
+      "cast": [
+        "child_self"
+      ],
+      "locks": [
+        "family-lineage photo-card structure",
+        "source-authentic era and environment",
+        "plain white stroked label recreated in Shotstack"
+      ],
+      "variables": [
+        "editable label text only"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_004_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_004_reference.png"
+        ],
+        "goal": "Recreate the childhood holiday card with no baked-in label text or watermark UI."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_004_reference.png"
+        ],
+        "motion_intent": "static hold on a family montage still",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action motion",
+          "no watermark",
+          "no baked-in label text"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_004",
+        "merge_key": "SCENE_004_IMAGE",
+        "clip_length_sec": 2.466667,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_004_LABEL",
+            "placement": "source_matched",
+            "style": "plain white label with black stroke and no backdrop"
+          }
+        ],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_005",
+      "duration_sec": 3.466666,
+      "story_role": "present-day gym card",
+      "cast": [
+        "adult_self_present"
+      ],
+      "locks": [
+        "family-lineage photo-card structure",
+        "source-authentic era and environment",
+        "plain white stroked label recreated in Shotstack"
+      ],
+      "variables": [
+        "editable label text only"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_005_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_005_reference.png"
+        ],
+        "goal": "Recreate the present-day gym selfie card with no baked-in label text or watermark UI."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_005_reference.png"
+        ],
+        "motion_intent": "static hold on a family montage still",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action motion",
+          "no watermark",
+          "no baked-in label text"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_005",
+        "merge_key": "SCENE_005_IMAGE",
+        "clip_length_sec": 3.466666,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_005_LABEL",
+            "placement": "source_matched",
+            "style": "plain white label with black stroke and no backdrop"
+          }
+        ],
+        "overlay_layers": []
+      }
+    }
+  ]
+}

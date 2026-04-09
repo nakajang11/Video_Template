@@ -1,0 +1,36 @@
+{
+  "job_id": "trend_con_87",
+  "source_video": "input/trend_con_87.mp4",
+  "assumptions": [
+    "PoC uses locally extracted source-video scene clips as Rendervid media assets.",
+    "Each Rendervid scene maps one source-derived clip to one video layer.",
+    "Audio is carried by the extracted clip files in each video layer."
+  ],
+  "frame_quantization": {
+    "fps": 30,
+    "analysis_duration_sec": 9.451927,
+    "template_duration_sec": 9.466666666666667,
+    "duration_delta_sec": 0.01474
+  },
+  "scene_frames": [
+    {
+      "scene_id": "scene_001",
+      "start_frame": 0,
+      "end_frame": 110,
+      "duration_frames": 110,
+      "source_start_sec": 0.0,
+      "source_end_sec": 3.666667,
+      "clip_file": "output/trend_con_87/rendervid_poc/assets/scene_001_source_clip.mp4"
+    },
+    {
+      "scene_id": "scene_002",
+      "start_frame": 110,
+      "end_frame": 284,
+      "duration_frames": 174,
+      "source_start_sec": 3.666667,
+      "source_end_sec": 9.451927,
+      "clip_file": "output/trend_con_87/rendervid_poc/assets/scene_002_source_clip.mp4"
+    }
+  ],
+  "localhost_asset_base_url": "http://127.0.0.1:8765"
+}

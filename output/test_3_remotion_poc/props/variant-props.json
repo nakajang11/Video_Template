@@ -1,0 +1,23 @@
+{
+  "audioFile": "test_3_audio.m4a",
+  "word": "sonder",
+  "finalWord": "SONDER",
+  "pronunciation": "/sahn-der/",
+  "definition": "n. the realization that others live vivid lives, too",
+  "supportText": "the crowd stops being background and starts feeling human",
+  "dictionaryTail": "ic",
+  "questionMark": "#fb7185",
+  "cloudWords": [
+    "sonder",
+    "memory",
+    "passerby",
+    "lives",
+    "wonder"
+  ],
+  "palette": {
+    "accent": "#8b5cf6",
+    "accentGlow": "rgba(139, 92, 246, 0.5)",
+    "definition": "#ddd6fe",
+    "footerFade": "rgba(120, 80, 180, 0.36)"
+  }
+}

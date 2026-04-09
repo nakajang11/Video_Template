@@ -1,0 +1,61 @@
+{
+  "job_id": "trend_con_73",
+  "source_video": "input/trend_con_73.mp4",
+  "media": {
+    "duration_sec": 10.960998,
+    "width": 576,
+    "height": 1024,
+    "fps": 24.0,
+    "orientation": "portrait"
+  },
+  "analysis_confidence": "high",
+  "story_summary": "A single brunette woman speaks at a school morning assembly from a podium in a gymnasium while TikTok caption text overlays the frame, then the clip ends on a TikTok-branded outro card.",
+  "source_sampling": {
+    "method": "ffprobe metadata plus contact-sheet review and exact midpoint frame extraction",
+    "notes": "One major cut lands at 6.916667 seconds, where the live assembly footage switches to a TikTok end card."
+  },
+  "audio_notes": "Audio was extracted directly from the input video into source_audio.mp3 and should be used as the default Shotstack audio source.",
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "start_sec": 0.0,
+      "end_sec": 6.916667,
+      "duration_sec": 6.916667,
+      "summary": "An adult brunette woman in a pale fitted long-sleeve top, dark mini skirt, and black heels stands beside a wooden podium on a school gym floor, speaking into a handheld microphone while a seated audience watches from the bleachers.",
+      "characters": [
+        "adult_female_speaker"
+      ],
+      "camera": {
+        "framing": "vertical full-body to three-quarter podium-side framing",
+        "movement": "handheld phone capture with small operator sway and subject-driven turns at the podium",
+        "stability": "lightly shaky social-video recording"
+      },
+      "on_screen_text": [
+        "A bold white meme-style sentence spans the middle of the frame.",
+        "TikTok watermark and username appear in the lower corners."
+      ],
+      "environment": "Indoor school gymnasium with a U.S. flag, bleachers full of students, and a wooden speaking podium.",
+      "transformation_role": "main live-action assembly scene",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_002",
+      "start_sec": 6.916667,
+      "end_sec": 10.960998,
+      "duration_sec": 4.044331,
+      "summary": "A dark TikTok-branded outro card fills the entire frame, showing the TikTok logo with loading/search UI on a black background.",
+      "characters": [],
+      "camera": {
+        "framing": "full-frame branded end card",
+        "movement": "graphic-only platform end slate",
+        "stability": "static graphic"
+      },
+      "on_screen_text": [
+        "TikTok logo and a search-bar style username card appear as part of the platform end slate."
+      ],
+      "environment": "No physical environment; the frame is a platform outro graphic on a dark background.",
+      "transformation_role": "platform end card / outro",
+      "evidence_confidence": "high"
+    }
+  ]
+}

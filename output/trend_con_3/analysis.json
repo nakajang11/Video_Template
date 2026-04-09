@@ -1,0 +1,58 @@
+{
+  "job_id": "trend_con_3",
+  "source_video": "input/trend_con_3.mp4",
+  "media": {
+    "duration_sec": 9.147,
+    "width": 720,
+    "height": 1280,
+    "fps": 30.0,
+    "orientation": "portrait"
+  },
+  "analysis_confidence": "medium",
+  "story_summary": "A minimal fashion-reveal short spends most of its runtime showing a heather-gray garment held up against a plain wall, then cuts to a single adult female lead wearing the matching look for a brief payoff reveal.",
+  "source_sampling": {
+    "method": "ffmpeg representative frame extraction plus targeted frame seeks",
+    "notes": "A single hard cut was detected at 8.133 seconds and verified with manual frame checks around the transition."
+  },
+  "audio_notes": "Audio was extracted directly from the input video into source_audio.mp3 and is used as the default Shotstack audio source. The audio was not separately transcribed.",
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "start_sec": 0.0,
+      "end_sec": 8.133,
+      "duration_sec": 8.133,
+      "summary": "Only hands and partial forearms are visible while a heather-gray strapless knit garment is held flat toward camera against a plain warm off-white wall. The shot functions as a prolonged garment teaser before the reveal.",
+      "characters": [],
+      "camera": {
+        "framing": "tight vertical close-up with the garment filling most of the frame and hands at the upper corners",
+        "movement": "locked camera with only slight hand tremble and minor fabric drift",
+        "stability": "static smartphone-style shot"
+      },
+      "on_screen_text": [
+        "No intentional overlay text is visible; a small garment brand tag appears near the top edge of the clothing."
+      ],
+      "environment": "Plain warm off-white wall with no visible furniture or props.",
+      "transformation_role": "garment teaser and setup before the on-body reveal",
+      "evidence_confidence": "medium"
+    },
+    {
+      "scene_id": "scene_002",
+      "start_sec": 8.133,
+      "end_sec": 9.147,
+      "duration_sec": 1.014,
+      "summary": "A single adult female lead appears centered against the same plain wall wearing a gray tube top, an open sheer white overshirt, and a black mini skirt, creating the payoff reveal that connects back to the teased garment.",
+      "characters": [
+        "lead_female_influencer"
+      ],
+      "camera": {
+        "framing": "centered mid-thigh portrait framing in a vertical smartphone composition",
+        "movement": "locked camera with only subtle body sway and fabric drift",
+        "stability": "static smartphone-style shot"
+      },
+      "on_screen_text": [],
+      "environment": "Same plain warm off-white wall and soft indoor light as scene_001.",
+      "transformation_role": "brief on-body reveal and payoff",
+      "evidence_confidence": "high"
+    }
+  ]
+}

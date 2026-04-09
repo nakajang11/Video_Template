@@ -1,0 +1,155 @@
+{
+  "job_id": "trend_con_90",
+  "locks": {
+    "identity": {
+      "lead_count": 1,
+      "lead_description": "One transformation subject anchors the full before/after montage.",
+      "reference_assets": [
+        "scene_001_reference.png",
+        "scene_002_reference.png",
+        "scene_003_reference.png",
+        "scene_004_reference.png",
+        "scene_005_reference.png",
+        "scene_006_reference.png",
+        "scene_007_reference.png",
+        "scene_008_reference.png"
+      ]
+    },
+    "wardrobe": {
+      "change_policy": "The package preserves the before/after wardrobe contrast rather than forcing one consistent outfit.",
+      "locked_relationships": [
+        "scene_001 and scene_002 keep the pre-transition masculine-coded portrait styling",
+        "scene_003 through scene_008 keep the after-transition brunette rooftop styling in a pink dress"
+      ]
+    },
+    "background": {
+      "room_signature": [
+        "before cards use portrait-photo backdrops",
+        "after cards use a golden-hour rooftop terrace"
+      ],
+      "change_policy": "Do not redesign the before-versus-after location contrast."
+    },
+    "composition": {
+      "camera": "vertical slideshow of still portrait cards",
+      "framing": "portrait crops with top labels",
+      "look": "social transition meme montage with editable white boxes"
+    }
+  },
+  "variables": {
+    "wardrobe": [
+      {
+        "scene_id": "scene_001",
+        "look_name": "before_jacket_scarf",
+        "elements": [
+          "dark jacket",
+          "gray scarf",
+          "short dark hair"
+        ]
+      },
+      {
+        "scene_id": "scene_002",
+        "look_name": "before_white_tee",
+        "elements": [
+          "white T-shirt",
+          "arms crossed",
+          "short dark hair"
+        ]
+      },
+      {
+        "scene_id": "scene_003",
+        "look_name": "after_rooftop",
+        "elements": [
+          "long brunette hair",
+          "pink dress",
+          "golden-hour rooftop fashion pose"
+        ]
+      }
+    ],
+    "text": [
+      {
+        "scene_id": "scene_001",
+        "text_key": "SCENE_001_TOP_LABEL",
+        "default_text": "BEFORE 🏳️‍⚧️ TRANSITION",
+        "treatment": "editable top white banner with black text"
+      },
+      {
+        "scene_id": "scene_001",
+        "text_key": "SCENE_001_SUBLABEL",
+        "default_text": "wait for it!",
+        "treatment": "editable centered small white label"
+      },
+      {
+        "scene_id": "scene_002",
+        "text_key": "SCENE_002_TOP_LABEL",
+        "default_text": "BEFORE 🏳️‍⚧️ TRANSITION",
+        "treatment": "editable top white banner with black text"
+      },
+      {
+        "scene_id": "scene_002",
+        "text_key": "SCENE_002_SUBLABEL",
+        "default_text": "wait for it!",
+        "treatment": "editable centered small white label"
+      },
+      {
+        "scene_id": "scene_003",
+        "text_key": "SCENE_003_TOP_LABEL",
+        "default_text": "AFTER 🏳️‍⚧️ TRANSITION",
+        "treatment": "editable top white banner with black text"
+      },
+      {
+        "scene_id": "scene_004",
+        "text_key": "SCENE_004_TOP_LABEL",
+        "default_text": "AFTER 🏳️‍⚧️ TRANSITION",
+        "treatment": "editable top white banner with black text"
+      },
+      {
+        "scene_id": "scene_005",
+        "text_key": "SCENE_005_TOP_LABEL",
+        "default_text": "AFTER 🏳️‍⚧️ TRANSITION",
+        "treatment": "editable top white banner with black text"
+      },
+      {
+        "scene_id": "scene_006",
+        "text_key": "SCENE_006_TOP_LABEL",
+        "default_text": "AFTER 🏳️‍⚧️ TRANSITION",
+        "treatment": "editable top white banner with black text"
+      },
+      {
+        "scene_id": "scene_007",
+        "text_key": "SCENE_007_TOP_LABEL",
+        "default_text": "AFTER 🏳️‍⚧️ TRANSITION",
+        "treatment": "editable top white banner with black text"
+      },
+      {
+        "scene_id": "scene_008",
+        "text_key": "SCENE_008_TOP_LABEL",
+        "default_text": "AFTER 🏳️‍⚧️ TRANSITION",
+        "treatment": "editable top white banner with black text"
+      },
+      {
+        "pattern": "Ignore TikTok watermark and username UI in remake media."
+      }
+    ],
+    "motion": {
+      "global": [
+        "static still-card presentation",
+        "no live-action camera travel"
+      ],
+      "scene_overrides": []
+    },
+    "supporting_cast_requirements": [],
+    "overlay_layer_requirements": [
+      "Use Shotstack text backgrounds to rebuild the white label boxes instead of separate overlay images."
+    ]
+  },
+  "model_routing": {
+    "startframe_default": "nano banana2",
+    "wardrobe_edit": "grok imagine",
+    "video_default": "kling v3",
+    "motion_transfer": "kling v3 motion control",
+    "notes": [
+      "Every scene can be treated as a still-image-effect card.",
+      "The white banner and wait box should be editable text layers in Shotstack with built-in text backgrounds."
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "cloud_name": "dreyduqqw",
+  "uploaded_at": "2026-04-06T19:30:22Z",
+  "assets": [
+    {
+      "type": "video",
+      "scene_id": "scene_001",
+      "public_id": "codex/trend_con_3/scene_001_source_clip_20260407",
+      "secure_url": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775503819/codex/trend_con_3/scene_001_source_clip_20260407.mp4",
+      "duration_sec": 8.133008
+    },
+    {
+      "type": "video",
+      "scene_id": "scene_002",
+      "public_id": "codex/trend_con_3/scene_002_source_clip_20260407",
+      "secure_url": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775503793/codex/trend_con_3/scene_002_source_clip_20260407.mp4",
+      "duration_sec": 1.013991
+    },
+    {
+      "type": "audio",
+      "scene_id": null,
+      "public_id": "codex/trend_con_3/source_audio_20260407.mp3",
+      "secure_url": "https://res.cloudinary.com/dreyduqqw/raw/upload/v1775503822/codex/trend_con_3/source_audio_20260407.mp3"
+    }
+  ]
+}

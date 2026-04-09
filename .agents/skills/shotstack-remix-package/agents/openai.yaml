@@ -1,0 +1,7 @@
+interface:
+  display_name: "Shotstack Remix Package"
+  short_description: "Build prompts and a validated Shotstack package"
+  default_prompt: "Use $shotstack-remix-package to turn an approved blueprint into scene prompt files and a validated shotstack.json package."
+
+policy:
+  allow_implicit_invocation: true

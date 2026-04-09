@@ -1,0 +1,412 @@
+{
+  "timeline": {
+    "background": "#000000",
+    "tracks": [
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "text",
+              "text": "BEFORE 🏳️‍⚧️ TRANSITION",
+              "font": {
+                "family": "Montserrat ExtraBold",
+                "color": "#000000",
+                "size": 86,
+                "weight": 800
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 838,
+              "height": 103,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 12,
+                "borderRadius": 0
+              }
+            },
+            "start": 0,
+            "length": 2.933333,
+            "position": "top",
+            "offset": {
+              "x": 0.00434,
+              "y": -0.146484
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "BEFORE 🏳️‍⚧️ TRANSITION",
+              "font": {
+                "family": "Montserrat ExtraBold",
+                "color": "#000000",
+                "size": 86,
+                "weight": 800
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 838,
+              "height": 103,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 12,
+                "borderRadius": 0
+              }
+            },
+            "start": 2.933333,
+            "length": 3.0,
+            "position": "top",
+            "offset": {
+              "x": 0.00434,
+              "y": -0.146484
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "AFTER 🏳️‍⚧️ TRANSITION",
+              "font": {
+                "family": "Montserrat ExtraBold",
+                "color": "#000000",
+                "size": 82,
+                "weight": 800
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 795,
+              "height": 98,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 12,
+                "borderRadius": 0
+              }
+            },
+            "start": 5.933333,
+            "length": 0.633334,
+            "position": "top",
+            "offset": {
+              "x": 0.003472,
+              "y": -0.148438
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "AFTER 🏳️‍⚧️ TRANSITION",
+              "font": {
+                "family": "Montserrat ExtraBold",
+                "color": "#000000",
+                "size": 82,
+                "weight": 800
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 795,
+              "height": 98,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 12,
+                "borderRadius": 0
+              }
+            },
+            "start": 6.566667,
+            "length": 1.066666,
+            "position": "top",
+            "offset": {
+              "x": 0.003472,
+              "y": -0.148438
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "AFTER 🏳️‍⚧️ TRANSITION",
+              "font": {
+                "family": "Montserrat ExtraBold",
+                "color": "#000000",
+                "size": 82,
+                "weight": 800
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 795,
+              "height": 98,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 12,
+                "borderRadius": 0
+              }
+            },
+            "start": 7.633333,
+            "length": 0.666667,
+            "position": "top",
+            "offset": {
+              "x": 0.003472,
+              "y": -0.148438
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "AFTER 🏳️‍⚧️ TRANSITION",
+              "font": {
+                "family": "Montserrat ExtraBold",
+                "color": "#000000",
+                "size": 82,
+                "weight": 800
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 795,
+              "height": 98,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 12,
+                "borderRadius": 0
+              }
+            },
+            "start": 8.3,
+            "length": 1.0,
+            "position": "top",
+            "offset": {
+              "x": 0.003472,
+              "y": -0.148438
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "AFTER 🏳️‍⚧️ TRANSITION",
+              "font": {
+                "family": "Montserrat ExtraBold",
+                "color": "#000000",
+                "size": 82,
+                "weight": 800
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 795,
+              "height": 98,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 12,
+                "borderRadius": 0
+              }
+            },
+            "start": 9.3,
+            "length": 0.766667,
+            "position": "top",
+            "offset": {
+              "x": 0.003472,
+              "y": -0.148438
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "AFTER 🏳️‍⚧️ TRANSITION",
+              "font": {
+                "family": "Montserrat ExtraBold",
+                "color": "#000000",
+                "size": 82,
+                "weight": 800
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 795,
+              "height": 98,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 12,
+                "borderRadius": 0
+              }
+            },
+            "start": 10.066667,
+            "length": 1.704331,
+            "position": "top",
+            "offset": {
+              "x": 0.003472,
+              "y": -0.148438
+            }
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "text",
+              "text": "wait for it!",
+              "font": {
+                "family": "Montserrat Bold",
+                "color": "#000000",
+                "size": 56,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 270,
+              "height": 68,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 8,
+                "borderRadius": 0
+              }
+            },
+            "start": 0,
+            "length": 2.933333,
+            "position": "top",
+            "offset": {
+              "x": 0,
+              "y": -0.605469
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "wait for it!",
+              "font": {
+                "family": "Montserrat Bold",
+                "color": "#000000",
+                "size": 56,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 270,
+              "height": 68,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 8,
+                "borderRadius": 0
+              }
+            },
+            "start": 2.933333,
+            "length": 3.0,
+            "position": "top",
+            "offset": {
+              "x": 0,
+              "y": -0.605469
+            }
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519016/codex/trend_con_90/scene_001_source_clip_20260407.mp4"
+            },
+            "start": 0,
+            "length": 2.933333,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519018/codex/trend_con_90/scene_002_source_clip_20260407.mp4"
+            },
+            "start": 2.933333,
+            "length": 3.0,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519020/codex/trend_con_90/scene_003_source_clip_20260407.mp4"
+            },
+            "start": 5.933333,
+            "length": 0.633334,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519022/codex/trend_con_90/scene_004_source_clip_20260407.mp4"
+            },
+            "start": 6.566667,
+            "length": 1.066666,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519032/codex/trend_con_90/scene_005_source_clip_20260407.mp4"
+            },
+            "start": 7.633333,
+            "length": 0.666667,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519034/codex/trend_con_90/scene_006_source_clip_20260407.mp4"
+            },
+            "start": 8.3,
+            "length": 1.0,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519037/codex/trend_con_90/scene_007_source_clip_20260407.mp4"
+            },
+            "start": 9.3,
+            "length": 0.766667,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519039/codex/trend_con_90/scene_008_source_clip_20260407.mp4"
+            },
+            "start": 10.066667,
+            "length": 1.704331,
+            "fit": "cover"
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "audio",
+              "src": "https://res.cloudinary.com/dreyduqqw/raw/upload/v1775519014/codex/trend_con_90/source_audio_20260407.mp3",
+              "volume": 1
+            },
+            "start": 0,
+            "length": 11.770998
+          }
+        ]
+      }
+    ]
+  },
+  "output": {
+    "format": "mp4",
+    "fps": 25,
+    "size": {
+      "width": 1080,
+      "height": 1920
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "job_id": "trend_con_87",
+  "premise": "A blonde creator teases a Yor Forger cosplay, then pays it off with a full black-dress reveal in the same bedroom setting.",
+  "plot_type": "two-beat cosplay transformation reveal",
+  "cast": [
+    {
+      "cast_id": "adult_blonde_cosplayer",
+      "role": "single featured cosplayer",
+      "required": true,
+      "description": "One blonde adult woman carries both the teaser and the reveal. The anime insert is reference content, not a second live-action character."
+    }
+  ],
+  "continuity_rules": [
+    "The same blonde creator must carry scene_001 and scene_002 with matching facial identity and body proportions.",
+    "The bedroom layout stays consistent across both scenes: anime shelf on the left, neutral wall, and door hardware on the right.",
+    "Scene_001 rebuilds the question caption as editable Shotstack text and keeps the Yor anime reference card as a separate overlay layer in canonical packaging.",
+    "Platform watermark and username UI are ignored by default in remake media."
+  ],
+  "supporting_character_policy": {
+    "required": false,
+    "allowed_types": [
+      "source-authentic overlay reference only"
+    ],
+    "rationale": "The upper-right Yor insert is a reference card, not a live-action supporting cast member."
+  },
+  "scene_arc": [
+    {
+      "scene_id": "scene_001",
+      "beat": "Tease the Yor Forger cosplay idea before the transformation lands."
+    },
+    {
+      "scene_id": "scene_002",
+      "beat": "Reveal the finished black Yor-inspired look with the same creator and room continuity."
+    }
+  ]
+}

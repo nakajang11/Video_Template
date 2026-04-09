@@ -1,0 +1,66 @@
+{
+  "job_id": "trend_con_93",
+  "premise": "A five-card family montage traces the narrator from mother and father to love story, childhood, and present-day self.",
+  "plot_type": "family lineage slideshow montage",
+  "cast": [
+    {
+      "cast_id": "mother_archival",
+      "role": "mother reference card",
+      "required": true,
+      "description": "Appears in the beach photo and the couple photo."
+    },
+    {
+      "cast_id": "father_archival",
+      "role": "father reference card",
+      "required": true,
+      "description": "Appears in the solo father portrait and the couple photo."
+    },
+    {
+      "cast_id": "child_self",
+      "role": "childhood self",
+      "required": true,
+      "description": "Appears in the Santa photo."
+    },
+    {
+      "cast_id": "adult_self_present",
+      "role": "present-day self",
+      "required": true,
+      "description": "Appears in the gym selfie finale."
+    }
+  ],
+  "continuity_rules": [
+    "This package tells a family lineage arc, not a single-scene fashion remake, so each archival card should preserve its own photographic era and environment.",
+    "Each label should remain editable Shotstack text with simple white fill and black stroke only; do not invent text backdrops.",
+    "Watermark and username UI are source platform elements and should be ignored by default.",
+    "Santa is contextual to the childhood photo only and should not be treated as a recurring character."
+  ],
+  "supporting_character_policy": {
+    "required": false,
+    "allowed_types": [
+      "contextual archival figures only"
+    ],
+    "rationale": "Only family-arc subjects matter; extra archival people such as Santa are contextual."
+  },
+  "scene_arc": [
+    {
+      "scene_id": "scene_001",
+      "beat": "Introduce the mother card."
+    },
+    {
+      "scene_id": "scene_002",
+      "beat": "Introduce the father card."
+    },
+    {
+      "scene_id": "scene_003",
+      "beat": "Show the parents together falling in love."
+    },
+    {
+      "scene_id": "scene_004",
+      "beat": "Move to the childhood card."
+    },
+    {
+      "scene_id": "scene_005",
+      "beat": "Resolve with the present-day self card."
+    }
+  ]
+}

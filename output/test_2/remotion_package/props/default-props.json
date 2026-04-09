@@ -1,0 +1,118 @@
+{
+  "audioFile": "source_audio.mp3",
+  "mediaInputs": {
+    "knightOverlay": {
+      "src": "assets/knight_cutout.png",
+      "role": "input_media",
+      "width": 360
+    },
+    "backgrounds": [
+      {
+        "src": "assets/bg_01.png",
+        "startFrame": 0,
+        "endFrame": 240
+      },
+      {
+        "src": "assets/bg_02.png",
+        "startFrame": 210,
+        "endFrame": 510
+      },
+      {
+        "src": "assets/bg_03.png",
+        "startFrame": 480,
+        "endFrame": 780
+      },
+      {
+        "src": "assets/bg_04.png",
+        "startFrame": 750,
+        "endFrame": 990
+      },
+      {
+        "src": "assets/bg_05.png",
+        "startFrame": 960,
+        "endFrame": 1170
+      },
+      {
+        "src": "assets/bg_06.png",
+        "startFrame": 1140,
+        "endFrame": 1349
+      }
+    ]
+  },
+  "transitions": {
+    "curtainReveal": {
+      "durationFrames": 36
+    },
+    "backgroundFade": {
+      "durationFrames": 18
+    }
+  },
+  "textStyle": {
+    "fontSize": 90,
+    "color": "#f8f4ec",
+    "shadowColor": "rgba(0, 0, 0, 0.65)",
+    "letterSpacing": -1
+  },
+  "wordBeats": [
+    {
+      "text": "I",
+      "startFrame": 24,
+      "endFrame": 84
+    },
+    {
+      "text": "in",
+      "startFrame": 96,
+      "endFrame": 156
+    },
+    {
+      "text": "we",
+      "startFrame": 168,
+      "endFrame": 228
+    },
+    {
+      "text": "please",
+      "startFrame": 252,
+      "endFrame": 336
+    },
+    {
+      "text": "much",
+      "startFrame": 396,
+      "endFrame": 480
+    },
+    {
+      "text": "only",
+      "startFrame": 510,
+      "endFrame": 594
+    },
+    {
+      "text": "crowded",
+      "startFrame": 654,
+      "endFrame": 750
+    },
+    {
+      "text": "how",
+      "startFrame": 780,
+      "endFrame": 864
+    },
+    {
+      "text": "it",
+      "startFrame": 900,
+      "endFrame": 984
+    },
+    {
+      "text": "let",
+      "startFrame": 1020,
+      "endFrame": 1104
+    },
+    {
+      "text": "you",
+      "startFrame": 1140,
+      "endFrame": 1224
+    },
+    {
+      "text": "and",
+      "startFrame": 1254,
+      "endFrame": 1338
+    }
+  ]
+}

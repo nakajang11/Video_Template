@@ -1,0 +1,149 @@
+{
+  "job_id": "dataset_video_37",
+  "locks": {
+    "identity": {
+      "lead_count": 1,
+      "lead_description": "Adult female influencer with a friendly face, long brunette hair, and consistent recognizable identity across all scenes.",
+      "reference_assets": [
+        "assets/default_influencer/profile_image/base_upscaled.jpg",
+        "assets/default_influencer/profile_image/base_full_body.jpg"
+      ]
+    },
+    "background": {
+      "room_signature": [
+        "pale wall corner",
+        "soft pink uplight glow near the left side of the wall",
+        "cream sectional sofa",
+        "cream throw blanket over sofa arm",
+        "light rug"
+      ],
+      "change_policy": "Do not change room layout, lighting mood, or furniture."
+    },
+    "composition": {
+      "camera": "locked vertical smartphone framing",
+      "framing": "full-body centered subject with similar camera distance in every scene",
+      "look": "clean, bright, casual home influencer short"
+    }
+  },
+  "variables": {
+    "wardrobe": [
+      {
+        "scene_id": "scene_001",
+        "look_name": "baseline",
+        "elements": [
+          "white fitted scoop-neck long-sleeve top",
+          "black pleated mini skirt"
+        ]
+      },
+      {
+        "scene_id": "scene_002",
+        "look_name": "nerdy",
+        "elements": [
+          "white short-sleeve blouse",
+          "brown plaid mini skirt",
+          "white thigh-high stockings",
+          "oversized black glasses"
+        ]
+      },
+      {
+        "scene_id": "scene_003",
+        "look_name": "girly",
+        "elements": [
+          "cream-and-yellow floral maxi dress",
+          "small decorative hair clips"
+        ]
+      },
+      {
+        "scene_id": "scene_004",
+        "look_name": "sporty",
+        "elements": [
+          "gray fitted long-sleeve athletic top",
+          "black fitted shorts",
+          "white striped thigh-high socks",
+          "high ponytail"
+        ]
+      },
+      {
+        "scene_id": "scene_005",
+        "look_name": "penguin",
+        "elements": [
+          "black-and-white penguin hooded costume",
+          "yellow beak hood detail",
+          "yellow mitten-like cuffs"
+        ]
+      }
+    ],
+    "text": [
+      {
+        "scene_id": "scene_001",
+        "type": "headline",
+        "value": "Choose your girlfriend",
+        "placement": "centered mid-frame"
+      },
+      {
+        "scene_id": "scene_002",
+        "type": "label",
+        "value": "Nerdy",
+        "placement": "top left"
+      },
+      {
+        "scene_id": "scene_003",
+        "type": "label",
+        "value": "Girly",
+        "placement": "top left"
+      },
+      {
+        "scene_id": "scene_004",
+        "type": "label",
+        "value": "Sporty",
+        "placement": "top left"
+      },
+      {
+        "scene_id": "scene_005",
+        "type": "label",
+        "value": "Penguin",
+        "placement": "top left"
+      }
+    ],
+    "motion": {
+      "global": [
+        "small in-place sway only",
+        "no stepping or major camera movement",
+        "hands float near hip level in most scenes"
+      ],
+      "scene_overrides": [
+        {
+          "scene_id": "scene_001",
+          "motion_intent": "intro sway with skirt-edge hand placement"
+        },
+        {
+          "scene_id": "scene_002",
+          "motion_intent": "coy nerdy sway with tiny wrist pulses"
+        },
+        {
+          "scene_id": "scene_003",
+          "motion_intent": "soft romantic sway with delicate arm float"
+        },
+        {
+          "scene_id": "scene_004",
+          "motion_intent": "slightly brisker sporty bounce"
+        },
+        {
+          "scene_id": "scene_005",
+          "motion_intent": "playful penguin flipper-like arm motion"
+        }
+      ]
+    },
+    "supporting_cast_requirements": []
+  },
+  "model_routing": {
+    "startframe_default": "nano banana2",
+    "wardrobe_edit": "grok imagine",
+    "video_default": "kling v3",
+    "motion_transfer": "kling v3 motion control",
+    "notes": [
+      "This package uses nano banana2 for all startframes because each scene is best treated as multi-reference composition from the locked lead identity plus a source scene still.",
+      "Grok Imagine remains the preferred fallback if a later workflow swaps only wardrobe on an already-approved base frame."
+    ]
+  }
+}

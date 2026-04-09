@@ -1,0 +1,114 @@
+{
+  "job_id": "trend_con_6",
+  "review_status": "review_required",
+  "artifacts": [
+    {
+      "type": "analysis",
+      "path": "analysis.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "story",
+      "path": "story.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "variable_map",
+      "path": "variable_map.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "blueprint",
+      "path": "blueprint.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "audio",
+      "path": "source_audio.mp3",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "reference_image",
+      "path": "scene_001_reference.png",
+      "scene_id": "scene_001",
+      "status": "created"
+    },
+    {
+      "type": "reference_image",
+      "path": "scene_002_reference.png",
+      "scene_id": "scene_002",
+      "status": "created"
+    },
+    {
+      "type": "reference_image",
+      "path": "scene_003_reference.png",
+      "scene_id": "scene_003",
+      "status": "created"
+    },
+    {
+      "type": "overlay_image",
+      "path": "scene_001_overlay_001.png",
+      "scene_id": "scene_001",
+      "status": "created"
+    },
+    {
+      "type": "startframe_prompt",
+      "path": "scene_001_startframe_image_prompt.md",
+      "scene_id": "scene_001",
+      "status": "created"
+    },
+    {
+      "type": "video_prompt",
+      "path": "scene_001_video_prompt.md",
+      "scene_id": "scene_001",
+      "status": "created"
+    },
+    {
+      "type": "video_prompt",
+      "path": "scene_002_video_prompt.md",
+      "scene_id": "scene_002",
+      "status": "created"
+    },
+    {
+      "type": "startframe_prompt",
+      "path": "scene_003_startframe_image_prompt.md",
+      "scene_id": "scene_003",
+      "status": "created"
+    },
+    {
+      "type": "video_prompt",
+      "path": "scene_003_video_prompt.md",
+      "scene_id": "scene_003",
+      "status": "created"
+    },
+    {
+      "type": "shotstack",
+      "path": "shotstack.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "cloudinary_assets",
+      "path": "cloudinary_assets.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "shotstack_pasteable",
+      "path": "shotstack.pasteable.json",
+      "scene_id": null,
+      "status": "created"
+    }
+  ],
+  "notes": [
+    "Package passes local validation and is now at the repository review gate before any paid generation or final rendering.",
+    "scene_001 uses a separate lower-center overlay image card extracted to scene_001_overlay_001.png; do not flatten that graphic into the generated base clip.",
+    "The inserted cartoon card is a non-human overlay asset, not a supporting cast member.",
+    "shotstack.pasteable.json embeds uploaded Cloudinary URLs directly so it can be pasted into the Shotstack editor without merge placeholders."
+  ]
+}

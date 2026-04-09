@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Template Pipeline Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "status",
+    "job_id",
+    "renderer",
+    "review_status",
+    "package_dir",
+    "artifacts",
+    "validation",
+    "notes"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "review_required",
+        "validation_failed",
+        "input_error",
+        "internal_error"
+      ]
+    },
+    "job_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "renderer": {
+      "type": "string",
+      "enum": [
+        "shotstack",
+        "remotion",
+        "unknown"
+      ]
+    },
+    "review_status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "package_dir": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "analysis",
+        "story",
+        "variable_map",
+        "blueprint",
+        "manifest",
+        "shotstack",
+        "remotion_package",
+        "source_audio",
+        "prompt_files"
+      ],
+      "properties": {
+        "analysis": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "story": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "variable_map": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "blueprint": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "manifest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "shotstack": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "remotion_package": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_audio": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "prompt_files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "passed",
+        "errors",
+        "warnings"
+      ],
+      "properties": {
+        "passed": {
+          "type": "boolean"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

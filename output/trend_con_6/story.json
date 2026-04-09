@@ -1,0 +1,40 @@
+{
+  "job_id": "trend_con_6",
+  "premise": "A cosplay-remix short shows one young female lead dancing in a casual bedroom look while an inserted reference card previews the target character, then uses a hand-over-lens wipe to reveal her in a Finn-inspired costume in the same room.",
+  "plot_type": "reference-card setup to cosplay reveal with hand-wipe transition",
+  "cast": [
+    {
+      "cast_id": "lead_female_influencer",
+      "role": "single on-camera female lead",
+      "required": true,
+      "description": "One female lead carries the full story. The same performer is present before and after the transition, with the hand wipe belonging to her rather than to a second person."
+    }
+  ],
+  "continuity_rules": [
+    "Only one female lead should appear. Do not add friends, parents, partners, alternate-age variants, or any second live performer.",
+    "The beige bedroom remains locked across the whole short: slanted ceiling, black ceiling fan, white door, small shelf on the left, and desk plus hanging vines on the right.",
+    "Scene_001 includes a separate square character-card overlay that previews the later costume. Treat that card as an inserted graphic layer, not as wardrobe, a second character, or a background poster.",
+    "The hand-over-lens wipe is the only transformation bridge between the casual look and the cosplay reveal. Do not blend both wardrobes inside the same base scene clip.",
+    "The final costume should clearly echo the character shown in the scene_001 overlay card: white bear-ear hat, turquoise body, blue lower garment, and lime-green backpack silhouette.",
+    "No intentional text needs to be regenerated. Remove source watermarks, usernames, and any baked-in TikTok UI."
+  ],
+  "supporting_character_policy": {
+    "required": false,
+    "allowed_types": [],
+    "rationale": "The story is fully explained by one on-camera performer plus a non-human graphic overlay. The inserted character card is not a supporting cast member and should stay a separate overlay asset."
+  },
+  "scene_arc": [
+    {
+      "scene_id": "scene_001",
+      "beat": "Hook the viewer with a casual dance while previewing the target costume through an inserted reference card."
+    },
+    {
+      "scene_id": "scene_002",
+      "beat": "Use a fast hand-over-lens wipe to hide the look change."
+    },
+    {
+      "scene_id": "scene_003",
+      "beat": "Pay off the setup with a full costume reveal in the same room."
+    }
+  ]
+}

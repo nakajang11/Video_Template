@@ -1,0 +1,87 @@
+{
+  "timeline": {
+    "background": "#000000",
+    "tracks": [
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "text",
+              "text": "prof looking hella thick during morning assembly😫",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 36,
+                "weight": 600
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              }
+            },
+            "start": 0,
+            "length": 6.916667,
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": 0.16
+            }
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "image",
+              "src": "https://res.cloudinary.com/dreyduqqw/image/upload/v1775511287/codex/trend_con_73/scene_001_caption_backdrop_20260407.png.png"
+            },
+            "start": 0,
+            "length": 6.916667,
+            "fit": "contain",
+            "scale": 0.88,
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": 0.16
+            }
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775510406/codex/trend_con_73/scene_001_source_clip_20260407.mp4"
+            },
+            "start": 0,
+            "length": 6.916667,
+            "fit": "cover"
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "audio",
+              "src": "https://res.cloudinary.com/dreyduqqw/raw/upload/v1775510404/codex/trend_con_73/source_audio_20260407.mp3",
+              "volume": 1
+            },
+            "start": 0,
+            "length": 6.916667
+          }
+        ]
+      }
+    ]
+  },
+  "output": {
+    "format": "mp4",
+    "fps": 25,
+    "size": {
+      "width": 1080,
+      "height": 1920
+    }
+  }
+}

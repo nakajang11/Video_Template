@@ -1,0 +1,23 @@
+{
+  "audioFile": "test_3_audio.m4a",
+  "word": "epiphany",
+  "finalWord": "EPIPHANY",
+  "pronunciation": "/i-pif-uh-nee/",
+  "definition": "n. sudden realization",
+  "supportText": "a quiet shift in how you understand the moment",
+  "dictionaryTail": "ser",
+  "questionMark": "#ef4444",
+  "cloudWords": [
+    "epiphany",
+    "epiphany",
+    "epiphany",
+    "insight",
+    "clarity"
+  ],
+  "palette": {
+    "accent": "#f4d313",
+    "accentGlow": "rgba(244, 211, 19, 0.5)",
+    "definition": "#f2e79f",
+    "footerFade": "rgba(180, 180, 180, 0.42)"
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "timeline": {
+    "background": "#000000",
+    "tracks": [
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_001_CAPTION }}",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 36,
+                "weight": 600
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              }
+            },
+            "start": "alias://SCENE_001",
+            "length": "alias://SCENE_001",
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": 0.16
+            },
+            "width": 980,
+            "height": 84
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_001_OVERLAY_001_IMAGE }}"
+            },
+            "start": "alias://SCENE_001",
+            "length": "alias://SCENE_001",
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": 0.16
+            },
+            "width": 1000,
+            "height": 96
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "alias": "SCENE_001",
+            "asset": {
+              "type": "video",
+              "src": "{{ SCENE_001_MEDIA }}"
+            },
+            "start": "auto",
+            "length": 6.916667,
+            "fit": "cover"
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "audio",
+              "src": "{{ SOURCE_AUDIO_MP3 }}",
+              "volume": 1
+            },
+            "start": 0,
+            "length": 6.916667
+          }
+        ]
+      }
+    ]
+  },
+  "output": {
+    "format": "mp4",
+    "fps": 25,
+    "size": {
+      "width": 1080,
+      "height": 1920
+    },
+    "destinations": [
+      {
+        "provider": "shotstack"
+      }
+    ]
+  },
+  "merge": [
+    {
+      "find": "SOURCE_AUDIO_MP3",
+      "replace": "source_audio.mp3"
+    },
+    {
+      "find": "SCENE_001_MEDIA",
+      "replace": "https://example.com/trend_con_73/scene_001.mp4"
+    },
+    {
+      "find": "SCENE_001_OVERLAY_001_IMAGE",
+      "replace": "https://example.com/trend_con_73/scene_001_overlay_001.png"
+    },
+    {
+      "find": "SCENE_001_CAPTION",
+      "replace": "prof looking hella thick during morning assembly😫"
+    }
+  ]
+}

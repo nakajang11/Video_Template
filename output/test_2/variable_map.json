@@ -1,0 +1,105 @@
+{
+  "job_id": "test_2",
+  "locks": {
+    "identity": {
+      "lead_count": 1,
+      "lead_description": "One persistent armored king or knight overlay remains fixed near the lower center throughout the short.",
+      "reference_assets": [
+        "remotion_package/public/assets/knight_cutout.png",
+        "scene_001_reference.png"
+      ]
+    },
+    "wardrobe": {
+      "change_policy": "The foreground knight asset is locked as a single cutout rather than changing wardrobe across scenes.",
+      "locked_relationships": [
+        "the same armored king overlay persists across all scene phases"
+      ]
+    },
+    "background": {
+      "scene_signatures": [
+        "warm fantasy sky and horizon plates",
+        "cloud and forest painting plates",
+        "golden forest close plates"
+      ],
+      "change_policy": "Backgrounds are swappable input media as long as they retain the cinematic fantasy palette."
+    },
+    "composition": {
+      "camera": "static landscape composition with lower-center foreground cutout",
+      "framing": "single-word caption centered around the upper-middle while the foreground figure anchors the bottom center",
+      "look": "editorial quote reel using scenic image plates, one persistent cutout, and one-word text reveals"
+    }
+  },
+  "variables": {
+    "wardrobe": [],
+    "text": [
+      {
+        "pattern": "one centered serif word at a time",
+        "editable_fields": [
+          "wordBeats[].text",
+          "textStyle.fontSize",
+          "textStyle.shadowColor"
+        ]
+      }
+    ],
+    "motion": {
+      "global": [
+        "split-curtain reveal at the start",
+        "background crossfades between scenic plates",
+        "word fade-and-lift reveals",
+        "subtle ambient zoom on image plates"
+      ],
+      "scene_overrides": [
+        {
+          "scene_id": "scene_001",
+          "motion_intent": "black top and bottom panels open from the center to reveal the first background plate"
+        },
+        {
+          "scene_id": "scene_002",
+          "motion_intent": "words fade in over slow-moving scenic image plates"
+        },
+        {
+          "scene_id": "scene_003",
+          "motion_intent": "continue word cadence while scenic plates crossfade through darker fantasy art"
+        },
+        {
+          "scene_id": "scene_004",
+          "motion_intent": "close with the same cadence over final warm forest backgrounds"
+        }
+      ]
+    },
+    "input_media": [
+      {
+        "slot": "mediaInputs.knightOverlay",
+        "default_asset": "remotion_package/public/assets/knight_cutout.png",
+        "source_type": "source-derived transparent PNG",
+        "editable_in_code": false
+      },
+      {
+        "slot": "mediaInputs.backgrounds",
+        "default_assets": [
+          "remotion_package/public/assets/bg_01.png",
+          "remotion_package/public/assets/bg_02.png",
+          "remotion_package/public/assets/bg_03.png",
+          "remotion_package/public/assets/bg_04.png",
+          "remotion_package/public/assets/bg_05.png",
+          "remotion_package/public/assets/bg_06.png"
+        ],
+        "source_type": "source-derived screenshot plates",
+        "editable_in_code": false
+      }
+    ],
+    "supporting_cast_requirements": [],
+    "overlay_layer_requirements": []
+  },
+  "model_routing": {
+    "startframe_default": "nano banana2",
+    "wardrobe_edit": "grok imagine",
+    "video_default": "kling v3",
+    "motion_transfer": "kling v3 motion control",
+    "renderer": "remotion",
+    "notes": [
+      "This package routes to Remotion because the reusable value lies in code-driven text timing and transition logic rather than provider-generated video clips.",
+      "Source-derived image plates and one transparent foreground cutout are treated as editable input media."
+    ]
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "audioFile": "source_audio.mp3",
+  "mediaInputs": {
+    "introBackground": {
+      "kind": "image",
+      "src": "assets/scene_001_dictionary_plate.png",
+      "role": "input_media",
+      "replaceNotes": "Swap with a blurred dictionary or editorial page plate. The hero word itself should stay editable in code."
+    },
+    "cloudBackground": {
+      "kind": "image",
+      "src": "assets/scene_002_neural_plate.png",
+      "role": "input_media",
+      "replaceNotes": "Swap with a glow-field, neural, or silhouette backdrop. Peripheral glossary entries should stay editable in code."
+    },
+    "finaleBackground": {
+      "kind": "image",
+      "src": "assets/scene_003_card_plate.png",
+      "role": "input_media",
+      "replaceNotes": "Dummy black definition-card plate. Replace only if the final card background needs a custom texture."
+    }
+  },
+  "transitions": {
+    "introToCloud": {
+      "kind": "crossfade_glow",
+      "startFrame": 96,
+      "durationFrames": 12
+    },
+    "cloudToFinale": {
+      "kind": "card_fade_up",
+      "startFrame": 244,
+      "durationFrames": 10
+    }
+  },
+  "intro": {
+    "preWord": "the",
+    "word": "epiphany",
+    "questionMarkColor": "#ef4444"
+  },
+  "cloud": {
+    "word": "epiphany",
+    "pronunciation": "/ɪˈpɪfəni/",
+    "definition": "n. giác ngộ",
+    "memoryScore": "Nạp từ vào trí nhớ: 36%",
+    "entryLayout": [
+      {
+        "x": 22,
+        "y": 22,
+        "rotate": -2
+      },
+      {
+        "x": 192,
+        "y": 78,
+        "rotate": 4
+      },
+      {
+        "x": 420,
+        "y": 46,
+        "rotate": -3
+      },
+      {
+        "x": 790,
+        "y": 18,
+        "rotate": 2
+      },
+      {
+        "x": 828,
+        "y": 128,
+        "rotate": -5
+      },
+      {
+        "x": 18,
+        "y": 238,
+        "rotate": 2
+      },
+      {
+        "x": 798,
+        "y": 310,
+        "rotate": -3
+      },
+      {
+        "x": 20,
+        "y": 410,
+        "rotate": 1
+      },
+      {
+        "x": 406,
+        "y": 362,
+        "rotate": -2
+      },
+      {
+        "x": 844,
+        "y": 430,
+        "rotate": 2
+      }
+    ],
+    "entries": [
+      {
+        "term": "epiphany",
+        "pronunciation": "/ɪˈpɪfəni/",
+        "definition": "n. giác ngộ"
+      },
+      {
+        "term": "epiphany",
+        "pronunciation": "/ɪˈpɪfəni/",
+        "definition": "n. Lễ Hiển Linh"
+      },
+      {
+        "term": "epiphany",
+        "pronunciation": "/ɪˈpɪfəni/",
+        "definition": "n. nhận thức đột ngột"
+      }
+    ]
+  },
+  "finale": {
+    "finalWord": "EPIPHANY",
+    "pronunciation": "/ɪˈpɪfəni/",
+    "definition": "n. giác ngộ, Lễ Hiển Linh, nhận thức đột ngột",
+    "exampleLabel": "Ví dụ",
+    "exampleEn": "Failure became an epiphany that changed his life.",
+    "exampleVi": "Thất bại trở thành một khoảnh khắc thức tỉnh làm thay đổi cuộc đời anh ấy.",
+    "memoryScore": "Nạp từ vào trí nhớ: 91%"
+  },
+  "palette": {
+    "introHighlight": "#f4d313",
+    "introGlow": "rgba(244, 211, 19, 0.42)",
+    "accent": "#f4d313",
+    "accentGlow": "rgba(244, 211, 19, 0.48)",
+    "subtitle": "#f6d84a",
+    "exampleAccent": "#facc15",
+    "exampleTranslation": "#36f74d",
+    "footerBackground": "rgba(226, 226, 226, 0.92)",
+    "footerText": "#2a2a2a",
+    "titleStroke": "#2a63ff",
+    "titleGlow": "rgba(130, 180, 255, 0.36)"
+  }
+}

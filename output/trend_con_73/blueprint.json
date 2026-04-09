@@ -1,0 +1,88 @@
+{
+  "contract_version": "1.0",
+  "job_id": "trend_con_73",
+  "source_video": "input/trend_con_73.mp4",
+  "audio": {
+    "strategy": "use_input_audio",
+    "source_file": "source_audio.mp3",
+    "shotstack_merge_key": "SOURCE_AUDIO_MP3"
+  },
+  "review_status": "review_required",
+  "scene_order": [
+    "scene_001"
+  ],
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "duration_sec": 6.916667,
+      "story_role": "main assembly speech clip",
+      "cast": [
+        "adult_female_speaker"
+      ],
+      "locks": [
+        "single adult brunette speaker",
+        "school gymnasium with podium, flag, and seated crowd",
+        "vertical podium-side framing"
+      ],
+      "variables": [
+        "editable meme-caption overlay added later in Shotstack",
+        "microphone-hand gesture timing",
+        "small body turns while speaking",
+        "source platform UI removed from remake base media"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_001_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_001_reference.png"
+        ],
+        "goal": "Recreate the podium speech setup cleanly while removing platform UI and leaving the meme-caption area clean for a later Shotstack text overlay."
+      },
+      "video": {
+        "mode": "generate",
+        "model": "kling v3",
+        "prompt_file": "scene_001_video_prompt.md",
+        "reference_assets": [
+          "scene_001_reference.png"
+        ],
+        "motion_intent": "small realistic speaking motions at the podium with subtle torso turns and hand movement",
+        "camera_lock": "handheld social-video framing with only mild operator drift",
+        "negative_motion": [
+          "no extra featured characters",
+          "no baked-in meme text",
+          "no watermark or username",
+          "no location change"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "video",
+        "alias": "SCENE_001",
+        "merge_key": "SCENE_001_MEDIA",
+        "clip_length_sec": 6.916667,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_001_CAPTION",
+            "placement": "upper_mid_caption_box",
+            "style": "small meme caption in source-authentic translucent box"
+          }
+        ],
+        "overlay_layers": [
+          {
+            "asset_type": "image",
+            "merge_key": "SCENE_001_OVERLAY_001_IMAGE",
+            "relative_start_sec": 0,
+            "duration_sec": 6.916667,
+            "position": "center",
+            "width": 0.9,
+            "height": 0.07,
+            "offset": {
+              "x": 0,
+              "y": 0.16
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

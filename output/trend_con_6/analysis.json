@@ -1,0 +1,86 @@
+{
+  "job_id": "trend_con_6",
+  "source_video": "input/trend_con_6.mp4",
+  "media": {
+    "duration_sec": 9.2,
+    "width": 576,
+    "height": 1024,
+    "fps": 30.0,
+    "orientation": "portrait"
+  },
+  "analysis_confidence": "high",
+  "story_summary": "A single young female lead performs a casual bedroom dance while a large square reference-card overlay previews a Finn-inspired character look, then a hand-over-lens wipe transitions into a cosplay-style reveal in the same room.",
+  "source_sampling": {
+    "method": "ffprobe metadata plus ffmpeg representative frame extraction and cut-window inspection",
+    "notes": "Representative frames were sampled across the full clip, then the 5.2s-6.2s window was inspected in finer detail to isolate the hand-over-lens transition."
+  },
+  "audio_notes": "Source audio was extracted to source_audio.mp3 for packaging. The audio was not separately transcribed.",
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "start_sec": 0.0,
+      "end_sec": 5.6,
+      "duration_sec": 5.6,
+      "summary": "The lead stands centered in a beige bedroom wearing a pale pink fitted tee and gray drawstring sweatpants while doing small TikTok-style hand choreography. A large square cartoon reference card sits over the lower center of frame for the whole scene, foreshadowing the later costume reveal.",
+      "characters": [
+        "lead_female_influencer"
+      ],
+      "camera": {
+        "framing": "centered upper-thigh vertical smartphone framing",
+        "movement": "locked camera with only subject motion",
+        "stability": "static handheld-or-tripod social-video look"
+      },
+      "on_screen_text": [
+        "No intentional text is part of the concept. A TikTok watermark and username appear on the lower left in the source and should be removed in the remake."
+      ],
+      "environment": "Warm beige bedroom with slanted ceiling, black ceiling fan near the top edge, white door, a small wall shelf on the left, and a desk plus hanging vine decor on the right.",
+      "overlay_observations": [
+        "A square inserted character card covers the lower-center torso area from the start of the scene until the lens-cover transition."
+      ],
+      "transformation_role": "hook / baseline dance with inserted reference card preview",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_002",
+      "start_sec": 5.6,
+      "end_sec": 5.8,
+      "duration_sec": 0.2,
+      "summary": "A feminine hand rushes directly into the lens and briefly fills the frame with warm peach blur, acting as a practical wipe that bridges the casual look and the costume reveal.",
+      "characters": [
+        "lead_female_influencer"
+      ],
+      "camera": {
+        "framing": "same centered vertical framing, but almost fully occluded by the hand",
+        "movement": "camera stays fixed while the subject creates the transition by covering the lens",
+        "stability": "static source framing with intentional foreground occlusion"
+      },
+      "on_screen_text": [
+        "No intentional text. The source watermark is briefly visible under the occlusion and should not be regenerated."
+      ],
+      "environment": "The same bedroom is implied but mostly hidden behind the hand blur.",
+      "transformation_role": "lens-cover wipe transition",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_003",
+      "start_sec": 5.8,
+      "end_sec": 9.2,
+      "duration_sec": 3.4,
+      "summary": "The same lead reappears in the same bedroom wearing a Finn-inspired costume: white bear-ear hat, fitted turquoise long-sleeve top or dress silhouette, cobalt mini skirt, visible lime-green backpack, and white thigh-high socks, while doing playful in-place arm gestures.",
+      "characters": [
+        "lead_female_influencer"
+      ],
+      "camera": {
+        "framing": "centered full-body to mid-thigh vertical smartphone framing",
+        "movement": "locked camera with small in-place performance movement",
+        "stability": "static social-video framing"
+      },
+      "on_screen_text": [
+        "No intentional text is required. A TikTok watermark and username appear on the lower right in the source and should be removed in the remake."
+      ],
+      "environment": "Same beige bedroom, same slanted ceiling and ceiling fan, same white door, shelf, desk, and hanging vine decor as scene_001.",
+      "transformation_role": "costume payoff / character reveal",
+      "evidence_confidence": "high"
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "job_id": "trend_con_93",
+  "source_video": "input/trend_con_93.mp4",
+  "media": {
+    "duration_sec": 21.133333,
+    "width": 576,
+    "height": 1024,
+    "fps": 30.0,
+    "orientation": "portrait"
+  },
+  "analysis_confidence": "high",
+  "story_summary": "A lineage montage cycles through five archival or lifestyle cards labeled Mom, Dad, Fell in Love, Had me, and Me, using simple white stroked text overlays to tell a family arc.",
+  "source_sampling": {
+    "method": "ffprobe metadata plus scene-cut review and midpoint-frame extraction",
+    "notes": "Exact cuts land at 5.700000, 10.033333, 15.200000, and 17.666667 seconds. Each card is a still image with a single short white label placed in a different part of the frame."
+  },
+  "audio_notes": "Audio was extracted directly from the input video into source_audio.mp3 and should be used as the default Shotstack audio source.",
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "start_sec": 0.0,
+      "end_sec": 5.7,
+      "duration_sec": 5.7,
+      "summary": "Vintage-looking beach photo of the subject’s mother walking toward the camera in a striped bikini with hills and water behind her.",
+      "characters": [
+        "mother_archival"
+      ],
+      "camera": {
+        "framing": "vertical full-body archival photo",
+        "movement": "static still card",
+        "stability": "static still"
+      },
+      "on_screen_text": [
+        "White stroked label in the upper-right reads “Mom 🇪🇨”."
+      ],
+      "environment": "Outdoor beach with hazy hills and shoreline.",
+      "transformation_role": "family arc card one",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_002",
+      "start_sec": 5.7,
+      "end_sec": 10.033333,
+      "duration_sec": 4.333333,
+      "summary": "Portrait photo of the subject’s father in a white tank top and jeans against a warm indoor backdrop.",
+      "characters": [
+        "father_archival"
+      ],
+      "camera": {
+        "framing": "vertical upper-body archival portrait",
+        "movement": "static still card",
+        "stability": "static still"
+      },
+      "on_screen_text": [
+        "White stroked label in the upper-left reads “Dad 🇨🇺”."
+      ],
+      "environment": "Warm indoor portrait backdrop.",
+      "transformation_role": "family arc card two",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_003",
+      "start_sec": 10.033333,
+      "end_sec": 15.2,
+      "duration_sec": 5.166667,
+      "summary": "A smiling couple embrace in a posed photo, representing the parents falling in love.",
+      "characters": [
+        "mother_archival",
+        "father_archival"
+      ],
+      "camera": {
+        "framing": "vertical waist-up couple portrait",
+        "movement": "static still card",
+        "stability": "static still"
+      },
+      "on_screen_text": [
+        "White stroked label near the left-middle reads “Fell in ❤️”."
+      ],
+      "environment": "Indoor portrait setting with window light.",
+      "transformation_role": "family arc card three",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_004",
+      "start_sec": 15.2,
+      "end_sec": 17.666667,
+      "duration_sec": 2.466667,
+      "summary": "Childhood photo of the narrator sitting with Santa while holding a wrapped gift.",
+      "characters": [
+        "child_self",
+        "santa"
+      ],
+      "camera": {
+        "framing": "vertical seated childhood portrait",
+        "movement": "static still card",
+        "stability": "static still"
+      },
+      "on_screen_text": [
+        "White stroked label in the upper-left reads “Had me 🇪🇨”."
+      ],
+      "environment": "Holiday photo set with Santa and winter backdrop.",
+      "transformation_role": "family arc card four",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_005",
+      "start_sec": 17.666667,
+      "end_sec": 21.133333,
+      "duration_sec": 3.466666,
+      "summary": "Present-day gym mirror selfie of the narrator standing in shorts, T-shirt, and sneakers among weight machines.",
+      "characters": [
+        "adult_self_present"
+      ],
+      "camera": {
+        "framing": "vertical full-body mirror selfie",
+        "movement": "static still card",
+        "stability": "static still"
+      },
+      "on_screen_text": [
+        "White stroked label in the lower-left reads “Me 🇪🇨”."
+      ],
+      "environment": "Modern gym interior with weights and machines.",
+      "transformation_role": "family arc card five",
+      "evidence_confidence": "high"
+    }
+  ]
+}

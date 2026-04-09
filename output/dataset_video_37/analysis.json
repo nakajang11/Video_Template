@@ -1,0 +1,131 @@
+{
+  "job_id": "dataset_video_37",
+  "source_video": "input/dataset_video_37.mp4",
+  "media": {
+    "duration_sec": 13.445,
+    "width": 576,
+    "height": 1024,
+    "fps": 24.917,
+    "orientation": "portrait"
+  },
+  "analysis_confidence": "high",
+  "story_summary": "A single-performer vertical trend short opens with a centered hook, then cycles through four labeled girlfriend archetypes plus a penguin-costume punchline while keeping the same pastel living-room background and locked camera.",
+  "source_sampling": {
+    "method": "AVFoundation representative frame extraction",
+    "sample_count": 18,
+    "notes": "Representative frames were inspected across the full 13.445 second runtime to determine scene boundaries and text pattern."
+  },
+  "audio_notes": "Audio was not separately transcribed. The package preserves a source-audio merge placeholder only.",
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "start_sec": 0.0,
+      "end_sec": 2.9,
+      "duration_sec": 2.9,
+      "summary": "The lead faces camera in a white fitted long-sleeve top and black pleated mini skirt while a centered hook reads 'Choose your girlfriend'.",
+      "characters": [
+        "lead_female_influencer"
+      ],
+      "camera": {
+        "framing": "full-body centered vertical framing",
+        "movement": "locked camera with only performer sway",
+        "stability": "static tripod-like shot"
+      },
+      "on_screen_text": [
+        "Choose your girlfriend",
+        "TikTok watermark lower left"
+      ],
+      "environment": "Pastel room corner with soft pink uplight, cream sectional sofa, cream throw blanket, and pale rug.",
+      "transformation_role": "hook and baseline look before labeled variants begin",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_002",
+      "start_sec": 2.9,
+      "end_sec": 6.0,
+      "duration_sec": 3.1,
+      "summary": "The same lead switches to a 'Nerdy' look: white blouse, plaid mini skirt, thigh-high stockings, and large glasses.",
+      "characters": [
+        "lead_female_influencer"
+      ],
+      "camera": {
+        "framing": "full-body centered vertical framing",
+        "movement": "locked camera with gentle side-to-side sway",
+        "stability": "static tripod-like shot"
+      },
+      "on_screen_text": [
+        "Nerdy top left",
+        "TikTok watermark lower left or lower right depending on frame"
+      ],
+      "environment": "Same sofa, blanket, wall corner, and pink uplight as scene_001.",
+      "transformation_role": "first labeled archetype reveal",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_003",
+      "start_sec": 6.0,
+      "end_sec": 8.95,
+      "duration_sec": 2.95,
+      "summary": "The lead appears in a floral cream-and-yellow maxi dress with small hair clips while the label reads 'Girly'.",
+      "characters": [
+        "lead_female_influencer"
+      ],
+      "camera": {
+        "framing": "full-body centered vertical framing",
+        "movement": "locked camera with soft arm float and subtle hip sway",
+        "stability": "static tripod-like shot"
+      },
+      "on_screen_text": [
+        "Girly top left",
+        "TikTok watermark lower right"
+      ],
+      "environment": "Same locked living-room set and lighting.",
+      "transformation_role": "second labeled archetype reveal",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_004",
+      "start_sec": 8.95,
+      "end_sec": 11.1,
+      "duration_sec": 2.15,
+      "summary": "The lead changes into a sporty look with a gray fitted top, black shorts, striped thigh-high socks, and a high ponytail under the label 'Sporty'.",
+      "characters": [
+        "lead_female_influencer"
+      ],
+      "camera": {
+        "framing": "full-body centered vertical framing",
+        "movement": "locked camera with slightly brisker bounce and arm pulses",
+        "stability": "static tripod-like shot"
+      },
+      "on_screen_text": [
+        "Sporty top left",
+        "TikTok watermark lower right"
+      ],
+      "environment": "Same sofa corner, blanket, wall, and pink uplight.",
+      "transformation_role": "third labeled archetype reveal",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_005",
+      "start_sec": 11.1,
+      "end_sec": 13.445,
+      "duration_sec": 2.345,
+      "summary": "The final punchline swaps the lead into a penguin costume with hood, beak detail, and yellow mitt accents while the label reads 'Penguin'.",
+      "characters": [
+        "lead_female_influencer"
+      ],
+      "camera": {
+        "framing": "full-body centered vertical framing",
+        "movement": "locked camera with playful small arm flaps and gentle bounce",
+        "stability": "static tripod-like shot"
+      },
+      "on_screen_text": [
+        "Penguin top left",
+        "TikTok watermark lower right"
+      ],
+      "environment": "Same locked living-room set and pink uplight.",
+      "transformation_role": "comedic final archetype reveal",
+      "evidence_confidence": "high"
+    }
+  ]
+}

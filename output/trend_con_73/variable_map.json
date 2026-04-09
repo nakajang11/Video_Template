@@ -1,0 +1,87 @@
+{
+  "job_id": "trend_con_73",
+  "locks": {
+    "identity": {
+      "lead_count": 1,
+      "lead_description": "One adult brunette woman is the featured live-action subject in the included assembly scene.",
+      "reference_assets": [
+        "scene_001_reference.png"
+      ]
+    },
+    "wardrobe": {
+      "change_policy": "No outfit change occurs during the included live-action portion.",
+      "locked_relationships": [
+        "scene_001 keeps the pale fitted top, dark mini skirt, and black heels seen in the source reference",
+        "the terminal TikTok outro is omitted from remake output unless explicitly requested"
+      ]
+    },
+    "background": {
+      "room_signature": [
+        "school gymnasium",
+        "wooden podium",
+        "bleachers with students",
+        "U.S. flag",
+        "bright overhead gym lighting"
+      ],
+      "change_policy": "Do not redesign the assembly setting during scene_001."
+    },
+    "composition": {
+      "camera": "vertical handheld social-video framing",
+      "framing": "full-body to three-quarter podium-side view",
+      "look": "casual phone capture with realistic motion and public-event staging"
+    }
+  },
+  "variables": {
+    "wardrobe": [
+      {
+        "scene_id": "scene_001",
+        "look_name": "assembly_speaker",
+        "elements": [
+          "long brunette hair",
+          "pale fitted long-sleeve top",
+          "dark mini skirt",
+          "black heels",
+          "handheld microphone and phone notes"
+        ]
+      }
+    ],
+    "text": [
+      {
+        "scene_id": "scene_001",
+        "text_key": "SCENE_001_CAPTION",
+        "default_text": "prof looking hella thick during morning assembly😫",
+        "treatment": "editable meme-caption text box added in Shotstack over clean live-action media"
+      },
+      {
+        "pattern": "TikTok watermark, username, and the terminal platform end card are source UI only and should be removed or ignored in remake media."
+      }
+    ],
+    "motion": {
+      "global": [
+        "small natural hand-held camera drift",
+        "subtle body turns and microphone-hand movement from the speaker",
+        "no fast camera travel"
+      ],
+      "scene_overrides": [
+        {
+          "scene_id": "scene_001",
+          "motion_intent": "brief podium speech moment with small torso rotation and speaking gestures"
+        }
+      ]
+    },
+    "supporting_cast_requirements": [],
+    "overlay_layer_requirements": [
+      "Use a narrow translucent caption-backdrop overlay behind the editable meme sentence so the Shotstack text box matches the source layout."
+    ]
+  },
+  "model_routing": {
+    "startframe_default": "nano banana2",
+    "wardrobe_edit": "grok imagine",
+    "video_default": "kling v3",
+    "motion_transfer": "kling v3 motion control",
+    "notes": [
+      "Scene_001 can be treated as a standard single-subject live-action remake shot plus a Shotstack caption overlay.",
+      "The terminal TikTok outro is omitted by default from both canonical and pasteable outputs."
+    ]
+  }
+}

@@ -1,0 +1,503 @@
+{
+  "timeline": {
+    "background": "#000000",
+    "tracks": [
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_001_TOP_LABEL }}",
+              "font": {
+                "family": "Montserrat ExtraBold",
+                "color": "#000000",
+                "size": 86,
+                "weight": 800
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 838,
+              "height": 103,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 12,
+                "borderRadius": 0
+              }
+            },
+            "start": "alias://SCENE_001",
+            "length": "alias://SCENE_001",
+            "position": "top",
+            "offset": {
+              "x": 0.00434,
+              "y": -0.146484
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_002_TOP_LABEL }}",
+              "font": {
+                "family": "Montserrat ExtraBold",
+                "color": "#000000",
+                "size": 86,
+                "weight": 800
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 838,
+              "height": 103,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 12,
+                "borderRadius": 0
+              }
+            },
+            "start": "alias://SCENE_002",
+            "length": "alias://SCENE_002",
+            "position": "top",
+            "offset": {
+              "x": 0.00434,
+              "y": -0.146484
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_003_TOP_LABEL }}",
+              "font": {
+                "family": "Montserrat ExtraBold",
+                "color": "#000000",
+                "size": 82,
+                "weight": 800
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 795,
+              "height": 98,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 12,
+                "borderRadius": 0
+              }
+            },
+            "start": "alias://SCENE_003",
+            "length": "alias://SCENE_003",
+            "position": "top",
+            "offset": {
+              "x": 0.003472,
+              "y": -0.148438
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_004_TOP_LABEL }}",
+              "font": {
+                "family": "Montserrat ExtraBold",
+                "color": "#000000",
+                "size": 82,
+                "weight": 800
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 795,
+              "height": 98,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 12,
+                "borderRadius": 0
+              }
+            },
+            "start": "alias://SCENE_004",
+            "length": "alias://SCENE_004",
+            "position": "top",
+            "offset": {
+              "x": 0.003472,
+              "y": -0.148438
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_005_TOP_LABEL }}",
+              "font": {
+                "family": "Montserrat ExtraBold",
+                "color": "#000000",
+                "size": 82,
+                "weight": 800
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 795,
+              "height": 98,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 12,
+                "borderRadius": 0
+              }
+            },
+            "start": "alias://SCENE_005",
+            "length": "alias://SCENE_005",
+            "position": "top",
+            "offset": {
+              "x": 0.003472,
+              "y": -0.148438
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_006_TOP_LABEL }}",
+              "font": {
+                "family": "Montserrat ExtraBold",
+                "color": "#000000",
+                "size": 82,
+                "weight": 800
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 795,
+              "height": 98,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 12,
+                "borderRadius": 0
+              }
+            },
+            "start": "alias://SCENE_006",
+            "length": "alias://SCENE_006",
+            "position": "top",
+            "offset": {
+              "x": 0.003472,
+              "y": -0.148438
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_007_TOP_LABEL }}",
+              "font": {
+                "family": "Montserrat ExtraBold",
+                "color": "#000000",
+                "size": 82,
+                "weight": 800
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 795,
+              "height": 98,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 12,
+                "borderRadius": 0
+              }
+            },
+            "start": "alias://SCENE_007",
+            "length": "alias://SCENE_007",
+            "position": "top",
+            "offset": {
+              "x": 0.003472,
+              "y": -0.148438
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_008_TOP_LABEL }}",
+              "font": {
+                "family": "Montserrat ExtraBold",
+                "color": "#000000",
+                "size": 82,
+                "weight": 800
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 795,
+              "height": 98,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 12,
+                "borderRadius": 0
+              }
+            },
+            "start": "alias://SCENE_008",
+            "length": "alias://SCENE_008",
+            "position": "top",
+            "offset": {
+              "x": 0.003472,
+              "y": -0.148438
+            }
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_001_SUBLABEL }}",
+              "font": {
+                "family": "Montserrat Bold",
+                "color": "#000000",
+                "size": 56,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 270,
+              "height": 68,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 8,
+                "borderRadius": 0
+              }
+            },
+            "start": "alias://SCENE_001",
+            "length": "alias://SCENE_001",
+            "position": "top",
+            "offset": {
+              "x": 0,
+              "y": -0.605469
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_002_SUBLABEL }}",
+              "font": {
+                "family": "Montserrat Bold",
+                "color": "#000000",
+                "size": 56,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "width": 270,
+              "height": 68,
+              "background": {
+                "color": "#FFFFFF",
+                "padding": 8,
+                "borderRadius": 0
+              }
+            },
+            "start": "alias://SCENE_002",
+            "length": "alias://SCENE_002",
+            "position": "top",
+            "offset": {
+              "x": 0,
+              "y": -0.605469
+            }
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "alias": "SCENE_001",
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_001_IMAGE }}"
+            },
+            "start": "auto",
+            "length": 2.933333,
+            "fit": "cover"
+          },
+          {
+            "alias": "SCENE_002",
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_002_IMAGE }}"
+            },
+            "start": "auto",
+            "length": 3.0,
+            "fit": "cover"
+          },
+          {
+            "alias": "SCENE_003",
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_003_IMAGE }}"
+            },
+            "start": "auto",
+            "length": 0.633334,
+            "fit": "cover"
+          },
+          {
+            "alias": "SCENE_004",
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_004_IMAGE }}"
+            },
+            "start": "auto",
+            "length": 1.066666,
+            "fit": "cover"
+          },
+          {
+            "alias": "SCENE_005",
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_005_IMAGE }}"
+            },
+            "start": "auto",
+            "length": 0.666667,
+            "fit": "cover"
+          },
+          {
+            "alias": "SCENE_006",
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_006_IMAGE }}"
+            },
+            "start": "auto",
+            "length": 1.0,
+            "fit": "cover"
+          },
+          {
+            "alias": "SCENE_007",
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_007_IMAGE }}"
+            },
+            "start": "auto",
+            "length": 0.766667,
+            "fit": "cover"
+          },
+          {
+            "alias": "SCENE_008",
+            "asset": {
+              "type": "image",
+              "src": "{{ SCENE_008_IMAGE }}"
+            },
+            "start": "auto",
+            "length": 1.704331,
+            "fit": "cover"
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "audio",
+              "src": "{{ SOURCE_AUDIO_MP3 }}",
+              "volume": 1
+            },
+            "start": 0,
+            "length": 11.770998
+          }
+        ]
+      }
+    ]
+  },
+  "output": {
+    "format": "mp4",
+    "fps": 25,
+    "size": {
+      "width": 1080,
+      "height": 1920
+    },
+    "destinations": [
+      {
+        "provider": "shotstack"
+      }
+    ]
+  },
+  "merge": [
+    {
+      "find": "SOURCE_AUDIO_MP3",
+      "replace": "source_audio.mp3"
+    },
+    {
+      "find": "SCENE_001_TOP_LABEL",
+      "replace": "BEFORE 🏳️‍⚧️ TRANSITION"
+    },
+    {
+      "find": "SCENE_001_SUBLABEL",
+      "replace": "wait for it!"
+    },
+    {
+      "find": "SCENE_001_IMAGE",
+      "replace": "https://example.com/trend_con_90/scene_001.png"
+    },
+    {
+      "find": "SCENE_002_TOP_LABEL",
+      "replace": "BEFORE 🏳️‍⚧️ TRANSITION"
+    },
+    {
+      "find": "SCENE_002_SUBLABEL",
+      "replace": "wait for it!"
+    },
+    {
+      "find": "SCENE_002_IMAGE",
+      "replace": "https://example.com/trend_con_90/scene_002.png"
+    },
+    {
+      "find": "SCENE_003_TOP_LABEL",
+      "replace": "AFTER 🏳️‍⚧️ TRANSITION"
+    },
+    {
+      "find": "SCENE_003_IMAGE",
+      "replace": "https://example.com/trend_con_90/scene_003.png"
+    },
+    {
+      "find": "SCENE_004_TOP_LABEL",
+      "replace": "AFTER 🏳️‍⚧️ TRANSITION"
+    },
+    {
+      "find": "SCENE_004_IMAGE",
+      "replace": "https://example.com/trend_con_90/scene_004.png"
+    },
+    {
+      "find": "SCENE_005_TOP_LABEL",
+      "replace": "AFTER 🏳️‍⚧️ TRANSITION"
+    },
+    {
+      "find": "SCENE_005_IMAGE",
+      "replace": "https://example.com/trend_con_90/scene_005.png"
+    },
+    {
+      "find": "SCENE_006_TOP_LABEL",
+      "replace": "AFTER 🏳️‍⚧️ TRANSITION"
+    },
+    {
+      "find": "SCENE_006_IMAGE",
+      "replace": "https://example.com/trend_con_90/scene_006.png"
+    },
+    {
+      "find": "SCENE_007_TOP_LABEL",
+      "replace": "AFTER 🏳️‍⚧️ TRANSITION"
+    },
+    {
+      "find": "SCENE_007_IMAGE",
+      "replace": "https://example.com/trend_con_90/scene_007.png"
+    },
+    {
+      "find": "SCENE_008_TOP_LABEL",
+      "replace": "AFTER 🏳️‍⚧️ TRANSITION"
+    },
+    {
+      "find": "SCENE_008_IMAGE",
+      "replace": "https://example.com/trend_con_90/scene_008.png"
+    }
+  ]
+}

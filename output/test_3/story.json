@@ -1,0 +1,40 @@
+{
+  "job_id": "test_3",
+  "premise": "A glossary-style educational short teaches the word epiphany by asking the viewer what it means, visualizing the concept as a growing network of repeated definitions, and ending on a bilingual example-driven definition card.",
+  "plot_type": "dictionary-question to semantic-cloud to bilingual definition payoff",
+  "cast": [
+    {
+      "cast_id": "abstract_silhouette_figure",
+      "role": "anonymous conceptual silhouette",
+      "required": true,
+      "description": "A faceless black torso silhouette appears only in the middle scene as a neutral memory avatar. It is not a real person, influencer, or supporting character with identity details."
+    }
+  ],
+  "continuity_rules": [
+    "Do not introduce a photoreal presenter or influencer. The piece is typography-led and any human form should stay anonymous and graphic.",
+    "Scene_001 must feel like a magnified dictionary or reference page with a yellow word highlight and a questioning tone.",
+    "Scene_002 must preserve the anonymous silhouette, central hero word, repeated small glossary entries, and a bottom memory-score footer.",
+    "Scene_003 should simplify into a clean black definition card with bilingual example lines and a high completion-score footer.",
+    "The vocabulary system stays consistent across scenes: the same word, pronunciation family, yellow-accented hierarchy, and educational memory-bar framing.",
+    "No extra characters, room backgrounds, product shots, or lifestyle inserts should be added."
+  ],
+  "supporting_character_policy": {
+    "required": false,
+    "allowed_types": [],
+    "rationale": "The only human-like form is an abstract silhouette used as a conceptual graphic in scene_002. No second person or narrative supporting cast is needed."
+  },
+  "scene_arc": [
+    {
+      "scene_id": "scene_001",
+      "beat": "Open with a question-led hook that isolates the word epiphany on a highlighted dictionary page."
+    },
+    {
+      "scene_id": "scene_002",
+      "beat": "Expand the meaning into a visual memory cloud of repeated definitions orbiting an anonymous silhouette."
+    },
+    {
+      "scene_id": "scene_003",
+      "beat": "Land on the explicit bilingual definition and usage example as the retention payoff."
+    }
+  ]
+}

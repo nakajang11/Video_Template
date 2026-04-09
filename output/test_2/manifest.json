@@ -1,0 +1,139 @@
+{
+  "job_id": "test_2",
+  "renderer": "remotion",
+  "review_status": "review_required",
+  "artifacts": [
+    {
+      "type": "analysis",
+      "path": "analysis.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "story",
+      "path": "story.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "variable_map",
+      "path": "variable_map.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "blueprint",
+      "path": "blueprint.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "audio",
+      "path": "source_audio.mp3",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "reference_image",
+      "path": "scene_001_reference.png",
+      "scene_id": "scene_001",
+      "status": "created"
+    },
+    {
+      "type": "reference_image",
+      "path": "scene_002_reference.png",
+      "scene_id": "scene_002",
+      "status": "created"
+    },
+    {
+      "type": "reference_image",
+      "path": "scene_003_reference.png",
+      "scene_id": "scene_003",
+      "status": "created"
+    },
+    {
+      "type": "reference_image",
+      "path": "scene_004_reference.png",
+      "scene_id": "scene_004",
+      "status": "created"
+    },
+    {
+      "type": "remotion_package",
+      "path": "remotion_package",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "remotion_partition",
+      "path": "remotion_package/template-partition.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "remotion_component",
+      "path": "remotion_package/src/Test2QuoteTemplate.jsx",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "remotion_props",
+      "path": "remotion_package/props/default-props.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "remotion_public_audio",
+      "path": "remotion_package/public/source_audio.mp3",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "remotion_asset",
+      "path": "remotion_package/public/assets/knight_cutout.png",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "remotion_asset",
+      "path": "remotion_package/public/assets/bg_01.png",
+      "scene_id": "scene_001",
+      "status": "created"
+    },
+    {
+      "type": "remotion_asset",
+      "path": "remotion_package/public/assets/bg_02.png",
+      "scene_id": "scene_002",
+      "status": "created"
+    },
+    {
+      "type": "remotion_asset",
+      "path": "remotion_package/public/assets/bg_03.png",
+      "scene_id": "scene_002",
+      "status": "created"
+    },
+    {
+      "type": "remotion_asset",
+      "path": "remotion_package/public/assets/bg_04.png",
+      "scene_id": "scene_003",
+      "status": "created"
+    },
+    {
+      "type": "remotion_asset",
+      "path": "remotion_package/public/assets/bg_05.png",
+      "scene_id": "scene_003",
+      "status": "created"
+    },
+    {
+      "type": "remotion_asset",
+      "path": "remotion_package/public/assets/bg_06.png",
+      "scene_id": "scene_004",
+      "status": "created"
+    }
+  ],
+  "notes": [
+    "The template separates input media, animation, and transitions explicitly.",
+    "Background plates and the knight overlay are swappable input assets under remotion_package/public/assets.",
+    "No prompt files are included because the whole package is code-driven Remotion logic.",
+    "A review MP4 may be generated locally after dependency install."
+  ]
+}

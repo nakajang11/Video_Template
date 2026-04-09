@@ -1,0 +1,96 @@
+{
+  "job_id": "trend_con_3",
+  "review_status": "review_required",
+  "artifacts": [
+    {
+      "type": "analysis",
+      "path": "analysis.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "story",
+      "path": "story.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "variable_map",
+      "path": "variable_map.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "blueprint",
+      "path": "blueprint.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "reference_image",
+      "path": "scene_001_reference.png",
+      "scene_id": "scene_001",
+      "status": "created"
+    },
+    {
+      "type": "reference_image",
+      "path": "scene_002_reference.png",
+      "scene_id": "scene_002",
+      "status": "created"
+    },
+    {
+      "type": "startframe_prompt",
+      "path": "scene_001_startframe_image_prompt.md",
+      "scene_id": "scene_001",
+      "status": "created"
+    },
+    {
+      "type": "video_prompt",
+      "path": "scene_001_video_prompt.md",
+      "scene_id": "scene_001",
+      "status": "created"
+    },
+    {
+      "type": "startframe_prompt",
+      "path": "scene_002_startframe_image_prompt.md",
+      "scene_id": "scene_002",
+      "status": "created"
+    },
+    {
+      "type": "video_prompt",
+      "path": "scene_002_video_prompt.md",
+      "scene_id": "scene_002",
+      "status": "created"
+    },
+    {
+      "type": "source_audio",
+      "path": "source_audio.mp3",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "shotstack",
+      "path": "shotstack.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "cloudinary_assets",
+      "path": "cloudinary_assets.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "shotstack_pasteable",
+      "path": "shotstack.pasteable.json",
+      "scene_id": null,
+      "status": "created"
+    }
+  ],
+  "notes": [
+    "The source structure is clear enough for packaging, but the repo remains at the review gate before any paid generation or final rendering.",
+    "Scene_001 is treated as a hands-only prop teaser and should be prompted without face or full-body identity references.",
+    "The extracted source audio is included locally as source_audio.mp3 and is the default audio asset referenced by Shotstack through the SOURCE_AUDIO_MP3 merge key.",
+    "shotstack.pasteable.json embeds uploaded Cloudinary URLs directly so it can be pasted into the Shotstack editor without merge placeholders."
+  ]
+}

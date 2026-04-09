@@ -1,0 +1,77 @@
+{
+  "template_goal": "Separate source-fidelity background media from editable typography and code-driven transitions so the same template can be reused with swapped words, example text, and backdrop assets.",
+  "scene_001": {
+    "input_media": [
+      {
+        "slot": "mediaInputs.introBackground",
+        "path": "public/assets/scene_001_dictionary_plate.png",
+        "source": "derived from output/test_3/scene_001_reference.png",
+        "reason": "The blurred editorial paper texture is faster to preserve as an input image plate than to procedurally rebuild."
+      }
+    ],
+    "animation": [
+      "yellow highlight block scale-in",
+      "hero word reveal",
+      "question-mark entrance",
+      "slow plate push and drift"
+    ],
+    "transition_out": [
+      {
+        "id": "introToCloud",
+        "kind": "crossfade_glow",
+        "frames": 12
+      }
+    ]
+  },
+  "scene_002": {
+    "input_media": [
+      {
+        "slot": "mediaInputs.cloudBackground",
+        "path": "public/assets/scene_002_neural_plate.png",
+        "source": "derived from output/test_3/scene_002_reference.png",
+        "reason": "The neural glow field and silhouette are retained as a backdrop plate while the glossary text clusters remain editable overlays."
+      }
+    ],
+    "animation": [
+      "repeated glossary entry stagger reveals",
+      "central hero word and pronunciation reveal",
+      "memory footer persistence"
+    ],
+    "transition_in": [
+      {
+        "id": "introToCloud",
+        "kind": "crossfade_glow",
+        "frames": 12
+      }
+    ],
+    "transition_out": [
+      {
+        "id": "cloudToFinale",
+        "kind": "card_fade_up",
+        "frames": 10
+      }
+    ]
+  },
+  "scene_003": {
+    "input_media": [
+      {
+        "slot": "mediaInputs.finaleBackground",
+        "path": "public/assets/scene_003_card_plate.png",
+        "source": "dummy asset",
+        "reason": "The final card only needs a stable plate, so a dummy input image is enough and can be swapped later."
+      }
+    ],
+    "animation": [
+      "outlined title lift-in",
+      "definition and example fade-in",
+      "footer lock-up"
+    ],
+    "transition_in": [
+      {
+        "id": "cloudToFinale",
+        "kind": "card_fade_up",
+        "frames": 10
+      }
+    ]
+  }
+}

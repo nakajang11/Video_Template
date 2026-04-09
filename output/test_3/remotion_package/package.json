@@ -1,0 +1,16 @@
+{
+  "name": "test-3-remotion-template",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "studio": "remotion studio src/index.jsx",
+    "render:review": "mkdir -p renders && remotion render src/index.jsx Test3GlossaryTemplate renders/test_3_review.mp4",
+    "still:variant": "sh -c 'mkdir -p renders && remotion still src/index.jsx Test3GlossaryTemplate renders/test_3_variant.png --frame=390 --props=\"$(cat props/variant-props.json)\"'"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.446",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "remotion": "4.0.446"
+  }
+}

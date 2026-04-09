@@ -1,0 +1,95 @@
+{
+  "job_id": "trend_con_93",
+  "locks": {
+    "identity": {
+      "lead_count": 4,
+      "lead_description": "Mother, father, childhood self, and adult self each anchor one part of the lineage arc.",
+      "reference_assets": [
+        "scene_001_reference.png",
+        "scene_002_reference.png",
+        "scene_003_reference.png",
+        "scene_004_reference.png",
+        "scene_005_reference.png"
+      ]
+    },
+    "wardrobe": {
+      "change_policy": "Each archival card preserves its own era-specific clothing.",
+      "locked_relationships": [
+        "scene_001 keeps the beach bikini photo",
+        "scene_002 keeps the white tank portrait",
+        "scene_004 keeps the child-with-Santa holiday outfit",
+        "scene_005 keeps the gym T-shirt and shorts selfie"
+      ]
+    },
+    "background": {
+      "room_signature": [
+        "beach shoreline",
+        "warm studio portrait wall",
+        "indoor couple portrait",
+        "holiday Santa backdrop",
+        "modern gym"
+      ],
+      "change_policy": "Do not flatten the family montage into one repeated environment."
+    },
+    "composition": {
+      "camera": "vertical archival-photo slideshow",
+      "framing": "one still card per family beat",
+      "look": "personal heritage montage with editable labels"
+    }
+  },
+  "variables": {
+    "text": [
+      {
+        "scene_id": "scene_001",
+        "text_key": "SCENE_001_LABEL",
+        "default_text": "Mom 🇪🇨",
+        "treatment": "editable white text with black stroke positioned near the upper-right"
+      },
+      {
+        "scene_id": "scene_002",
+        "text_key": "SCENE_002_LABEL",
+        "default_text": "Dad 🇨🇺",
+        "treatment": "editable white text with black stroke positioned near the upper-left"
+      },
+      {
+        "scene_id": "scene_003",
+        "text_key": "SCENE_003_LABEL",
+        "default_text": "Fell in ❤️",
+        "treatment": "editable white text with black stroke positioned near the left-middle"
+      },
+      {
+        "scene_id": "scene_004",
+        "text_key": "SCENE_004_LABEL",
+        "default_text": "Had me 🇪🇨",
+        "treatment": "editable white text with black stroke positioned near the upper-left"
+      },
+      {
+        "scene_id": "scene_005",
+        "text_key": "SCENE_005_LABEL",
+        "default_text": "Me 🇪🇨",
+        "treatment": "editable white text with black stroke positioned near the lower-left"
+      },
+      {
+        "pattern": "Ignore TikTok watermark and username UI in remake media."
+      }
+    ],
+    "motion": {
+      "global": [
+        "static still-card presentation only"
+      ],
+      "scene_overrides": []
+    },
+    "supporting_cast_requirements": [],
+    "overlay_layer_requirements": []
+  },
+  "model_routing": {
+    "startframe_default": "nano banana2",
+    "wardrobe_edit": "grok imagine",
+    "video_default": "kling v3",
+    "motion_transfer": "kling v3 motion control",
+    "notes": [
+      "All scenes can be handled as still-image-effect cards.",
+      "Keep the text plain with stroke only; the source does not use caption boxes."
+    ]
+  }
+}

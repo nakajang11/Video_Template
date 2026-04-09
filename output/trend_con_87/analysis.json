@@ -1,0 +1,63 @@
+{
+  "job_id": "trend_con_87",
+  "source_video": "input/trend_con_87.mp4",
+  "media": {
+    "duration_sec": 9.451927,
+    "width": 576,
+    "height": 1024,
+    "fps": 30.0,
+    "orientation": "portrait"
+  },
+  "analysis_confidence": "high",
+  "story_summary": "A blonde woman in a yellow dress teases a Yor Forger cosplay in her bedroom while an anime character insert appears in the upper right, then the clip cuts to the same woman fully transformed into a black Yor-inspired outfit in the same room.",
+  "source_sampling": {
+    "method": "ffprobe metadata plus scene-cut review and midpoint-frame extraction",
+    "notes": "Scene boundary confirmed at 3.666667 seconds using ffprobe scene detection plus manual frame review. Scene_001 contains the source-authentic anime insert and question text; scene_002 is the reveal pose."
+  },
+  "audio_notes": "Audio was extracted directly from the input video into source_audio.mp3 and should be used as the default Shotstack audio source.",
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "start_sec": 0.0,
+      "end_sec": 3.666667,
+      "duration_sec": 3.666667,
+      "summary": "A young blonde woman with an oversized green bow headband and a yellow strapless ribbed dress stands in a beige bedroom and looks into the phone camera while a Yor Forger anime figure insert floats in the upper-right corner.",
+      "characters": [
+        "adult_blonde_cosplayer"
+      ],
+      "camera": {
+        "framing": "vertical medium-full portrait",
+        "movement": "handheld phone framing with subtle body sway",
+        "stability": "light social-video handheld"
+      },
+      "on_screen_text": [
+        "White stroked question text reads “Yor Forger cosplay?” near the lower-middle of the frame.",
+        "A separate Yor Forger anime reference insert appears in the upper-right corner."
+      ],
+      "environment": "Warm beige bedroom with a shelf of anime figures on the left and a door on the right.",
+      "transformation_role": "pre-transform cosplay teaser",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_002",
+      "start_sec": 3.666667,
+      "end_sec": 9.451927,
+      "duration_sec": 5.78526,
+      "summary": "The same blonde woman now poses in a fitted black Yor-inspired mini dress with a black choker, arm wraps, and floral hair accessories in the same bedroom.",
+      "characters": [
+        "adult_blonde_cosplayer"
+      ],
+      "camera": {
+        "framing": "vertical medium-full reveal portrait",
+        "movement": "handheld phone framing with subtle pose changes",
+        "stability": "light social-video handheld"
+      },
+      "on_screen_text": [
+        "No creative caption text remains after the reveal; only platform watermark UI is present."
+      ],
+      "environment": "Same beige bedroom, same shelf and door placement, warmer reveal lighting.",
+      "transformation_role": "cosplay reveal",
+      "evidence_confidence": "high"
+    }
+  ]
+}

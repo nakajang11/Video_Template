@@ -1,0 +1,282 @@
+{
+  "timeline": {
+    "background": "#000000",
+    "tracks": [
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "audio",
+              "src": "{{ SOURCE_AUDIO_URL }}"
+            },
+            "start": 0,
+            "length": 13.445,
+            "volume": 1
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "alias": "SCENE_001",
+            "asset": {
+              "type": "video",
+              "src": "{{ SCENE_001_MEDIA }}"
+            },
+            "start": "auto",
+            "length": "auto",
+            "fit": "cover"
+          },
+          {
+            "alias": "SCENE_002",
+            "asset": {
+              "type": "video",
+              "src": "{{ SCENE_002_MEDIA }}"
+            },
+            "start": "auto",
+            "length": "auto",
+            "fit": "cover"
+          },
+          {
+            "alias": "SCENE_003",
+            "asset": {
+              "type": "video",
+              "src": "{{ SCENE_003_MEDIA }}"
+            },
+            "start": "auto",
+            "length": "auto",
+            "fit": "cover"
+          },
+          {
+            "alias": "SCENE_004",
+            "asset": {
+              "type": "video",
+              "src": "{{ SCENE_004_MEDIA }}"
+            },
+            "start": "auto",
+            "length": "auto",
+            "fit": "cover"
+          },
+          {
+            "alias": "SCENE_005",
+            "asset": {
+              "type": "video",
+              "src": "{{ SCENE_005_MEDIA }}"
+            },
+            "start": "auto",
+            "length": "auto",
+            "fit": "cover"
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_001_HEADLINE }}",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 74,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": "alias://SCENE_001",
+            "length": "alias://SCENE_001",
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.02
+            },
+            "width": 980,
+            "height": 180
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_002_LABEL }}",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 60,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "left",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": "alias://SCENE_002",
+            "length": "alias://SCENE_002",
+            "position": "center",
+            "offset": {
+              "x": -0.31,
+              "y": 0.39
+            },
+            "width": 360,
+            "height": 110
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_003_LABEL }}",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 60,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "left",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": "alias://SCENE_003",
+            "length": "alias://SCENE_003",
+            "position": "center",
+            "offset": {
+              "x": -0.31,
+              "y": 0.39
+            },
+            "width": 360,
+            "height": 110
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_004_LABEL }}",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 60,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "left",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": "alias://SCENE_004",
+            "length": "alias://SCENE_004",
+            "position": "center",
+            "offset": {
+              "x": -0.31,
+              "y": 0.39
+            },
+            "width": 360,
+            "height": 110
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{ SCENE_005_LABEL }}",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 60,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "left",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": "alias://SCENE_005",
+            "length": "alias://SCENE_005",
+            "position": "center",
+            "offset": {
+              "x": -0.31,
+              "y": 0.39
+            },
+            "width": 360,
+            "height": 110
+          }
+        ]
+      }
+    ]
+  },
+  "output": {
+    "format": "mp4",
+    "fps": 25,
+    "size": {
+      "width": 1080,
+      "height": 1920
+    },
+    "destinations": [
+      {
+        "provider": "shotstack"
+      }
+    ]
+  },
+  "merge": [
+    {
+      "find": "SOURCE_AUDIO_URL",
+      "replace": "https://example.com/dataset_video_37_audio.mp3"
+    },
+    {
+      "find": "SCENE_001_MEDIA",
+      "replace": "https://example.com/dataset_video_37_scene_001.mp4"
+    },
+    {
+      "find": "SCENE_002_MEDIA",
+      "replace": "https://example.com/dataset_video_37_scene_002.mp4"
+    },
+    {
+      "find": "SCENE_003_MEDIA",
+      "replace": "https://example.com/dataset_video_37_scene_003.mp4"
+    },
+    {
+      "find": "SCENE_004_MEDIA",
+      "replace": "https://example.com/dataset_video_37_scene_004.mp4"
+    },
+    {
+      "find": "SCENE_005_MEDIA",
+      "replace": "https://example.com/dataset_video_37_scene_005.mp4"
+    },
+    {
+      "find": "SCENE_001_HEADLINE",
+      "replace": "Choose your girlfriend"
+    },
+    {
+      "find": "SCENE_002_LABEL",
+      "replace": "Nerdy"
+    },
+    {
+      "find": "SCENE_003_LABEL",
+      "replace": "Girly"
+    },
+    {
+      "find": "SCENE_004_LABEL",
+      "replace": "Sporty"
+    },
+    {
+      "find": "SCENE_005_LABEL",
+      "replace": "Penguin"
+    }
+  ]
+}

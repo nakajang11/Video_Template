@@ -1,0 +1,39 @@
+{
+  "template_goal": "Keep the scenic plates and the knight figure as swappable media inputs while using Remotion code only for text timing, layout, and transitions.",
+  "input_media": [
+    {
+      "slot": "mediaInputs.knightOverlay",
+      "asset": "public/assets/knight_cutout.png",
+      "role": "persistent foreground figure"
+    },
+    {
+      "slot": "mediaInputs.backgrounds",
+      "assets": [
+        "public/assets/bg_01.png",
+        "public/assets/bg_02.png",
+        "public/assets/bg_03.png",
+        "public/assets/bg_04.png",
+        "public/assets/bg_05.png",
+        "public/assets/bg_06.png"
+      ],
+      "role": "swappable scenic background plates"
+    }
+  ],
+  "animation": [
+    "single-word fade-and-lift reveals",
+    "subtle image-plate zoom drift",
+    "persistent foreground figure placement"
+  ],
+  "transitions": [
+    {
+      "id": "curtainReveal",
+      "kind": "split_curtain_vertical_open",
+      "frames": 36
+    },
+    {
+      "id": "backgroundFade",
+      "kind": "crossfade",
+      "frames": 18
+    }
+  ]
+}

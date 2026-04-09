@@ -1,0 +1,82 @@
+{
+  "job_id": "trend_con_70",
+  "premise": "A remake package compares a childhood group photo against speculative 2026 outcomes by alternating child name cards with future stills, while omitting the final TikTok Lite end slate by default.",
+  "plot_type": "static montage of intro card, child name cards, and future cards with editable Shotstack text overlays",
+  "cast": [
+    {
+      "cast_id": "jessica_child",
+      "role": "child subject in the intro group and first name card",
+      "required": true,
+      "description": "Curly-haired girl from the left side of the group photo."
+    },
+    {
+      "cast_id": "lina_child",
+      "role": "child subject in the intro group and second name card",
+      "required": true,
+      "description": "Straight black-haired girl from the group photo."
+    },
+    {
+      "cast_id": "rachel_child",
+      "role": "child subject in the intro group and third name card",
+      "required": true,
+      "description": "Blonde girl with glasses from the group photo."
+    },
+    {
+      "cast_id": "amanda_child",
+      "role": "child subject in the intro group and fourth name card",
+      "required": true,
+      "description": "Braided Black girl from the group photo."
+    }
+  ],
+  "continuity_rules": [
+    "This is not a single-lead influencer video. Each card is scene-local and identity-specific to the source montage.",
+    "The opening group card and the four child close-ups all come from the same Chinatown photo.",
+    "Each future '2026' card is a different still image with no guaranteed shared location, wardrobe, or demographic continuity beyond montage placement.",
+    "The final 2026 card after Amanda is ambiguous in the source and must remain review-required before any generation decisions.",
+    "Editorial text such as '2006 vs 2026', child-name labels, and centered '2026' cards should be rebuilt as editable Shotstack text overlays instead of being baked into remake base media.",
+    "TikTok Lite watermark, username, and the final platform end slate are not creative content to regenerate by default; omit the terminal platform slate unless the user explicitly requests it."
+  ],
+  "supporting_character_policy": {
+    "required": false,
+    "allowed_types": [],
+    "rationale": "The montage includes several distinct named people rather than one lead plus supporting cast. Because pairings are editorial rather than narrative, this package remains review-required."
+  },
+  "scene_arc": [
+    {
+      "scene_id": "scene_001",
+      "beat": "Introduce the 2006 vs 2026 comparison with the four-child group photo and an editable centered title."
+    },
+    {
+      "scene_id": "scene_002",
+      "beat": "Identify Jessica with an editable centered name label."
+    },
+    {
+      "scene_id": "scene_003",
+      "beat": "Show the first implied 2026 outcome with an editable year label."
+    },
+    {
+      "scene_id": "scene_004",
+      "beat": "Identify Lina with an editable centered name label."
+    },
+    {
+      "scene_id": "scene_005",
+      "beat": "Show the second implied 2026 outcome with an editable year label."
+    },
+    {
+      "scene_id": "scene_006",
+      "beat": "Identify Rachel with an editable centered name label."
+    },
+    {
+      "scene_id": "scene_007",
+      "beat": "Show the third implied 2026 outcome with an editable year label."
+    },
+    {
+      "scene_id": "scene_008",
+      "beat": "Identify Amanda with an editable centered name label."
+    },
+    {
+      "scene_id": "scene_009",
+      "beat": "Show the fourth implied 2026 outcome, preserving the pairing ambiguity while keeping the year label editable."
+    }
+  ]
+}

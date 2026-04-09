@@ -1,0 +1,190 @@
+{
+  "job_id": "trend_con_90",
+  "source_video": "input/trend_con_90.mp4",
+  "media": {
+    "duration_sec": 11.770998,
+    "width": 576,
+    "height": 1024,
+    "fps": 30.0,
+    "orientation": "portrait"
+  },
+  "analysis_confidence": "high",
+  "story_summary": "A transition meme montage opens on two “before transition” portrait cards of the same subject with white text boxes, then flips into six golden-hour rooftop “after transition” portrait cards of the same subject in a pink dress, all using editable white banner labels.",
+  "source_sampling": {
+    "method": "ffprobe metadata plus scene-cut review and midpoint-frame extraction",
+    "notes": "Exact cuts were confirmed at 2.933333, 5.933333, 6.566667, 7.633333, 8.300000, 9.300000, and 10.066667 seconds via scene detection plus frame review. The top white label boxes are source-authentic and should remain editable in Shotstack."
+  },
+  "audio_notes": "Audio was extracted directly from the input video into source_audio.mp3 and should be used as the default Shotstack audio source.",
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "start_sec": 0.0,
+      "end_sec": 2.933333,
+      "duration_sec": 2.933333,
+      "summary": "Close portrait of the pre-transition subject in a black jacket and gray scarf with a large white “BEFORE TRANSITION” banner at the top and a small “wait for it!” box near the center.",
+      "characters": [
+        "lead_transition_subject_before"
+      ],
+      "camera": {
+        "framing": "vertical still portrait crop",
+        "movement": "static photo-card presentation",
+        "stability": "static still"
+      },
+      "on_screen_text": [
+        "Top white banner reads “BEFORE 🏳️‍⚧️ TRANSITION”.",
+        "Small white box reads “wait for it!”."
+      ],
+      "environment": "Stylized architectural street backdrop.",
+      "transformation_role": "before card one",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_002",
+      "start_sec": 2.933333,
+      "end_sec": 5.933333,
+      "duration_sec": 3.0,
+      "summary": "A second pre-transition portrait shows the same subject in a white T-shirt with folded arms, again with the top “BEFORE TRANSITION” banner and the centered “wait for it!” label.",
+      "characters": [
+        "lead_transition_subject_before"
+      ],
+      "camera": {
+        "framing": "vertical still portrait crop",
+        "movement": "static photo-card presentation",
+        "stability": "static still"
+      },
+      "on_screen_text": [
+        "Top white banner reads “BEFORE 🏳️‍⚧️ TRANSITION”.",
+        "Small white box reads “wait for it!”."
+      ],
+      "environment": "Soft neutral background with plants out of focus.",
+      "transformation_role": "before card two",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_003",
+      "start_sec": 5.933333,
+      "end_sec": 6.566667,
+      "duration_sec": 0.633334,
+      "summary": "First after-transition rooftop portrait of the same subject with long brunette hair and a pink dress at golden hour.",
+      "characters": [
+        "lead_transition_subject_after"
+      ],
+      "camera": {
+        "framing": "vertical fashion portrait",
+        "movement": "static photo-card presentation",
+        "stability": "static still"
+      },
+      "on_screen_text": [
+        "Top white banner reads “AFTER 🏳️‍⚧️ TRANSITION”."
+      ],
+      "environment": "Golden-hour rooftop terrace with sky and concrete pillar.",
+      "transformation_role": "after card one",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_004",
+      "start_sec": 6.566667,
+      "end_sec": 7.633333,
+      "duration_sec": 1.066666,
+      "summary": "Second after-transition rooftop portrait, now with a side-facing pose in the same pink dress and sunset light.",
+      "characters": [
+        "lead_transition_subject_after"
+      ],
+      "camera": {
+        "framing": "vertical fashion portrait",
+        "movement": "static photo-card presentation",
+        "stability": "static still"
+      },
+      "on_screen_text": [
+        "Top white banner reads “AFTER 🏳️‍⚧️ TRANSITION”."
+      ],
+      "environment": "Same rooftop and warm sunset palette.",
+      "transformation_role": "after card two",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_005",
+      "start_sec": 7.633333,
+      "end_sec": 8.3,
+      "duration_sec": 0.666667,
+      "summary": "Third after-transition rooftop portrait with the subject touching her hair and facing the camera.",
+      "characters": [
+        "lead_transition_subject_after"
+      ],
+      "camera": {
+        "framing": "vertical fashion portrait",
+        "movement": "static photo-card presentation",
+        "stability": "static still"
+      },
+      "on_screen_text": [
+        "Top white banner reads “AFTER 🏳️‍⚧️ TRANSITION”."
+      ],
+      "environment": "Same rooftop terrace and golden-hour sun.",
+      "transformation_role": "after card three",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_006",
+      "start_sec": 8.3,
+      "end_sec": 9.3,
+      "duration_sec": 1.0,
+      "summary": "Fourth after-transition portrait shows a closer crop with flowing hair and the same pink dress.",
+      "characters": [
+        "lead_transition_subject_after"
+      ],
+      "camera": {
+        "framing": "vertical fashion portrait close-up",
+        "movement": "static photo-card presentation",
+        "stability": "static still"
+      },
+      "on_screen_text": [
+        "Top white banner reads “AFTER 🏳️‍⚧️ TRANSITION”."
+      ],
+      "environment": "Same rooftop, sunset shadows, and sky backdrop.",
+      "transformation_role": "after card four",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_007",
+      "start_sec": 9.3,
+      "end_sec": 10.066667,
+      "duration_sec": 0.766667,
+      "summary": "Fifth after-transition rooftop portrait with a lower seated or leaned pose and the same styling.",
+      "characters": [
+        "lead_transition_subject_after"
+      ],
+      "camera": {
+        "framing": "vertical fashion portrait",
+        "movement": "static photo-card presentation",
+        "stability": "static still"
+      },
+      "on_screen_text": [
+        "Top white banner reads “AFTER 🏳️‍⚧️ TRANSITION”."
+      ],
+      "environment": "Same rooftop with golden railings and blue sky.",
+      "transformation_role": "after card five",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_008",
+      "start_sec": 10.066667,
+      "end_sec": 11.770998,
+      "duration_sec": 1.704331,
+      "summary": "Final after-transition rooftop portrait holds on the pink-dress look with the same top white banner.",
+      "characters": [
+        "lead_transition_subject_after"
+      ],
+      "camera": {
+        "framing": "vertical fashion portrait",
+        "movement": "static photo-card presentation",
+        "stability": "static still"
+      },
+      "on_screen_text": [
+        "Top white banner reads “AFTER 🏳️‍⚧️ TRANSITION”."
+      ],
+      "environment": "Same rooftop golden-hour location.",
+      "transformation_role": "after card six",
+      "evidence_confidence": "high"
+    }
+  ]
+}

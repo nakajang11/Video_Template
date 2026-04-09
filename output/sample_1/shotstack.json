@@ -1,0 +1,64 @@
+{
+  "timeline": {
+    "background": "#FFFFFF",
+    "tracks": [
+      {
+        "clips": [
+          {
+            "length": 10.29,
+            "asset": {
+              "type": "audio",
+              "src": "https://shotstack-ingest-api-v1-sources.s3.ap-southeast-2.amazonaws.com/0eo3x6acla/zzz01km3-n0stp-mne14-ek2n8-sx78x2/source.m4a",
+              "volume": 1
+            },
+            "start": 0
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "length": 7.098203125,
+            "asset": {
+              "type": "video",
+              "src": "{{ MEDIA_1 }}"
+            },
+            "start": 0
+          },
+          {
+            "length": "end",
+            "asset": {
+              "type": "video",
+              "src": "https://shotstack-ingest-api-v1-sources.s3.ap-southeast-2.amazonaws.com/0eo3x6acla/zzz01km3-mk6my-hvgtx-3f8yv-cz2k7r/source.mp4",
+              "trim": 2
+            },
+            "start": 7.098203125
+          }
+        ]
+      }
+    ]
+  },
+  "output": {
+    "format": "mp4",
+    "fps": 25,
+    "size": {
+      "width": 1080,
+      "height": 1920
+    },
+    "destinations": [
+      {
+        "provider": "shotstack"
+      }
+    ]
+  },
+  "merge": [
+    {
+      "find": "VIDEO_START",
+      "replace": "7.41"
+    },
+    {
+      "find": "MEDIA_1",
+      "replace": "https://shotstack-ingest-api-v1-sources.s3.ap-southeast-2.amazonaws.com/0eo3x6acla/zzz01km3-km5he-cf2ps-vtab4-5y40bw/source.mp4"
+    }
+  ]
+}

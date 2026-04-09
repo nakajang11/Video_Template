@@ -1,0 +1,7 @@
+interface:
+  display_name: "Trend Short Blueprint"
+  short_description: "Analyze short-video structure into reusable plans"
+  default_prompt: "Use $trend-short-blueprint to analyze a vertical reference video and write analysis.json, story.json, variable_map.json, blueprint.json, and manifest.json."
+
+policy:
+  allow_implicit_invocation: true

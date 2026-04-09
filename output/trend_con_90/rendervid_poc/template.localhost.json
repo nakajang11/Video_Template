@@ -1,0 +1,240 @@
+{
+  "name": "trend_con_90-rendervid-poc",
+  "description": "Local Rendervid proof-of-concept built from the existing trend_con_90 analysis/blueprint package.",
+  "version": "0.1.0",
+  "tags": [
+    "poc",
+    "rendervid",
+    "trend-short",
+    "portrait"
+  ],
+  "output": {
+    "type": "video",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "duration": 11.766666666666667,
+    "backgroundColor": "#000000"
+  },
+  "inputs": [],
+  "composition": {
+    "scenes": [
+      {
+        "id": "scene_001",
+        "name": "before portrait card one",
+        "startFrame": 0,
+        "endFrame": 88,
+        "backgroundColor": "#000000",
+        "layers": [
+          {
+            "id": "scene_001_video",
+            "type": "video",
+            "name": "scene_001 source clip",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "width": 1080,
+              "height": 1920
+            },
+            "props": {
+              "src": "http://127.0.0.1:8765/output/trend_con_90/rendervid_poc/assets/scene_001_source_clip.mp4",
+              "fit": "cover",
+              "volume": 1
+            }
+          }
+        ]
+      },
+      {
+        "id": "scene_002",
+        "name": "before portrait card two",
+        "startFrame": 88,
+        "endFrame": 178,
+        "backgroundColor": "#000000",
+        "layers": [
+          {
+            "id": "scene_002_video",
+            "type": "video",
+            "name": "scene_002 source clip",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "width": 1080,
+              "height": 1920
+            },
+            "props": {
+              "src": "http://127.0.0.1:8765/output/trend_con_90/rendervid_poc/assets/scene_002_source_clip.mp4",
+              "fit": "cover",
+              "volume": 1
+            }
+          }
+        ]
+      },
+      {
+        "id": "scene_003",
+        "name": "after rooftop card one",
+        "startFrame": 178,
+        "endFrame": 197,
+        "backgroundColor": "#000000",
+        "layers": [
+          {
+            "id": "scene_003_video",
+            "type": "video",
+            "name": "scene_003 source clip",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "width": 1080,
+              "height": 1920
+            },
+            "props": {
+              "src": "http://127.0.0.1:8765/output/trend_con_90/rendervid_poc/assets/scene_003_source_clip.mp4",
+              "fit": "cover",
+              "volume": 1
+            }
+          }
+        ]
+      },
+      {
+        "id": "scene_004",
+        "name": "after rooftop card two",
+        "startFrame": 197,
+        "endFrame": 229,
+        "backgroundColor": "#000000",
+        "layers": [
+          {
+            "id": "scene_004_video",
+            "type": "video",
+            "name": "scene_004 source clip",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "width": 1080,
+              "height": 1920
+            },
+            "props": {
+              "src": "http://127.0.0.1:8765/output/trend_con_90/rendervid_poc/assets/scene_004_source_clip.mp4",
+              "fit": "cover",
+              "volume": 1
+            }
+          }
+        ]
+      },
+      {
+        "id": "scene_005",
+        "name": "after rooftop card three",
+        "startFrame": 229,
+        "endFrame": 249,
+        "backgroundColor": "#000000",
+        "layers": [
+          {
+            "id": "scene_005_video",
+            "type": "video",
+            "name": "scene_005 source clip",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "width": 1080,
+              "height": 1920
+            },
+            "props": {
+              "src": "http://127.0.0.1:8765/output/trend_con_90/rendervid_poc/assets/scene_005_source_clip.mp4",
+              "fit": "cover",
+              "volume": 1
+            }
+          }
+        ]
+      },
+      {
+        "id": "scene_006",
+        "name": "after rooftop card four",
+        "startFrame": 249,
+        "endFrame": 279,
+        "backgroundColor": "#000000",
+        "layers": [
+          {
+            "id": "scene_006_video",
+            "type": "video",
+            "name": "scene_006 source clip",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "width": 1080,
+              "height": 1920
+            },
+            "props": {
+              "src": "http://127.0.0.1:8765/output/trend_con_90/rendervid_poc/assets/scene_006_source_clip.mp4",
+              "fit": "cover",
+              "volume": 1
+            }
+          }
+        ]
+      },
+      {
+        "id": "scene_007",
+        "name": "after rooftop card five",
+        "startFrame": 279,
+        "endFrame": 302,
+        "backgroundColor": "#000000",
+        "layers": [
+          {
+            "id": "scene_007_video",
+            "type": "video",
+            "name": "scene_007 source clip",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "width": 1080,
+              "height": 1920
+            },
+            "props": {
+              "src": "http://127.0.0.1:8765/output/trend_con_90/rendervid_poc/assets/scene_007_source_clip.mp4",
+              "fit": "cover",
+              "volume": 1
+            }
+          }
+        ]
+      },
+      {
+        "id": "scene_008",
+        "name": "after rooftop card six",
+        "startFrame": 302,
+        "endFrame": 353,
+        "backgroundColor": "#000000",
+        "layers": [
+          {
+            "id": "scene_008_video",
+            "type": "video",
+            "name": "scene_008 source clip",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "width": 1080,
+              "height": 1920
+            },
+            "props": {
+              "src": "http://127.0.0.1:8765/output/trend_con_90/rendervid_poc/assets/scene_008_source_clip.mp4",
+              "fit": "cover",
+              "volume": 1
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

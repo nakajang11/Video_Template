@@ -1,0 +1,16 @@
+{
+  "name": "test-3-remotion-poc",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "studio": "remotion studio src/index.jsx",
+    "render": "remotion render src/index.jsx Test3EpiphanyPoC renders/test_3_remotion_poc.mp4",
+    "still:variant": "sh -c 'remotion still src/index.jsx Test3EpiphanyPoC renders/test_3_variant_finale.png --frame=390 --props=\"$(cat props/variant-props.json)\"'"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.446",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "remotion": "4.0.446"
+  }
+}

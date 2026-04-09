@@ -1,0 +1,331 @@
+{
+  "timeline": {
+    "background": "#FFFFFF",
+    "tracks": [
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "audio",
+              "src": "https://shotstack-ingest-api-v1-sources.s3.ap-southeast-2.amazonaws.com/0eo3x6acla/zzz01km3-sfxqy-9zksc-n2fe3-zzdyk0/source.mp3"
+            },
+            "start": 0,
+            "length": 6.04,
+            "fit": "cover"
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "text",
+              "text": "{year1}",
+              "width": 400,
+              "height": 72,
+              "font": {
+                "family": "Montserrat",
+                "color": "#ffffff",
+                "size": 96,
+                "lineHeight": 1,
+                "weight": 400
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 5,
+                "color": "#000000"
+              }
+            },
+            "start": 0,
+            "length": 1.19,
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.05219022856953259
+            },
+            "transform": {
+              "rotate": {
+                "angle": 0
+              }
+            },
+            "width": 1080,
+            "height": 119
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{year2}",
+              "width": 400,
+              "height": 72,
+              "font": {
+                "family": "Montserrat",
+                "color": "#ffffff",
+                "size": 96,
+                "lineHeight": 1,
+                "weight": 400
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 5,
+                "color": "#000000"
+              }
+            },
+            "start": 1.19,
+            "length": 2.2690657552083335,
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.05219022856953259
+            },
+            "transform": {
+              "rotate": {
+                "angle": 0
+              }
+            },
+            "width": 1080,
+            "height": 119
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{year3}",
+              "width": 400,
+              "height": 72,
+              "font": {
+                "family": "Montserrat",
+                "color": "#ffffff",
+                "size": 96,
+                "lineHeight": 1,
+                "weight": 400
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 5,
+                "color": "#000000"
+              }
+            },
+            "start": 3.4590657552083335,
+            "length": 2.5809342447916666,
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.05219022856953259
+            },
+            "transform": {
+              "rotate": {
+                "angle": 0
+              }
+            },
+            "width": 1080,
+            "height": 119
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "text",
+              "text": "{age1}",
+              "width": 400,
+              "height": 72,
+              "font": {
+                "family": "Montserrat",
+                "color": "#ffffff",
+                "size": 96,
+                "lineHeight": 1,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 5,
+                "color": "#000000"
+              }
+            },
+            "start": 0,
+            "length": 1.19,
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.11755481190286587
+            },
+            "width": 1080,
+            "height": 120
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{{age2}}",
+              "width": 400,
+              "height": 72,
+              "font": {
+                "family": "Montserrat",
+                "color": "#ffffff",
+                "size": 96,
+                "lineHeight": 1,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 5,
+                "color": "#000000"
+              }
+            },
+            "start": 1.19,
+            "length": 2.2690657552083335,
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.11755481190286587
+            },
+            "width": 1080,
+            "height": 120
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "{age3}",
+              "width": 400,
+              "height": 72,
+              "font": {
+                "family": "Montserrat",
+                "color": "#ffffff",
+                "size": 96,
+                "lineHeight": 1,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 5,
+                "color": "#000000"
+              }
+            },
+            "start": 3.4590657552083335,
+            "length": 2.5809342447916666,
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.11755481190286587
+            },
+            "width": 1080,
+            "height": 120
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "image",
+              "src": "{{ IMAGE_SRC }}"
+            },
+            "start": 0,
+            "length": 1.19,
+            "effect": "zoomInSlow"
+          },
+          {
+            "asset": {
+              "type": "image",
+              "src": "{{ IMAGE_SRC_2 }}"
+            },
+            "start": 1.19,
+            "length": 2.24,
+            "effect": "zoomOut"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "{{ MEDIA_2 }}",
+              "transcode": false,
+              "trim": 5
+            },
+            "start": 3.4590657552083335,
+            "length": 2.5809342447916666,
+            "fit": "cover",
+            "offset": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "output": {
+    "format": "mp4",
+    "size": {
+      "width": 1080,
+      "height": 1920
+    },
+    "fps": 25,
+    "destinations": [
+      {
+        "provider": "shotstack"
+      }
+    ]
+  },
+  "merge": [
+    {
+      "find": "year",
+      "replace": "{year}"
+    },
+    {
+      "find": "age",
+      "replace": "{age}"
+    },
+    {
+      "find": "IMAGE_SRC",
+      "replace": "https://shotstack-ingest-api-v1-sources.s3.ap-southeast-2.amazonaws.com/0eo3x6acla/zzz01kem-rea6y-7f751-3dc7r-qng31p/source.png"
+    },
+    {
+      "find": "IMAGE_SRC_2",
+      "replace": "https://shotstack-ingest-api-v1-sources.s3.ap-southeast-2.amazonaws.com/0eo3x6acla/zzz01kem-rdcym-kwnbx-83fvw-ewkbja/source.png"
+    },
+    {
+      "find": "VIDEO_SRC",
+      "replace": "https://shotstack-ingest-api-v1-sources.s3.ap-southeast-2.amazonaws.com/0eo3x6acla/zzz01kem-rz4rd-06wxk-enata-0vg4jd/source.mp4"
+    },
+    {
+      "find": "year2",
+      "replace": "{year2}"
+    },
+    {
+      "find": "age2",
+      "replace": "{age2}"
+    },
+    {
+      "find": "year3",
+      "replace": "{year3}"
+    },
+    {
+      "find": "age3",
+      "replace": "{age3}"
+    },
+    {
+      "find": "MEDIA_1",
+      "replace": "https://res.cloudinary.com/dofml3tvr/video/upload/v1773938730/Motion_Control_Character_Animation_fcqay2.mp4"
+    },
+    {
+      "find": "MEDIA_2",
+      "replace": "https://shotstack-ingest-api-v1-sources.s3.ap-southeast-2.amazonaws.com/0eo3x6acla/zzz01km3-rvq1d-59b87-4wpj7-5w9360/source.mp4"
+    }
+  ]
+}

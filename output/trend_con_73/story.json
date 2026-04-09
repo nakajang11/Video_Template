@@ -1,0 +1,30 @@
+{
+  "job_id": "trend_con_73",
+  "premise": "A single adult brunette speaker is filmed at a school morning assembly. The remake package keeps only the live speech beat, rebuilds the meme caption as editable Shotstack text, and omits the final TikTok outro by default.",
+  "plot_type": "single live speech clip with editable caption overlay",
+  "cast": [
+    {
+      "cast_id": "adult_female_speaker",
+      "role": "main on-camera speaker",
+      "required": true,
+      "description": "One adult brunette woman carries the live-action portion of the clip. The seated students in the background are contextual crowd only, not featured cast."
+    }
+  ],
+  "continuity_rules": [
+    "Scene_001 centers on one adult female speaker at the podium; background students remain passive and should not become featured characters.",
+    "The gymnasium environment stays locked during the live-action scene: bleachers, U.S. flag, wooden podium, and overhead gym lights.",
+    "The meme sentence 'prof looking hella thick during morning assembly😫' should be recreated as an editable Shotstack text layer over a clean caption backdrop rather than baked into the base media.",
+    "TikTok watermark, username, and the terminal TikTok outro are platform UI only and should not be treated as creative content to regenerate by default."
+  ],
+  "supporting_character_policy": {
+    "required": false,
+    "allowed_types": [],
+    "rationale": "The background audience is incidental. The only featured live-action subject is the adult female speaker, and the final platform end card is omitted from the remake package."
+  },
+  "scene_arc": [
+    {
+      "scene_id": "scene_001",
+      "beat": "Hold on the podium speech moment with the speaker turning slightly as she talks while an editable meme-caption box overlays the scene."
+    }
+  ]
+}

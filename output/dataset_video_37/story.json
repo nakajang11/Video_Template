@@ -1,0 +1,47 @@
+{
+  "job_id": "dataset_video_37",
+  "premise": "A trend-style chooser short invites the viewer to pick a girlfriend archetype, then cycles a single adult female lead through multiple themed wardrobe identities in the same room.",
+  "plot_type": "labelled archetype parade with comedic costume punchline",
+  "cast": [
+    {
+      "cast_id": "lead_female_influencer",
+      "role": "single on-camera adult lead",
+      "required": true,
+      "description": "One brunette adult woman remains the only visible person across every scene."
+    }
+  ],
+  "continuity_rules": [
+    "Only one adult female lead appears in the package; do not add friends, parents, partners, or alternate-age versions.",
+    "The same living-room corner remains locked across all scenes: pale wall, cream sectional sofa, cream throw blanket, pale rug, and a pink uplight glow near the corner.",
+    "Camera language stays constant: centered full-body framing, vertical smartphone look, and a locked tripod perspective.",
+    "Each scene expresses its archetype mostly through wardrobe, minor hair styling changes, and a matching text label rather than through a new location or new cast.",
+    "The TikTok watermark is source-only and should not be regenerated; readable text should be added cleanly in Shotstack."
+  ],
+  "supporting_character_policy": {
+    "required": false,
+    "allowed_types": [],
+    "rationale": "The full plot is fully explained by one performer changing looks in place. No implied off-screen family, partner, friend, or childhood self is necessary."
+  },
+  "scene_arc": [
+    {
+      "scene_id": "scene_001",
+      "beat": "Hook and baseline outfit establish the challenge."
+    },
+    {
+      "scene_id": "scene_002",
+      "beat": "First archetype: nerdy school-inspired look."
+    },
+    {
+      "scene_id": "scene_003",
+      "beat": "Second archetype: soft romantic girly look."
+    },
+    {
+      "scene_id": "scene_004",
+      "beat": "Third archetype: sporty activewear look."
+    },
+    {
+      "scene_id": "scene_005",
+      "beat": "Comedic payoff: penguin costume variant."
+    }
+  ]
+}

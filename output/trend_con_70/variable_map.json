@@ -1,0 +1,183 @@
+{
+  "job_id": "trend_con_70",
+  "locks": {
+    "identity": {
+      "lead_count": 0,
+      "lead_description": "There is no single remake lead. Each included scene is source-locked to a different child card or future still, and the final platform end slate is omitted from the remake package by default.",
+      "reference_assets": [
+        "scene_001_reference.png",
+        "scene_002_reference.png",
+        "scene_003_reference.png",
+        "scene_004_reference.png",
+        "scene_005_reference.png",
+        "scene_006_reference.png",
+        "scene_007_reference.png",
+        "scene_008_reference.png",
+        "scene_009_reference.png"
+      ]
+    },
+    "wardrobe": {
+      "change_policy": "Wardrobe is scene-specific and tied to the still image shown in each included card.",
+      "locked_relationships": [
+        "child cards preserve the clothing from the original group photo",
+        "future cards preserve the specific clothing, profession, or courtroom/fashion styling seen in that exact still",
+        "the final TikTok Lite end slate is excluded from remake output unless explicitly requested"
+      ]
+    },
+    "background": {
+      "room_signature": [
+        "Chinatown group-photo street setting",
+        "courtroom interior",
+        "white marble staircase interior",
+        "street-side police ceremony",
+        "bathroom mirror selfie"
+      ],
+      "change_policy": "Each montage card keeps its own source-locked environment; do not force a shared room or single-world continuity."
+    },
+    "composition": {
+      "camera": "static portrait-card montage",
+      "framing": "mix of group shot, child close-up crops, adult full-body stills, and one mirror selfie",
+      "look": "editorial slideshow of still images rather than a continuous live-action scene"
+    }
+  },
+  "variables": {
+    "wardrobe": [
+      {
+        "scene_id": "scene_002",
+        "look_name": "jessica_child_name_card",
+        "elements": [
+          "black top",
+          "black zip hoodie",
+          "curly ponytail"
+        ]
+      },
+      {
+        "scene_id": "scene_003",
+        "look_name": "future_courtroom_card",
+        "elements": [
+          "orange jail uniform",
+          "heavy face tattoos",
+          "courtroom seated pose"
+        ]
+      },
+      {
+        "scene_id": "scene_005",
+        "look_name": "future_staircase_card",
+        "elements": [
+          "red-and-black hair",
+          "pinstriped jersey top",
+          "distressed denim and tattoos"
+        ]
+      },
+      {
+        "scene_id": "scene_007",
+        "look_name": "future_police_card",
+        "elements": [
+          "NYPD dress uniform",
+          "formal cap",
+          "certificate presentation"
+        ]
+      },
+      {
+        "scene_id": "scene_009",
+        "look_name": "future_bathroom_selfie_card",
+        "elements": [
+          "olive button-up shirt",
+          "bathroom mirror selfie",
+          "hand in pocket"
+        ]
+      }
+    ],
+    "text": [
+      {
+        "scene_id": "scene_001",
+        "text_key": "SCENE_001_TITLE",
+        "default_text": "2006 vs 2026",
+        "treatment": "editable centered comparison headline added in Shotstack"
+      },
+      {
+        "scene_id": "scene_002",
+        "text_key": "SCENE_002_LABEL",
+        "default_text": "Jessica",
+        "treatment": "editable centered name label added in Shotstack"
+      },
+      {
+        "scene_id": "scene_003",
+        "text_key": "SCENE_003_LABEL",
+        "default_text": "2026",
+        "treatment": "editable centered year label added in Shotstack"
+      },
+      {
+        "scene_id": "scene_004",
+        "text_key": "SCENE_004_LABEL",
+        "default_text": "Lina",
+        "treatment": "editable centered name label added in Shotstack"
+      },
+      {
+        "scene_id": "scene_005",
+        "text_key": "SCENE_005_LABEL",
+        "default_text": "2026",
+        "treatment": "editable centered year label added in Shotstack"
+      },
+      {
+        "scene_id": "scene_006",
+        "text_key": "SCENE_006_LABEL",
+        "default_text": "Rachel",
+        "treatment": "editable centered name label added in Shotstack"
+      },
+      {
+        "scene_id": "scene_007",
+        "text_key": "SCENE_007_LABEL",
+        "default_text": "2026",
+        "treatment": "editable centered year label added in Shotstack"
+      },
+      {
+        "scene_id": "scene_008",
+        "text_key": "SCENE_008_LABEL",
+        "default_text": "Amanda",
+        "treatment": "editable centered name label added in Shotstack"
+      },
+      {
+        "scene_id": "scene_009",
+        "text_key": "SCENE_009_LABEL",
+        "default_text": "2026",
+        "treatment": "editable centered year label added in Shotstack"
+      },
+      {
+        "pattern": "TikTok Lite watermark and username are source-platform UI only and should be removed or ignored in remake media."
+      }
+    ],
+    "motion": {
+      "global": [
+        "static still-image montage",
+        "at most a subtle editorial zoom or hold",
+        "no live-action camera movement required"
+      ],
+      "scene_overrides": [
+        {
+          "scene_id": "scene_001",
+          "motion_intent": "gentle hold on the group intro card"
+        },
+        {
+          "scene_id": "scene_009",
+          "motion_intent": "static hold on the ambiguous future card"
+        }
+      ]
+    },
+    "supporting_cast_requirements": [],
+    "overlay_layer_requirements": [
+      "shotstack.pasteable.json may add neutral text-backdrop overlays over source-derived clips so editable text can cover the baked-in source labels during Studio review."
+    ]
+  },
+  "model_routing": {
+    "startframe_default": "nano banana2",
+    "wardrobe_edit": "grok imagine",
+    "video_default": "kling v3",
+    "motion_transfer": "kling v3 motion control",
+    "notes": [
+      "This package is review-required because it is a multi-subject still montage rather than a standard single-influencer remake.",
+      "Canonical packaging uses still-image effects plus editable Shotstack text overlays.",
+      "The terminal TikTok Lite end slate is omitted by default from both canonical and pasteable outputs."
+    ]
+  }
+}

@@ -1,0 +1,360 @@
+{
+  "timeline": {
+    "background": "#000000",
+    "tracks": [
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "text",
+              "text": "2006 vs 2026",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 72,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": 0,
+            "length": 2.125,
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.23
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "Jessica",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 64,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": 2.125,
+            "length": 1.708333,
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.09
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "2026",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 68,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": 3.833333,
+            "length": 2.416667,
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.04
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "Lina",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 64,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": 6.25,
+            "length": 3.625,
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.11
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "2026",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 68,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": 9.875,
+            "length": 2.416667,
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.12
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "Rachel",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 64,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": 12.291667,
+            "length": 3.708333,
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.09
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "2026",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 68,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": 16,
+            "length": 2.25,
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.03
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "Amanda",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 64,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": 18.25,
+            "length": 3.833333,
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.11
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "2026",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 68,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 4,
+                "color": "#000000"
+              }
+            },
+            "start": 22.083333,
+            "length": 2.291667,
+            "position": "center",
+            "offset": {
+              "x": 0,
+              "y": -0.04
+            }
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775510367/codex/trend_con_70/scene_001_source_clip_20260407.mp4"
+            },
+            "start": 0,
+            "length": 2.125,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775510369/codex/trend_con_70/scene_002_source_clip_20260407.mp4"
+            },
+            "start": 2.125,
+            "length": 1.708333,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775510372/codex/trend_con_70/scene_003_source_clip_20260407.mp4"
+            },
+            "start": 3.833333,
+            "length": 2.416667,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775510374/codex/trend_con_70/scene_004_source_clip_20260407.mp4"
+            },
+            "start": 6.25,
+            "length": 3.625,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775510379/codex/trend_con_70/scene_005_source_clip_20260407.mp4"
+            },
+            "start": 9.875,
+            "length": 2.416667,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775510382/codex/trend_con_70/scene_006_source_clip_20260407.mp4"
+            },
+            "start": 12.291667,
+            "length": 3.708333,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775510384/codex/trend_con_70/scene_007_source_clip_20260407.mp4"
+            },
+            "start": 16,
+            "length": 2.25,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775510397/codex/trend_con_70/scene_008_source_clip_20260407.mp4"
+            },
+            "start": 18.25,
+            "length": 3.833333,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775510399/codex/trend_con_70/scene_009_source_clip_20260407.mp4"
+            },
+            "start": 22.083333,
+            "length": 2.291667,
+            "fit": "cover"
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "audio",
+              "src": "https://res.cloudinary.com/dreyduqqw/raw/upload/v1775510365/codex/trend_con_70/source_audio_20260407.mp3",
+              "volume": 1
+            },
+            "start": 0,
+            "length": 24.375
+          }
+        ]
+      }
+    ]
+  },
+  "output": {
+    "format": "mp4",
+    "fps": 25,
+    "size": {
+      "width": 1080,
+      "height": 1920
+    }
+  }
+}

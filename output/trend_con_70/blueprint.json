@@ -1,0 +1,498 @@
+{
+  "contract_version": "1.0",
+  "job_id": "trend_con_70",
+  "source_video": "input/trend_con_70.mp4",
+  "audio": {
+    "strategy": "use_input_audio",
+    "source_file": "source_audio.mp3",
+    "shotstack_merge_key": "SOURCE_AUDIO_MP3"
+  },
+  "review_status": "review_required",
+  "scene_order": [
+    "scene_001",
+    "scene_002",
+    "scene_003",
+    "scene_004",
+    "scene_005",
+    "scene_006",
+    "scene_007",
+    "scene_008",
+    "scene_009"
+  ],
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "duration_sec": 2.125,
+      "story_role": "intro group comparison card",
+      "cast": [
+        "jessica_child",
+        "lina_child",
+        "rachel_child",
+        "amanda_child"
+      ],
+      "locks": [
+        "same Chinatown group photo framing",
+        "four child subjects only",
+        "comparison premise without baked-in title text"
+      ],
+      "variables": [
+        "editable centered title overlay '2006 vs 2026' added later in Shotstack"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_001_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_001_reference.png"
+        ],
+        "goal": "Recreate the group intro card as a clean still with no baked-in title text; the title will be added later in Shotstack."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_001_reference.png"
+        ],
+        "motion_intent": "gentle hold on a static intro image",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action motion",
+          "no extra characters",
+          "no location redesign"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_001",
+        "merge_key": "SCENE_001_IMAGE",
+        "clip_length_sec": 2.125,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_001_TITLE",
+            "placement": "center_lower",
+            "style": "large centered comparison title with stroke only and no backdrop"
+          }
+        ],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_002",
+      "duration_sec": 1.708333,
+      "story_role": "Jessica child name card",
+      "cast": [
+        "jessica_child"
+      ],
+      "locks": [
+        "Jessica child identity",
+        "tight portrait crop from the original group image"
+      ],
+      "variables": [
+        "editable centered name overlay 'Jessica' added later in Shotstack"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_002_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_002_reference.png"
+        ],
+        "goal": "Recreate Jessica's close-up name card as a clean still with no baked-in label text."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_002_reference.png"
+        ],
+        "motion_intent": "static hold on a portrait card",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action movement",
+          "no watermark"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_002",
+        "merge_key": "SCENE_002_IMAGE",
+        "clip_length_sec": 1.708333,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_002_LABEL",
+            "placement": "center_middle",
+            "style": "medium centered plain stroked name label"
+          }
+        ],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_003",
+      "duration_sec": 2.416667,
+      "story_role": "first 2026 future card",
+      "cast": [
+        "future_subject_001"
+      ],
+      "locks": [
+        "courtroom still image",
+        "orange uniform and seated courtroom pose"
+      ],
+      "variables": [
+        "editable centered year overlay '2026' added later in Shotstack"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_003_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_003_reference.png"
+        ],
+        "goal": "Recreate the courtroom future card as a clean static image with no baked-in year text."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_003_reference.png"
+        ],
+        "motion_intent": "static hold on a future card",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action movement",
+          "no courtroom redesign"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_003",
+        "merge_key": "SCENE_003_IMAGE",
+        "clip_length_sec": 2.416667,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_003_LABEL",
+            "placement": "center_lower",
+            "style": "medium centered plain stroked year label"
+          }
+        ],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_004",
+      "duration_sec": 3.625,
+      "story_role": "Lina child name card",
+      "cast": [
+        "lina_child"
+      ],
+      "locks": [
+        "Lina child identity",
+        "tight portrait crop from the original group image"
+      ],
+      "variables": [
+        "editable centered name overlay 'Lina' added later in Shotstack"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_004_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_004_reference.png"
+        ],
+        "goal": "Recreate Lina's close-up name card as a clean still with no baked-in label text."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_004_reference.png"
+        ],
+        "motion_intent": "static hold on a portrait card",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action movement",
+          "no watermark"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_004",
+        "merge_key": "SCENE_004_IMAGE",
+        "clip_length_sec": 3.625,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_004_LABEL",
+            "placement": "center_middle",
+            "style": "medium centered plain stroked name label"
+          }
+        ],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_005",
+      "duration_sec": 2.416667,
+      "story_role": "second 2026 future card",
+      "cast": [
+        "future_subject_002"
+      ],
+      "locks": [
+        "tattooed staircase portrait",
+        "white staircase and gold handrail"
+      ],
+      "variables": [
+        "editable centered year overlay '2026' added later in Shotstack"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_005_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_005_reference.png"
+        ],
+        "goal": "Recreate the staircase future card as a clean static image with no baked-in year text."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_005_reference.png"
+        ],
+        "motion_intent": "static hold on a future card",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action movement",
+          "no location redesign"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_005",
+        "merge_key": "SCENE_005_IMAGE",
+        "clip_length_sec": 2.416667,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_005_LABEL",
+            "placement": "center_lower",
+            "style": "medium centered plain stroked year label"
+          }
+        ],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_006",
+      "duration_sec": 3.708333,
+      "story_role": "Rachel child name card",
+      "cast": [
+        "rachel_child"
+      ],
+      "locks": [
+        "Rachel child identity",
+        "tight portrait crop from the original group image"
+      ],
+      "variables": [
+        "editable centered name overlay 'Rachel' added later in Shotstack"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_006_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_006_reference.png"
+        ],
+        "goal": "Recreate Rachel's close-up name card as a clean still with no baked-in label text."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_006_reference.png"
+        ],
+        "motion_intent": "static hold on a portrait card",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action movement",
+          "no watermark"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_006",
+        "merge_key": "SCENE_006_IMAGE",
+        "clip_length_sec": 3.708333,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_006_LABEL",
+            "placement": "center_middle",
+            "style": "medium centered plain stroked name label"
+          }
+        ],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_007",
+      "duration_sec": 2.25,
+      "story_role": "third 2026 future card",
+      "cast": [
+        "future_subject_003"
+      ],
+      "locks": [
+        "police ceremony still image",
+        "formal uniform and certificate handoff"
+      ],
+      "variables": [
+        "editable centered year overlay '2026' added later in Shotstack"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_007_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_007_reference.png"
+        ],
+        "goal": "Recreate the police-ceremony future card as a clean static image with no baked-in year text."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_007_reference.png"
+        ],
+        "motion_intent": "static hold on a future card",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action movement",
+          "no ceremony redesign"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_007",
+        "merge_key": "SCENE_007_IMAGE",
+        "clip_length_sec": 2.25,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_007_LABEL",
+            "placement": "center_lower",
+            "style": "medium centered plain stroked year label"
+          }
+        ],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_008",
+      "duration_sec": 3.833333,
+      "story_role": "Amanda child name card",
+      "cast": [
+        "amanda_child"
+      ],
+      "locks": [
+        "Amanda child identity",
+        "tight portrait crop from the original group image"
+      ],
+      "variables": [
+        "editable centered name overlay 'Amanda' added later in Shotstack"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_008_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_008_reference.png"
+        ],
+        "goal": "Recreate Amanda's close-up name card as a clean still with no baked-in label text."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_008_reference.png"
+        ],
+        "motion_intent": "static hold on a portrait card",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action movement",
+          "no watermark"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_008",
+        "merge_key": "SCENE_008_IMAGE",
+        "clip_length_sec": 3.833333,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_008_LABEL",
+            "placement": "center_middle",
+            "style": "medium centered plain stroked name label"
+          }
+        ],
+        "overlay_layers": []
+      }
+    },
+    {
+      "scene_id": "scene_009",
+      "duration_sec": 2.291667,
+      "story_role": "fourth 2026 future card with uncertain pairing",
+      "cast": [
+        "future_subject_004_unconfirmed"
+      ],
+      "locks": [
+        "bathroom mirror selfie still image",
+        "uncertain pairing relative to the preceding Amanda card"
+      ],
+      "variables": [
+        "editable centered year overlay '2026' added later in Shotstack",
+        "keep remake package review-required because the source pairing remains ambiguous"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_009_startframe_image_prompt.md",
+        "reference_assets": [
+          "scene_009_reference.png"
+        ],
+        "goal": "Recreate the bathroom-mirror future card as a clean static image with no baked-in year text while preserving the pairing ambiguity note."
+      },
+      "video": {
+        "mode": "still-image-effect",
+        "model": "kling v3",
+        "prompt_file": null,
+        "reference_assets": [
+          "scene_009_reference.png"
+        ],
+        "motion_intent": "static hold on the ambiguous future card",
+        "camera_lock": "still-image montage",
+        "negative_motion": [
+          "no live-action movement",
+          "no bathroom redesign"
+        ]
+      },
+      "shotstack": {
+        "asset_type": "image",
+        "alias": "SCENE_009",
+        "merge_key": "SCENE_009_IMAGE",
+        "clip_length_sec": 2.291667,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_009_LABEL",
+            "placement": "center_lower",
+            "style": "medium centered plain stroked year label"
+          }
+        ],
+        "overlay_layers": []
+      }
+    }
+  ]
+}

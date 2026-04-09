@@ -1,0 +1,39 @@
+{
+  "cloud_name": "dreyduqqw",
+  "uploaded_at": "2026-04-06T20:15:10Z",
+  "assets": [
+    {
+      "type": "video",
+      "scene_id": "scene_001",
+      "public_id": "codex/trend_con_6/scene_001_source_clip_20260407",
+      "secure_url": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775506500/codex/trend_con_6/scene_001_source_clip_20260407.mp4",
+      "duration_sec": 5.6
+    },
+    {
+      "type": "video",
+      "scene_id": "scene_002",
+      "public_id": "codex/trend_con_6/scene_002_source_clip_20260407",
+      "secure_url": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775506503/codex/trend_con_6/scene_002_source_clip_20260407.mp4",
+      "duration_sec": 0.2
+    },
+    {
+      "type": "video",
+      "scene_id": "scene_003",
+      "public_id": "codex/trend_con_6/scene_003_source_clip_20260407",
+      "secure_url": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775506505/codex/trend_con_6/scene_003_source_clip_20260407.mp4",
+      "duration_sec": 3.4
+    },
+    {
+      "type": "image",
+      "scene_id": "scene_001",
+      "public_id": "codex/trend_con_6/scene_001_overlay_001_20260407",
+      "secure_url": "https://res.cloudinary.com/dreyduqqw/image/upload/v1775506508/codex/trend_con_6/scene_001_overlay_001_20260407.png"
+    },
+    {
+      "type": "audio",
+      "scene_id": null,
+      "public_id": "codex/trend_con_6/source_audio_20260407.mp3",
+      "secure_url": "https://res.cloudinary.com/dreyduqqw/raw/upload/v1775506510/codex/trend_con_6/source_audio_20260407.mp3"
+    }
+  ]
+}

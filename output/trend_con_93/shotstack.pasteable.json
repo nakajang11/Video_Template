@@ -1,0 +1,216 @@
+{
+  "timeline": {
+    "background": "#000000",
+    "tracks": [
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "text",
+              "text": "Mom 🇪🇨",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 44,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 3,
+                "color": "#000000"
+              }
+            },
+            "start": 0,
+            "length": 5.7,
+            "position": "center",
+            "offset": {
+              "x": 0.22,
+              "y": 0.34
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "Dad 🇨🇺",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 44,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 3,
+                "color": "#000000"
+              }
+            },
+            "start": 5.7,
+            "length": 4.333333,
+            "position": "center",
+            "offset": {
+              "x": -0.2,
+              "y": 0.35
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "Fell in ❤️",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 48,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 3,
+                "color": "#000000"
+              }
+            },
+            "start": 10.033333,
+            "length": 5.166667,
+            "position": "center",
+            "offset": {
+              "x": -0.2,
+              "y": 0.12
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "Had me 🇪🇨",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 44,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 3,
+                "color": "#000000"
+              }
+            },
+            "start": 15.2,
+            "length": 2.466667,
+            "position": "center",
+            "offset": {
+              "x": -0.15,
+              "y": 0.35
+            }
+          },
+          {
+            "asset": {
+              "type": "text",
+              "text": "Me 🇪🇨",
+              "font": {
+                "family": "Montserrat",
+                "color": "#FFFFFF",
+                "size": 44,
+                "weight": 700
+              },
+              "alignment": {
+                "horizontal": "center",
+                "vertical": "center"
+              },
+              "stroke": {
+                "width": 3,
+                "color": "#000000"
+              }
+            },
+            "start": 17.666667,
+            "length": 3.466666,
+            "position": "center",
+            "offset": {
+              "x": -0.19,
+              "y": -0.36
+            }
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519053/codex/trend_con_93/scene_001_source_clip_20260407.mp4"
+            },
+            "start": 0,
+            "length": 5.7,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519055/codex/trend_con_93/scene_002_source_clip_20260407.mp4"
+            },
+            "start": 5.7,
+            "length": 4.333333,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519057/codex/trend_con_93/scene_003_source_clip_20260407.mp4"
+            },
+            "start": 10.033333,
+            "length": 5.166667,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519059/codex/trend_con_93/scene_004_source_clip_20260407.mp4"
+            },
+            "start": 15.2,
+            "length": 2.466667,
+            "fit": "cover"
+          },
+          {
+            "asset": {
+              "type": "video",
+              "src": "https://res.cloudinary.com/dreyduqqw/video/upload/v1775519062/codex/trend_con_93/scene_005_source_clip_20260407.mp4"
+            },
+            "start": 17.666667,
+            "length": 3.466666,
+            "fit": "cover"
+          }
+        ]
+      },
+      {
+        "clips": [
+          {
+            "asset": {
+              "type": "audio",
+              "src": "https://res.cloudinary.com/dreyduqqw/raw/upload/v1775519050/codex/trend_con_93/source_audio_20260407.mp3",
+              "volume": 1
+            },
+            "start": 0,
+            "length": 21.133333
+          }
+        ]
+      }
+    ]
+  },
+  "output": {
+    "format": "mp4",
+    "fps": 25,
+    "size": {
+      "width": 1080,
+      "height": 1920
+    }
+  }
+}

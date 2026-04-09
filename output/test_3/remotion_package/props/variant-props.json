@@ -1,0 +1,137 @@
+{
+  "audioFile": "source_audio.mp3",
+  "mediaInputs": {
+    "introBackground": {
+      "kind": "image",
+      "src": "assets/scene_001_dictionary_plate.png",
+      "role": "input_media",
+      "replaceNotes": "Replace with another blurred editorial-paper plate if needed."
+    },
+    "cloudBackground": {
+      "kind": "image",
+      "src": "assets/scene_002_neural_plate.png",
+      "role": "input_media",
+      "replaceNotes": "Replace with another abstract knowledge-glow or silhouette backdrop."
+    },
+    "finaleBackground": {
+      "kind": "image",
+      "src": "assets/scene_003_card_plate.png",
+      "role": "input_media",
+      "replaceNotes": "Dummy card plate."
+    }
+  },
+  "transitions": {
+    "introToCloud": {
+      "kind": "crossfade_glow",
+      "startFrame": 96,
+      "durationFrames": 12
+    },
+    "cloudToFinale": {
+      "kind": "card_fade_up",
+      "startFrame": 244,
+      "durationFrames": 10
+    }
+  },
+  "intro": {
+    "preWord": "the",
+    "word": "serendipity",
+    "questionMarkColor": "#f97316"
+  },
+  "cloud": {
+    "word": "serendipity",
+    "pronunciation": "/ˌserənˈdɪpəti/",
+    "definition": "n. điều may mắn tình cờ",
+    "memoryScore": "Nạp từ vào trí nhớ: 41%",
+    "entryLayout": [
+      {
+        "x": 22,
+        "y": 22,
+        "rotate": -2
+      },
+      {
+        "x": 192,
+        "y": 78,
+        "rotate": 4
+      },
+      {
+        "x": 420,
+        "y": 46,
+        "rotate": -3
+      },
+      {
+        "x": 790,
+        "y": 18,
+        "rotate": 2
+      },
+      {
+        "x": 828,
+        "y": 128,
+        "rotate": -5
+      },
+      {
+        "x": 18,
+        "y": 238,
+        "rotate": 2
+      },
+      {
+        "x": 798,
+        "y": 310,
+        "rotate": -3
+      },
+      {
+        "x": 20,
+        "y": 410,
+        "rotate": 1
+      },
+      {
+        "x": 406,
+        "y": 362,
+        "rotate": -2
+      },
+      {
+        "x": 844,
+        "y": 430,
+        "rotate": 2
+      }
+    ],
+    "entries": [
+      {
+        "term": "serendipity",
+        "pronunciation": "/ˌserənˈdɪpəti/",
+        "definition": "n. điều may mắn tình cờ"
+      },
+      {
+        "term": "serendipity",
+        "pronunciation": "/ˌserənˈdɪpəti/",
+        "definition": "n. phát hiện bất ngờ"
+      },
+      {
+        "term": "serendipity",
+        "pronunciation": "/ˌserənˈdɪpəti/",
+        "definition": "n. duyên may đúng lúc"
+      }
+    ]
+  },
+  "finale": {
+    "finalWord": "SERENDIPITY",
+    "pronunciation": "/ˌserənˈdɪpəti/",
+    "definition": "n. điều may mắn tình cờ, sự tình cờ thú vị",
+    "exampleLabel": "Ví dụ",
+    "exampleEn": "Meeting her on that train felt like pure serendipity.",
+    "exampleVi": "Gặp cô ấy trên chuyến tàu đó giống như một sự tình cờ kỳ diệu.",
+    "memoryScore": "Nạp từ vào trí nhớ: 88%"
+  },
+  "palette": {
+    "introHighlight": "#fb7185",
+    "introGlow": "rgba(251, 113, 133, 0.42)",
+    "accent": "#fb7185",
+    "accentGlow": "rgba(251, 113, 133, 0.48)",
+    "subtitle": "#fda4af",
+    "exampleAccent": "#fb7185",
+    "exampleTranslation": "#5eead4",
+    "footerBackground": "rgba(233, 225, 232, 0.92)",
+    "footerText": "#352737",
+    "titleStroke": "#ec4899",
+    "titleGlow": "rgba(236, 72, 153, 0.34)"
+  }
+}

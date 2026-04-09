@@ -1,0 +1,18 @@
+{
+  "first": {
+    "success": true,
+    "outputPath": "/Users/jangmyeongnakamura/Documents/Codex Workspace/Infulencer_Shotstack/output/trend_con_3/rendervid_poc/inspect/localhost_frame_000.png",
+    "fileSize": 1101374,
+    "width": 1080,
+    "height": 1920,
+    "renderTime": 3241
+  },
+  "late": {
+    "success": true,
+    "outputPath": "/Users/jangmyeongnakamura/Documents/Codex Workspace/Infulencer_Shotstack/output/trend_con_3/rendervid_poc/inspect/localhost_frame_200.png",
+    "fileSize": 1101374,
+    "width": 1080,
+    "height": 1920,
+    "renderTime": 3245
+  }
+}

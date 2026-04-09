@@ -1,0 +1,240 @@
+{
+  "job_id": "trend_con_70",
+  "source_video": "input/trend_con_70.mp4",
+  "media": {
+    "duration_sec": 28.396009,
+    "width": 576,
+    "height": 1032,
+    "fps": 24.0,
+    "orientation": "portrait"
+  },
+  "analysis_confidence": "medium",
+  "story_summary": "A TikTok Lite montage starts with a four-child group photo labeled '2006 vs 2026', then alternates between close-up child name cards and scene-specific '2026' future snapshots, before ending on a TikTok Lite end screen.",
+  "source_sampling": {
+    "method": "ffprobe metadata, 1 fps contact-sheet review, scene-change inspection, and exact midpoint frame extraction",
+    "notes": "Hard cuts were detected around 2.125s, 3.833333s, 6.25s, 9.875s, 12.291667s, 16.0s, 18.25s, 22.083333s, and 24.375s. The final child-to-future pairing remains review-required because the source implies but does not explicitly explain each relationship."
+  },
+  "audio_notes": "Audio was extracted directly from the input video into source_audio.mp3 and should be used as the default Shotstack audio source.",
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "start_sec": 0.0,
+      "end_sec": 2.125,
+      "duration_sec": 2.125,
+      "summary": "A group photo shows four pre-teen girls standing arm in arm on a Chinatown street, with bold text reading '2006 vs 2026' across the center.",
+      "characters": [
+        "jessica_child",
+        "lina_child",
+        "rachel_child",
+        "amanda_child"
+      ],
+      "camera": {
+        "framing": "vertical full-body group street portrait",
+        "movement": "static still-photo style hold",
+        "stability": "still image montage"
+      },
+      "on_screen_text": [
+        "Centered title text reads '2006 vs 2026'.",
+        "TikTok Lite watermark and username are visible in the corners."
+      ],
+      "environment": "Busy Chinatown street with yellow taxis, storefront signs, and a decorative gate in the background.",
+      "transformation_role": "intro card establishing the child group and the future-tense premise",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_002",
+      "start_sec": 2.125,
+      "end_sec": 3.833333,
+      "duration_sec": 1.708333,
+      "summary": "A close crop isolates the curly-haired girl from the group photo, labeled 'Jessica' in bold white text.",
+      "characters": [
+        "jessica_child"
+      ],
+      "camera": {
+        "framing": "tight close-up portrait crop",
+        "movement": "static still-photo hold",
+        "stability": "still image montage"
+      },
+      "on_screen_text": [
+        "Centered label text reads 'Jessica'.",
+        "TikTok Lite watermark and username remain visible."
+      ],
+      "environment": "Same outdoor Chinatown background blurred behind the child close-up.",
+      "transformation_role": "name card for the first child subject",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_003",
+      "start_sec": 3.833333,
+      "end_sec": 6.25,
+      "duration_sec": 2.416667,
+      "summary": "A heavily tattooed young woman in an orange jail uniform sits in a courtroom, with large centered text reading '2026'.",
+      "characters": [
+        "future_subject_001"
+      ],
+      "camera": {
+        "framing": "medium courtroom portrait",
+        "movement": "static still-photo hold",
+        "stability": "still image montage"
+      },
+      "on_screen_text": [
+        "Centered text reads '2026'.",
+        "TikTok Lite watermark and username remain visible."
+      ],
+      "environment": "Courtroom interior with judge, attorneys, wood paneling, and officers in the background.",
+      "transformation_role": "first future snapshot, implied to follow Jessica",
+      "evidence_confidence": "medium"
+    },
+    {
+      "scene_id": "scene_004",
+      "start_sec": 6.25,
+      "end_sec": 9.875,
+      "duration_sec": 3.625,
+      "summary": "A close crop isolates the straight-haired black-haired girl from the original group photo, labeled 'Lina'.",
+      "characters": [
+        "lina_child"
+      ],
+      "camera": {
+        "framing": "tight close-up portrait crop",
+        "movement": "static still-photo hold",
+        "stability": "still image montage"
+      },
+      "on_screen_text": [
+        "Centered label text reads 'Lina'.",
+        "TikTok Lite watermark and username remain visible."
+      ],
+      "environment": "Same outdoor Chinatown background blurred behind the child close-up.",
+      "transformation_role": "name card for the second child subject",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_005",
+      "start_sec": 9.875,
+      "end_sec": 12.291667,
+      "duration_sec": 2.416667,
+      "summary": "A tattooed young woman with red-and-black hair poses on a white marble staircase while centered text reads '2026'.",
+      "characters": [
+        "future_subject_002"
+      ],
+      "camera": {
+        "framing": "vertical full-body fashion portrait",
+        "movement": "static still-photo hold",
+        "stability": "still image montage"
+      },
+      "on_screen_text": [
+        "Centered text reads '2026'.",
+        "TikTok Lite watermark and username remain visible."
+      ],
+      "environment": "Bright white interior with marble stairs and a gold handrail.",
+      "transformation_role": "second future snapshot, implied to follow Lina",
+      "evidence_confidence": "medium"
+    },
+    {
+      "scene_id": "scene_006",
+      "start_sec": 12.291667,
+      "end_sec": 16.0,
+      "duration_sec": 3.708333,
+      "summary": "A close crop isolates the blonde girl with glasses from the original group photo, labeled 'Rachel'.",
+      "characters": [
+        "rachel_child"
+      ],
+      "camera": {
+        "framing": "tight close-up portrait crop",
+        "movement": "static still-photo hold",
+        "stability": "still image montage"
+      },
+      "on_screen_text": [
+        "Centered label text reads 'Rachel'.",
+        "TikTok Lite watermark and username remain visible."
+      ],
+      "environment": "Same outdoor Chinatown background blurred behind the child close-up.",
+      "transformation_role": "name card for the third child subject",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_007",
+      "start_sec": 16.0,
+      "end_sec": 18.25,
+      "duration_sec": 2.25,
+      "summary": "A young woman in a New York City police dress uniform receives a certificate outdoors while centered text reads '2026'.",
+      "characters": [
+        "future_subject_003"
+      ],
+      "camera": {
+        "framing": "medium outdoor ceremony portrait",
+        "movement": "static still-photo hold",
+        "stability": "still image montage"
+      },
+      "on_screen_text": [
+        "Centered text reads '2026'.",
+        "TikTok Lite watermark and username remain visible."
+      ],
+      "environment": "Street-side award presentation with yellow taxi, crowd, and uniformed official.",
+      "transformation_role": "third future snapshot, implied to follow Rachel",
+      "evidence_confidence": "medium"
+    },
+    {
+      "scene_id": "scene_008",
+      "start_sec": 18.25,
+      "end_sec": 22.083333,
+      "duration_sec": 3.833333,
+      "summary": "A close crop isolates the braided Black girl from the original group photo, labeled 'Amanda'.",
+      "characters": [
+        "amanda_child"
+      ],
+      "camera": {
+        "framing": "tight close-up portrait crop",
+        "movement": "static still-photo hold",
+        "stability": "still image montage"
+      },
+      "on_screen_text": [
+        "Centered label text reads 'Amanda'.",
+        "TikTok Lite watermark and username remain visible."
+      ],
+      "environment": "Same outdoor Chinatown background blurred behind the child close-up.",
+      "transformation_role": "name card for the fourth child subject",
+      "evidence_confidence": "high"
+    },
+    {
+      "scene_id": "scene_009",
+      "start_sec": 22.083333,
+      "end_sec": 24.375,
+      "duration_sec": 2.291667,
+      "summary": "A young adult man takes a bathroom mirror selfie while centered text reads '2026'. The montage position implies this may be the future counterpart to Amanda, but the relationship is not made explicit in the source.",
+      "characters": [
+        "future_subject_004_unconfirmed"
+      ],
+      "camera": {
+        "framing": "vertical mirror selfie portrait",
+        "movement": "static still-photo hold",
+        "stability": "still image montage"
+      },
+      "on_screen_text": [
+        "Centered text reads '2026'.",
+        "TikTok Lite watermark and username remain visible."
+      ],
+      "environment": "Bright bathroom with mirror, towels, and doorway.",
+      "transformation_role": "fourth future snapshot with uncertain pairing",
+      "evidence_confidence": "medium"
+    },
+    {
+      "scene_id": "scene_010",
+      "start_sec": 24.375,
+      "end_sec": 28.396009,
+      "duration_sec": 4.021009,
+      "summary": "A full-frame TikTok Lite end screen shows the platform logo on a dark background.",
+      "characters": [],
+      "camera": {
+        "framing": "full-frame branded end card",
+        "movement": "static graphic",
+        "stability": "static graphic"
+      },
+      "on_screen_text": [
+        "TikTok Lite logo is centered on the dark background."
+      ],
+      "environment": "No physical environment; this is a platform end slate graphic.",
+      "transformation_role": "platform outro / end card",
+      "evidence_confidence": "high"
+    }
+  ]
+}
