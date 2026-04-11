@@ -5,6 +5,13 @@ import re
 import sys
 from pathlib import Path
 
+REPO_ROOT = Path(__file__).resolve().parents[4]
+SCRIPTS_DIR = REPO_ROOT / "scripts"
+if str(SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS_DIR))
+
+from template_package_support import validate_template_contract
+
 
 PLACEHOLDER_RE = re.compile(r"\{\{\s*([A-Z0-9_]+)\s*\}\}")
 SINGLE_BRACE_RE = re.compile(r"(?<!\{)\{([A-Za-z0-9_]+)\}(?!\})")
@@ -660,6 +667,13 @@ def main():
     shotstack_pasteable = loaded["shotstack_pasteable"]
     if isinstance(shotstack_pasteable, dict):
         validate_pasteable_shotstack(shotstack_pasteable, errors)
+
+    contract_errors, contract_warnings, _ = validate_template_contract(
+        package_dir,
+        expected_renderer="shotstack",
+    )
+    errors.extend(contract_errors)
+    warnings.extend(contract_warnings)
 
     if errors:
         print("Validation failed:")

@@ -9,6 +9,9 @@
     "renderer",
     "review_status",
     "package_dir",
+    "caller_context_echo",
+    "source_summary",
+    "package_summary",
     "artifacts",
     "validation",
     "notes"
@@ -44,6 +47,145 @@
       "type": "string",
       "minLength": 1
     },
+    "caller_context_echo": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "template_type",
+        "source_platform",
+        "source_trend_video_id",
+        "preferred_renderer",
+        "step1_hint_summary",
+        "step2_hint_summary",
+        "operator_notes_summary"
+      ],
+      "properties": {
+        "template_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_platform": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_trend_video_id": {
+          "type": [
+            "string",
+            "number",
+            "integer",
+            "null"
+          ]
+        },
+        "preferred_renderer": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "shotstack",
+            "remotion"
+          ]
+        },
+        "step1_hint_summary": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "step2_hint_summary": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "operator_notes_summary": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "source_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_video",
+        "duration_sec",
+        "width",
+        "height",
+        "scene_count"
+      ],
+      "properties": {
+        "source_video": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "duration_sec": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "width": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "height": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "scene_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "package_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scene_count",
+        "slot_count",
+        "text_slot_count",
+        "media_slot_count",
+        "renderer"
+      ],
+      "properties": {
+        "scene_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "slot_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "text_slot_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "media_slot_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "renderer": {
+          "type": "string",
+          "enum": [
+            "shotstack",
+            "remotion",
+            "unknown"
+          ]
+        }
+      }
+    },
     "artifacts": {
       "type": "object",
       "additionalProperties": false,
@@ -56,6 +198,8 @@
         "shotstack",
         "remotion_package",
         "source_audio",
+        "template_contract",
+        "package_archive",
         "prompt_files"
       ],
       "properties": {
@@ -102,6 +246,18 @@
           ]
         },
         "source_audio": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "template_contract": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "package_archive": {
           "type": [
             "string",
             "null"

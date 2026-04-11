@@ -7,6 +7,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from template_package_support import validate_template_contract
+
 
 def load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text())
@@ -103,6 +105,13 @@ def validate_package(package_dir: Path) -> tuple[list[str], list[str]]:
             "remotion_package/renders/ is missing or empty. This is acceptable at the review gate, "
             "but add preview outputs when practical."
         )
+
+    contract_errors, contract_warnings, _ = validate_template_contract(
+        package_dir,
+        expected_renderer="remotion",
+    )
+    errors.extend(contract_errors)
+    warnings.extend(contract_warnings)
 
     return errors, warnings
 

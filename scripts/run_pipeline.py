@@ -13,6 +13,22 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from template_package_support import (
+    build_source_summary,
+    build_template_contract,
+    compact_caller_context,
+    create_package_archive,
+    load_json as load_json_file,
+    make_empty_caller_context_echo,
+    make_empty_package_summary,
+    make_empty_source_summary,
+    render_caller_context_prompt_block,
+    resolve_review_status,
+    update_manifest_runtime_entries,
+    validate_template_contract,
+    write_json,
+)
+
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT_ROOT = REPO_ROOT / "output"
@@ -75,6 +91,23 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--codex-model",
         help="Optional Codex model override passed through to `codex exec`.",
+    )
+    parser.add_argument(
+        "--preferred-renderer",
+        choices=("auto", "shotstack", "remotion"),
+        default="auto",
+        help=(
+            "Preferred renderer override. `auto` keeps the existing routing rules, "
+            "while `shotstack` and `remotion` strongly prefer that target."
+        ),
+    )
+    parser.add_argument(
+        "--context-json",
+        help="Optional path to a caller context JSON file.",
+    )
+    parser.add_argument(
+        "--context-inline-json",
+        help="Optional inline caller context JSON string.",
     )
     parser.add_argument(
         "--result-json",
@@ -203,7 +236,39 @@ def stage_video(
     return {"mode": "transcode", "transcoded": True, "path": str(staged_input)}
 
 
-def build_codex_prompt(job_id: str) -> str:
+def load_caller_context(args: argparse.Namespace) -> tuple[dict[str, Any] | None, dict[str, Any]]:
+    if args.context_json and args.context_inline_json:
+        raise ValueError("Use either --context-json or --context-inline-json, not both.")
+
+    raw_context: dict[str, Any] | None = None
+    if args.context_json:
+        context_path = Path(args.context_json).expanduser().resolve()
+        if not context_path.exists():
+            raise FileNotFoundError(f"Caller context file not found: {context_path}")
+        if not context_path.is_file():
+            raise FileNotFoundError(f"Caller context path is not a file: {context_path}")
+        loaded = json.loads(context_path.read_text())
+        if not isinstance(loaded, dict):
+            raise ValueError("Caller context JSON must decode to an object.")
+        raw_context = loaded
+    elif args.context_inline_json:
+        loaded = json.loads(args.context_inline_json)
+        if not isinstance(loaded, dict):
+            raise ValueError("Caller context JSON must decode to an object.")
+        raw_context = loaded
+
+    return raw_context, compact_caller_context(
+        raw_context,
+        preferred_renderer=args.preferred_renderer,
+    )
+
+
+def build_codex_prompt(
+    job_id: str,
+    *,
+    preferred_renderer: str,
+    caller_context_echo: dict[str, Any],
+) -> str:
     return textwrap.dedent(
         f"""
         You are operating as the backend template-packaging agent for this repository.
@@ -216,6 +281,10 @@ def build_codex_prompt(job_id: str) -> str:
         - Use the planning workflow from `.agents/skills/trend-short-blueprint/SKILL.md`.
         - Read `docs/renderer-routing.md` before deciding whether this job should stay on Shotstack
           or switch to Remotion.
+        - Preferred renderer from the caller: `{preferred_renderer}`.
+          - If `{preferred_renderer}` is `auto`, keep the existing routing rules.
+          - If `{preferred_renderer}` is `shotstack` or `remotion`, strongly prefer it.
+          - If you cannot safely honor the preference, keep the package review-gated and explain why.
         - If `blueprint.renderer = "shotstack"`, use the packaging workflow from
           `.agents/skills/shotstack-remix-package/SKILL.md`.
         - If `blueprint.renderer = "remotion"`, do not force Shotstack outputs. Instead create
@@ -238,6 +307,13 @@ def build_codex_prompt(job_id: str) -> str:
         - If plot confidence or cast confidence is low, mark the package as review required instead
           of inventing unsupported details.
         - Run the renderer-appropriate package validator before you finish.
+        - Keep the caller context compact. Do not dump raw operator metadata into prompts or artifacts.
+        - In your structured result, include `caller_context_echo`, `source_summary`,
+          `package_summary`, and artifact keys for `template_contract` and `package_archive`.
+          If the local wrapper will generate one of those later, return `null` rather than omitting it.
+
+        Caller context summary:
+        {render_caller_context_prompt_block(caller_context_echo)}
 
         Your final answer must be a JSON object matching the provided schema.
         Report artifact paths relative to the repository root.
@@ -311,7 +387,7 @@ def run_codex(
 
 
 def load_json(path: Path) -> Any:
-    return json.loads(path.read_text())
+    return load_json_file(path)
 
 
 def parse_validator_output(stdout: str) -> tuple[bool, list[str], list[str]]:
@@ -386,6 +462,10 @@ def build_fallback_result(
     renderer: str = "unknown",
     package_dir: Path,
     notes: list[str],
+    preferred_renderer: str = "auto",
+    caller_context_echo: dict[str, Any] | None = None,
+    source_summary: dict[str, Any] | None = None,
+    package_summary: dict[str, Any] | None = None,
     validation: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     return {
@@ -394,6 +474,10 @@ def build_fallback_result(
         "renderer": renderer,
         "review_status": "not_started",
         "package_dir": repo_relative_string(package_dir),
+        "caller_context_echo": caller_context_echo
+        or make_empty_caller_context_echo(preferred_renderer=preferred_renderer),
+        "source_summary": source_summary or make_empty_source_summary(),
+        "package_summary": package_summary or make_empty_package_summary(renderer=renderer),
         "artifacts": {
             "analysis": None,
             "story": None,
@@ -403,6 +487,8 @@ def build_fallback_result(
             "shotstack": None,
             "remotion_package": None,
             "source_audio": None,
+            "template_contract": None,
+            "package_archive": None,
             "prompt_files": [],
         },
         "validation": validation
@@ -424,6 +510,8 @@ def collect_artifacts(package_dir: Path) -> dict[str, Any]:
         "manifest": package_dir / "manifest.json",
         "shotstack": package_dir / "shotstack.json",
         "source_audio": package_dir / "source_audio.mp3",
+        "template_contract": package_dir / "template_contract.json",
+        "package_archive": package_dir / "package.zip",
     }
     artifacts: dict[str, Any] = {
         key: repo_relative_string(path) if path.exists() else None
@@ -452,6 +540,9 @@ def validate_result_shape(result: dict[str, Any]) -> None:
         "renderer",
         "review_status",
         "package_dir",
+        "caller_context_echo",
+        "source_summary",
+        "package_summary",
         "artifacts",
         "validation",
         "notes",
@@ -469,18 +560,26 @@ def validate_result_shape(result: dict[str, Any]) -> None:
 
 def main() -> int:
     args = parse_args()
+    caller_context_echo = make_empty_caller_context_echo(
+        preferred_renderer=args.preferred_renderer
+    )
+    raw_caller_context: dict[str, Any] | None = None
     try:
+        raw_caller_context, caller_context_echo = load_caller_context(args)
         paths = build_job_paths(args)
         source_path = paths["source_path"]
         staged_input = paths["staged_input"]
         package_dir = paths["package_dir"]
         job_id = paths["job_id"]
     except Exception as exc:
+        fallback_job_id = slugify_job_id(args.job_id or Path(args.input_video).stem)
         result = build_fallback_result(
             status="input_error",
-            job_id=slugify_job_id(args.job_id or Path(args.input_video).stem),
-            package_dir=Path(args.output_root).expanduser() / slugify_job_id(args.job_id or Path(args.input_video).stem),
+            job_id=fallback_job_id,
+            package_dir=Path(args.output_root).expanduser() / fallback_job_id,
             notes=[str(exc)],
+            preferred_renderer=args.preferred_renderer,
+            caller_context_echo=caller_context_echo,
         )
         if args.result_json:
             print(json.dumps(result, indent=2, ensure_ascii=False))
@@ -488,7 +587,11 @@ def main() -> int:
             print(str(exc), file=sys.stderr)
         return 2
 
-    prompt = build_codex_prompt(job_id)
+    prompt = build_codex_prompt(
+        job_id,
+        preferred_renderer=args.preferred_renderer,
+        caller_context_echo=caller_context_echo,
+    )
     codex_command = build_codex_command(
         codex_result_path=package_dir / "codex_result.json",
         model=args.codex_model,
@@ -499,9 +602,11 @@ def main() -> int:
             "status": "dry_run",
             "job_id": job_id,
             "renderer": "unknown",
+            "preferred_renderer": args.preferred_renderer,
             "input_video": str(source_path),
             "staged_input": str(staged_input.relative_to(REPO_ROOT)),
             "package_dir": str(package_dir.relative_to(REPO_ROOT)),
+            "caller_context_echo": caller_context_echo,
             "command": codex_command,
             "prompt_preview": prompt,
             "notes": [
@@ -526,6 +631,9 @@ def main() -> int:
         "staged_input": str(staged_input.relative_to(REPO_ROOT)),
         "stage_mode": args.stage_mode,
         "codex_model": args.codex_model,
+        "preferred_renderer": args.preferred_renderer,
+        "caller_context": raw_caller_context,
+        "caller_context_echo": caller_context_echo,
     }
     request_path.write_text(json.dumps(request_payload, indent=2, ensure_ascii=False))
     prompt_path.write_text(prompt)
@@ -543,8 +651,13 @@ def main() -> int:
             job_id=job_id,
             package_dir=package_dir,
             notes=[str(exc)],
+            preferred_renderer=args.preferred_renderer,
+            caller_context_echo=caller_context_echo,
+            source_summary=make_empty_source_summary(
+                source_video=str(source_path)
+            ),
         )
-        result_path.write_text(json.dumps(result, indent=2, ensure_ascii=False))
+        write_json(result_path, result)
         if args.result_json:
             print(json.dumps(result, indent=2, ensure_ascii=False))
         else:
@@ -573,6 +686,8 @@ def main() -> int:
                     "Codex returned an unreadable structured result.",
                     str(exc),
                 ],
+                preferred_renderer=args.preferred_renderer,
+                caller_context_echo=caller_context_echo,
             )
     else:
         result = build_fallback_result(
@@ -584,6 +699,8 @@ def main() -> int:
                 "Codex did not produce a structured result file.",
                 f"codex_exit_code={completed.returncode}",
             ],
+            preferred_renderer=args.preferred_renderer,
+            caller_context_echo=caller_context_echo,
         )
 
     result.setdefault("notes", [])
@@ -594,14 +711,78 @@ def main() -> int:
     )
     result["artifacts"] = collect_artifacts(package_dir)
 
+    blueprint = load_json(package_dir / "blueprint.json") if (package_dir / "blueprint.json").exists() else None
+    manifest = load_json(package_dir / "manifest.json") if (package_dir / "manifest.json").exists() else None
+    source_summary = build_source_summary(
+        package_dir,
+        default_source_video=str(staged_input.relative_to(REPO_ROOT)),
+    )
+    result["caller_context_echo"] = caller_context_echo
+    result["source_summary"] = source_summary
+    result["package_summary"] = make_empty_package_summary(renderer=result["renderer"])
+
+    if package_dir.exists() and (package_dir / "blueprint.json").exists():
+        try:
+            runtime_renderer = infer_renderer(package_dir)
+            template_contract = build_template_contract(
+                package_dir,
+                renderer=runtime_renderer,
+                caller_context=raw_caller_context,
+                caller_context_echo=caller_context_echo,
+            )
+            template_contract_path = package_dir / "template_contract.json"
+            write_json(template_contract_path, template_contract)
+            result["package_summary"] = template_contract.get(
+                "package_summary",
+                make_empty_package_summary(renderer=runtime_renderer),
+            )
+            result["artifacts"]["template_contract"] = repo_relative_string(template_contract_path)
+
+            resolved_review_status = resolve_review_status(
+                initial_review_status=result.get("review_status"),
+                blueprint=blueprint,
+                manifest=manifest,
+                preferred_renderer=args.preferred_renderer,
+                actual_renderer=runtime_renderer,
+            )
+            result["review_status"] = resolved_review_status
+            update_manifest_runtime_entries(
+                package_dir,
+                renderer=runtime_renderer,
+                review_status=resolved_review_status,
+            )
+
+            if (
+                args.preferred_renderer in {"shotstack", "remotion"}
+                and runtime_renderer != args.preferred_renderer
+            ):
+                if result.get("status") == "ok":
+                    result["status"] = "review_required"
+                result["notes"].append(
+                    "Preferred renderer could not be honored automatically; package remains review-gated."
+                )
+                result["notes"].append(
+                    f"preferred_renderer={args.preferred_renderer}, actual_renderer={runtime_renderer}"
+                )
+        except Exception as exc:
+            result["notes"].append(f"Template contract post-processing failed: {exc}")
+
     if package_dir.exists():
         validation = run_validator(package_dir)
+        contract_errors, contract_warnings, _ = validate_template_contract(
+            package_dir,
+            expected_renderer=validation["renderer"],
+        )
+        validation["errors"].extend(contract_errors)
+        validation["warnings"].extend(contract_warnings)
+        validation["passed"] = validation["passed"] and not contract_errors
         result["validation"] = {
             "passed": validation["passed"],
             "errors": validation["errors"],
             "warnings": validation["warnings"],
         }
         result["renderer"] = validation["renderer"]
+        result["package_summary"]["renderer"] = validation["renderer"]
         if not validation["passed"]:
             result["status"] = "validation_failed"
             result["notes"].append("Local validator failed after Codex execution.")
@@ -615,7 +796,38 @@ def main() -> int:
         if validation["raw_output"]:
             (package_dir / "validator.log").write_text(validation["raw_output"])
 
-    result_path.write_text(json.dumps(result, indent=2, ensure_ascii=False))
+    if result["validation"]["passed"]:
+        result["artifacts"]["package_archive"] = repo_relative_string(package_dir / "package.zip")
+        update_manifest_runtime_entries(
+            package_dir,
+            renderer=result["renderer"],
+            review_status=result.get("review_status", "not_started"),
+            include_result=True,
+            include_archive=True,
+        )
+        write_json(result_path, result)
+        try:
+            create_package_archive(package_dir)
+        except Exception as exc:
+            result["artifacts"]["package_archive"] = None
+            result["notes"].append(f"Failed to create package.zip: {exc}")
+            update_manifest_runtime_entries(
+                package_dir,
+                renderer=result["renderer"],
+                review_status=result.get("review_status", "not_started"),
+                include_result=True,
+                include_archive=False,
+            )
+    else:
+        update_manifest_runtime_entries(
+            package_dir,
+            renderer=result["renderer"],
+            review_status=result.get("review_status", "not_started"),
+            include_result=True,
+            include_archive=False,
+        )
+
+    write_json(result_path, result)
     if args.result_json:
         print(json.dumps(result, indent=2, ensure_ascii=False))
     else:

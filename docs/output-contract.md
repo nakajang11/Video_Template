@@ -10,12 +10,15 @@ output/<job_id>/
   story.json
   variable_map.json
   blueprint.json
+  template_contract.json
   source_audio.mp3
   scene_001_startframe_image_prompt.md
   scene_001_video_prompt.md
   scene_002_startframe_image_prompt.md
   scene_002_video_prompt.md
   manifest.json
+  result.json
+  package.zip
 ```
 
 Prompt files are scene-scoped. If a scene uses an image-only Shotstack effect,
@@ -46,6 +49,10 @@ output/<job_id>/
     props/default-props.json
     public/
 ```
+
+The runtime wrapper may add `template_contract.json`, `result.json`, and
+`package.zip` after package generation. Those files do not replace the review
+gate; they make the package easier for downstream systems to ingest.
 
 ## `analysis.json`
 
@@ -365,6 +372,64 @@ Recommended additions:
 - `props/variant-*.json`
 - `renders/`
 
+## `template_contract.json`
+
+Purpose:
+
+- provide the primary downstream contract for slot filling
+- normalize renderer-specific bindings into one slot list
+
+Minimum fields:
+
+- `contract_version`
+- `job_id`
+- `renderer`
+- `template_type`
+- `supported_content_types`
+- `fill_requirements`
+- `package_summary`
+- `slots[]`
+
+Each slot should include at minimum:
+
+- `slot_id`
+- `scene_id`
+- `kind`
+- `required`
+- `fill_strategy`
+- `renderer_binding`
+
+Normalized `kind` values:
+
+- `media`
+- `text`
+- `color`
+- `number`
+- `audio`
+- `overlay`
+
+Normalized `fill_strategy` values:
+
+- `keep_locked`
+- `reuse_template_asset`
+- `select_existing_asset`
+- `generate_text`
+- `generate_media`
+- `reuse_source_trend_video`
+
+Renderer bindings:
+
+- Shotstack slots should expose `renderer_binding.merge_key`
+- Remotion slots should expose `renderer_binding.prop_path`
+
+`package_summary` should include:
+
+- `scene_count`
+- `slot_count`
+- `text_slot_count`
+- `media_slot_count`
+- `renderer`
+
 ## `manifest.json`
 
 Purpose:
@@ -385,6 +450,63 @@ Each artifact entry should include:
 - `path`
 - `scene_id`
 - `status`
+
+Runtime-added artifact entries may also include:
+
+- `template_contract`
+- `result`
+- `package_archive`
+
+## `result.json`
+
+Purpose:
+
+- provide the external-backend response contract
+- summarize compact caller context, source media, package slots, and validation
+
+Minimum fields:
+
+- `status`
+- `job_id`
+- `renderer`
+- `review_status`
+- `package_dir`
+- `caller_context_echo`
+- `source_summary`
+- `package_summary`
+- `artifacts`
+- `validation`
+- `notes`
+
+`caller_context_echo` should stay compact. Do not echo raw `step1_json`,
+`step2_json`, or operator metadata verbatim. Return summaries instead, including
+at minimum:
+
+- `template_type`
+- `source_platform`
+- `source_trend_video_id`
+- `preferred_renderer`
+- `step1_hint_summary`
+- `step2_hint_summary`
+- `operator_notes_summary`
+
+`artifacts` should expose the existing package files plus:
+
+- `template_contract`
+- `package_archive`
+
+## `package.zip`
+
+Purpose:
+
+- provide one validation-passed archive for downstream ingestion
+
+Rules:
+
+- create it only after validation passes
+- include the canonical package artifacts, `template_contract.json`, and `result.json`
+- exclude runtime logs, prompt/debug transcripts, cache directories, `node_modules`,
+  and preview renders
 
 ## Validation Checklist
 
@@ -414,3 +536,4 @@ For `renderer = "remotion"`:
 - `remotion_package/` exists with the required files
 - the blueprint includes `remotion_package` metadata
 - normal content changes can be made by swapping JSON props instead of rewriting the composition source
+- `template_contract.json` exists and its renderer matches the package

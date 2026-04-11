@@ -7,6 +7,26 @@ This repository now supports two review-gated packaging targets:
 
 The choice should be explicit in `blueprint.json` via a top-level `renderer` field.
 
+## Preferred renderer override
+
+The backend CLI may receive `--preferred-renderer` with one of:
+
+- `auto`
+- `shotstack`
+- `remotion`
+
+Rules:
+
+- `auto` keeps the existing routing logic in this document
+- `shotstack` strongly prefers Shotstack while still allowing a review-gated
+  mismatch if the source is clearly a better Remotion fit
+- `remotion` strongly prefers Remotion while still allowing a review-gated
+  mismatch if the source is clearly a better Shotstack fit
+
+If the actual package renderer does not match a non-`auto` preference, the run
+should stay review-gated and the result should explain the mismatch instead of
+silently pretending the preference was honored.
+
 ## Recommended default
 
 Use `shotstack` unless the source depends on motion or layout that becomes fragile,

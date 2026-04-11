@@ -20,6 +20,8 @@ Use:
 python3 scripts/run_pipeline.py \
   --input-video /absolute/path/to/source.mp4 \
   --job-id my_job \
+  --preferred-renderer auto \
+  --context-json /absolute/path/to/context.json \
   --result-json
 ```
 
@@ -31,6 +33,16 @@ The command will:
 4. run the local package validator
 5. write `output/<job_id>/result.json`
 6. print the structured result
+
+`--preferred-renderer` is optional and accepts `auto`, `shotstack`, or
+`remotion`.
+
+Caller context is optional and may be provided with either:
+
+- `--context-json /path/to/context.json`
+- `--context-inline-json '{"template_type":"A-7_trend_single"}'`
+
+Do not pass both at once.
 
 ## Dry run
 
@@ -56,6 +68,9 @@ Claude Code should behave like a thin orchestrator:
    - `status`
    - `renderer`
    - `review_status`
+   - `caller_context_echo`
+   - `source_summary`
+   - `package_summary`
    - `package_dir`
    - key artifact paths
    - validation errors or warnings
@@ -72,6 +87,11 @@ For each run, the backend writes these run-specific files under `output/<job_id>
 - `codex_result.json` when Codex returns a structured result
 - `validator.log` when the validator emits output
 - `result.json`
+- `template_contract.json`
+- `package.zip` when validation passes
+
+`request.json` stores the raw caller context, while `result.json` returns only a
+compact `caller_context_echo` summary.
 
 These files are intended to make debugging possible without making Claude re-read the whole repository.
 
