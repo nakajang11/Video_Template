@@ -36,6 +36,8 @@ class RunPipelineCliTests(unittest.TestCase):
         self.assertEqual(payload["preferred_renderer"], "auto")
         self.assertEqual(payload["caller_context_echo"]["preferred_renderer"], "auto")
         self.assertIn("command", payload)
+        self.assertIn("shell_environment_policy.inherit=all", payload["command"])
+        self.assertNotIn('shell_environment_policy.inherit=["PATH"]', payload["command"])
         self.assertIn("prompt_preview", payload)
 
     def test_dry_run_with_preferred_renderer_and_context(self) -> None:

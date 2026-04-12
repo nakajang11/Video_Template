@@ -346,7 +346,7 @@ def build_codex_command(
     command.extend(
         [
             "--config",
-            f"shell_environment_policy.inherit=[\"PATH\"]",
+            "shell_environment_policy.inherit=all",
         ]
     )
     return command
