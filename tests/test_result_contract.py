@@ -21,6 +21,7 @@ class ResultContractTests(unittest.TestCase):
         artifact_properties = schema["properties"]["artifacts"]["properties"]
         self.assertIn("template_contract", artifact_properties)
         self.assertIn("package_archive", artifact_properties)
+        self.assertFalse(schema["properties"]["caller_context_echo"]["additionalProperties"])
 
     def test_fallback_result_includes_v3_fields(self) -> None:
         payload = run_pipeline.build_fallback_result(

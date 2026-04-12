@@ -49,7 +49,7 @@
     },
     "caller_context_echo": {
       "type": "object",
-      "additionalProperties": true,
+      "additionalProperties": false,
       "required": [
         "template_type",
         "source_platform",
