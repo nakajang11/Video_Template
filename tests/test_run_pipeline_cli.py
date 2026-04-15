@@ -35,6 +35,7 @@ class RunPipelineCliTests(unittest.TestCase):
         self.assertEqual(payload["status"], "dry_run")
         self.assertEqual(payload["preferred_renderer"], "auto")
         self.assertEqual(payload["caller_context_echo"]["preferred_renderer"], "auto")
+        self.assertEqual(payload["shotstack_smoke"]["status"], "not_requested")
         self.assertIn("command", payload)
         self.assertIn("shell_environment_policy.inherit=all", payload["command"])
         self.assertNotIn('shell_environment_policy.inherit=["PATH"]', payload["command"])
@@ -74,6 +75,40 @@ class RunPipelineCliTests(unittest.TestCase):
         self.assertIsInstance(echo["step2_hint_summary"], str)
         self.assertIn("Preferred renderer from the caller: `remotion`.", payload["prompt_preview"])
 
+    def test_dry_run_with_shotstack_smoke_preview(self) -> None:
+        completed = self.run_pipeline(
+            "--input-video",
+            "input/test_3.mp4",
+            "--job-id",
+            "smoke_shotstack_once",
+            "--preferred-renderer",
+            "shotstack",
+            "--shotstack-smoke-render",
+            "--dry-run",
+            "--result-json",
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        payload = json.loads(completed.stdout)
+        self.assertTrue(payload["shotstack_smoke"]["enabled"])
+        self.assertEqual(payload["shotstack_smoke"]["mode"], "render-once")
+        self.assertEqual(payload["shotstack_smoke"]["limit"], 1)
+
+    def test_shotstack_smoke_limit_rejects_render_loop(self) -> None:
+        completed = self.run_pipeline(
+            "--input-video",
+            "input/test_3.mp4",
+            "--job-id",
+            "smoke_loop",
+            "--shotstack-smoke-render",
+            "--shotstack-smoke-limit",
+            "2",
+            "--result-json",
+        )
+        self.assertEqual(completed.returncode, 2, completed.stderr)
+        payload = json.loads(completed.stdout)
+        self.assertEqual(payload["status"], "input_error")
+        self.assertIn("smoke-limit", payload["notes"][0])
+
     def test_duplicate_context_inputs_return_input_error_json(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             context_path = Path(tmp_dir) / "context.json"
@@ -95,6 +130,7 @@ class RunPipelineCliTests(unittest.TestCase):
         self.assertIn("context", payload["notes"][0].lower())
         self.assertIn("template_contract", payload["artifacts"])
         self.assertIn("package_archive", payload["artifacts"])
+        self.assertIn("shotstack_smoke_result", payload["artifacts"])
         self.assertIn("caller_context_echo", payload)
         self.assertIn("source_summary", payload)
         self.assertIn("package_summary", payload)

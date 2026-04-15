@@ -29,7 +29,7 @@
 - Outfit swap or clothing replacement model: `grok imagine`
 - Image-to-video motion model: `kling v3`
 - Reference motion transfer model: `kling v3 motion control`
-- Never call provider APIs, run paid generations, or render with Shotstack unless the user explicitly asks and approves it.
+- Never call provider APIs, run paid generations, or render with Shotstack unless the user explicitly asks and approves it. The only allowed exception is the review-only Shotstack smoke path triggered by `--shotstack-smoke-render`, capped at one attempt with no retry loop.
 - Always extract the input video's audio into `output/<job_id>/source_audio.mp3` and use that audio as the default Shotstack audio source unless the user explicitly overrides it.
 
 ## Shotstack guardrails
@@ -46,6 +46,8 @@
 - Scene durations must be analyzed from the source video and written numerically. For each base scene clip in `shotstack.json`, set `length` to the analyzed source-scene duration instead of relying on `length: "auto"`.
 - `analysis.json` is the timing source of truth. `blueprint.json` must copy the same per-scene `duration_sec`, and the Shotstack scene clip must match that value.
 - In canonical `shotstack.json`, use editable text clips for user-changeable source text. In `shotstack.pasteable.json`, keep text styling faithful to the source and only include backdrop overlays when the source itself uses a caption bar or similar mat, or when the user explicitly asks for a redesign.
+- Prefer Shotstack `rich-text` assets for editable text overlays. If using legacy `text`, `asset.font` and `asset.stroke` must be objects, for example `font.family`, `font.size`, `font.color`, `stroke.color`, and `stroke.width`; do not use top-level `asset.font` strings, `asset.color`, `asset.size`, or `asset.strokeWidth`.
+- Use built-in font families by default, such as `Montserrat`, `Open Sans`, `Roboto`, or `Work Sans`. If a custom font is required, provide a public HTTPS `.ttf` or `.otf` file through `timeline.fonts[].src`; do not use a Google Fonts CSS URL.
 - Match source editorial design as closely as Shotstack allows: choose the nearest supported font family, tune font size and stroke to cover the source text cleanly, and line up editable text or insert overlays against the source frame before finalizing.
 - If automatic white-box detection is noisy, use a manual bbox measurement or reuse `source_geometry` from a representative frame that shares the same text design family. Record that representative frame in `source_geometry.reference_asset`.
 - Convert source coordinates to Shotstack offsets using the full viewport dimensions, not half-dimensions. For `position: "center"`, use `offset.x = center_x / width - 0.5` and `offset.y = 0.5 - center_y / height`. For edge anchors such as `top`, `topRight`, or `topLeft`, convert from the corresponding source margins in the same full-dimension scale.
@@ -56,4 +58,5 @@
 ## Review gate
 
 - Stop at the review gate after producing the blueprint, prompt files, schemas, and Shotstack package.
+- If `--shotstack-smoke-render` is explicitly set, one Shotstack smoke render may be used after local validation to confirm the package can render and to compare against the source. Do not call AI media generation providers, do not retry, and keep the result as review evidence rather than a production render.
 - Summarize exactly which files changed and where they were saved.

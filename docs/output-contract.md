@@ -284,7 +284,11 @@ Rules:
 - use the extracted `source_audio.mp3` as the default audio source
 - represent the source audio as an `asset.type = "audio"` clip on its own track for Shotstack editor compatibility; avoid `timeline.soundtrack`
 - when using an audio clip, place `volume` inside `asset` and use numeric `start` and `length`
-- remove editable source text from remake base media and rebuild it as Shotstack `asset.type = "text"` clips with merge keys such as `SCENE_001_TITLE` or `SCENE_001_CAPTION`
+- remove editable source text from remake base media and rebuild it as Shotstack editable text clips with merge keys such as `SCENE_001_TITLE` or `SCENE_001_CAPTION`
+- prefer Shotstack `asset.type = "rich-text"` for editable text overlays; legacy `asset.type = "text"` is allowed only when it uses the current object-shaped schema
+- `font` must be an object with `family`, `size`, and `color`; use `font.weight = 800` or `900` for extra-bold Montserrat-style text instead of `font = "Montserrat ExtraBold"`
+- `stroke` must be an object with `color` and `width`; do not use top-level `asset.color`, `asset.size`, or `asset.strokeWidth`
+- use built-in font families by default. Custom fonts must be public HTTPS `.ttf` or `.otf` files in `timeline.fonts[].src`; Google Fonts CSS URLs are not valid font file sources
 - ignore platform logos, watermarks, usernames, and logo text by default unless the user explicitly wants them preserved
 - omit a terminal social-platform end slate by default when it is purely branded SNS UI rather than creative story content
 - place higher-priority visual layers earlier in `timeline.tracks`: text first, source-authentic text backdrops next when they exist, base visuals below them
@@ -494,6 +498,37 @@ at minimum:
 
 - `template_contract`
 - `package_archive`
+- `shotstack_smoke_result`
+- `shotstack_smoke_compare`
+- `shotstack_smoke_contact_sheet`
+- `shotstack_smoke_render`
+
+`shotstack_smoke` should expose the review-only smoke state:
+
+- `enabled`
+- `mode` (`off` or `render-once`)
+- `limit` (always `1`)
+- `attempted`
+- `status`
+- `render_url`
+- `render_path`
+- `improvement_notes`
+- `error`
+
+## Shotstack smoke render
+
+The default backend path does not call Shotstack. A Shotstack smoke render is
+allowed only when the caller explicitly passes `--shotstack-smoke-render` or
+`--shotstack-mcp-mode render-once`.
+
+Rules:
+
+- run only after local package validation passes
+- attempt at most one Shotstack render and never retry inside the same run
+- do not call Nano Banana, Grok, Kling, or other AI media generation providers
+- use the package media placeholders, source audio, and extracted source text for review-only validation
+- save `shotstack_smoke_result.json`; when a local render file is available, also save `shotstack_smoke_compare.json` and `shotstack_smoke_contact_sheet.jpg`
+- use the smoke output for improvement notes only, not as a production render
 
 ## `package.zip`
 
@@ -530,6 +565,8 @@ For `renderer = "shotstack"`:
 - every Shotstack placeholder has a matching merge key
 - every merge key is actually used
 - every alias reference resolves to a declared alias
+- text and rich-text assets use object-shaped `font` and `stroke` fields
+- `timeline.fonts[].src` values are public HTTPS `.ttf` or `.otf` files
 
 For `renderer = "remotion"`:
 

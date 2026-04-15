@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -121,6 +123,26 @@ def parse_args() -> argparse.Namespace:
             "Do not invoke Codex or modify repository files. Print the command "
             "shape and prompt metadata only."
         ),
+    )
+    parser.add_argument(
+        "--shotstack-smoke-render",
+        action="store_true",
+        help=(
+            "After local Shotstack validation, attempt at most one external Shotstack "
+            "smoke render for review-only verification."
+        ),
+    )
+    parser.add_argument(
+        "--shotstack-smoke-limit",
+        type=int,
+        default=1,
+        help="Maximum Shotstack smoke render attempts. Only 1 is supported.",
+    )
+    parser.add_argument(
+        "--shotstack-mcp-mode",
+        choices=("off", "render-once"),
+        default="off",
+        help="Shotstack MCP side-effect mode. Default `off`; `render-once` allows one smoke render.",
     )
     return parser.parse_args()
 
@@ -455,6 +477,414 @@ def run_validator(package_dir: Path) -> dict[str, Any]:
     }
 
 
+def resolve_shotstack_smoke_config(args: argparse.Namespace) -> dict[str, Any]:
+    enabled = bool(args.shotstack_smoke_render or args.shotstack_mcp_mode == "render-once")
+    mode = "render-once" if enabled else "off"
+    limit = int(args.shotstack_smoke_limit)
+    if enabled and limit != 1:
+        raise ValueError("--shotstack-smoke-limit must be 1; automatic render loops are not allowed.")
+    return {
+        "enabled": enabled,
+        "mode": mode,
+        "limit": limit,
+    }
+
+
+def make_shotstack_smoke_state(
+    *,
+    enabled: bool = False,
+    mode: str = "off",
+    limit: int = 1,
+    attempted: bool = False,
+    status: str | None = None,
+    render_url: str | None = None,
+    render_path: str | None = None,
+    improvement_notes: list[str] | None = None,
+    error: str | None = None,
+) -> dict[str, Any]:
+    if status is None:
+        status = "pending" if enabled else "not_requested"
+    return {
+        "enabled": enabled,
+        "mode": mode,
+        "limit": limit,
+        "attempted": attempted,
+        "status": status,
+        "render_url": render_url,
+        "render_path": render_path,
+        "improvement_notes": improvement_notes or [],
+        "error": error,
+    }
+
+
+def _parse_fps(value: object) -> float | None:
+    if not isinstance(value, str) or not value:
+        return None
+    if "/" in value:
+        numerator, denominator = value.split("/", 1)
+        try:
+            denominator_value = float(denominator)
+            if denominator_value == 0:
+                return None
+            return float(numerator) / denominator_value
+        except ValueError:
+            return None
+    try:
+        return float(value)
+    except ValueError:
+        return None
+
+
+def probe_media(path: Path) -> dict[str, Any]:
+    completed = subprocess.run(
+        [
+            "ffprobe",
+            "-v",
+            "error",
+            "-show_entries",
+            "format=duration:stream=codec_type,width,height,avg_frame_rate,r_frame_rate",
+            "-of",
+            "json",
+            str(path),
+        ],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+    )
+    if completed.returncode != 0:
+        raise RuntimeError(completed.stderr.strip() or "ffprobe failed")
+    payload = json.loads(completed.stdout)
+    streams = payload.get("streams") if isinstance(payload, dict) else None
+    video_stream = None
+    if isinstance(streams, list):
+        for stream in streams:
+            if isinstance(stream, dict) and stream.get("codec_type") == "video":
+                video_stream = stream
+                break
+    duration = None
+    try:
+        duration = float(payload.get("format", {}).get("duration"))
+    except (TypeError, ValueError, AttributeError):
+        duration = None
+    return {
+        "duration_sec": duration,
+        "width": video_stream.get("width") if isinstance(video_stream, dict) else None,
+        "height": video_stream.get("height") if isinstance(video_stream, dict) else None,
+        "fps": _parse_fps(video_stream.get("avg_frame_rate") if isinstance(video_stream, dict) else None)
+        or _parse_fps(video_stream.get("r_frame_rate") if isinstance(video_stream, dict) else None),
+    }
+
+
+def build_shotstack_smoke_compare(
+    *,
+    source_video: Path,
+    render_path: Path,
+    package_dir: Path,
+) -> tuple[dict[str, Any], list[str]]:
+    compare_path = package_dir / "shotstack_smoke_compare.json"
+    contact_sheet_path = package_dir / "shotstack_smoke_contact_sheet.jpg"
+    work_dir = package_dir / "_shotstack_smoke"
+    work_dir.mkdir(parents=True, exist_ok=True)
+    source_frame = work_dir / "source_midpoint.jpg"
+    render_frame = work_dir / "render_midpoint.jpg"
+    notes: list[str] = [
+        "Review the contact sheet for text placement, crop, and timing. No automatic second render was attempted."
+    ]
+    compare: dict[str, Any] = {
+        "status": "created",
+        "source_video": repo_relative_string(source_video),
+        "render_path": repo_relative_string(render_path) if render_path.exists() else str(render_path),
+        "source": None,
+        "render": None,
+        "duration_delta_sec": None,
+        "resolution_matches": None,
+        "fps_delta": None,
+        "contact_sheet": None,
+        "text_placement_review": {
+            "method": "manual_contact_sheet_review",
+            "notes": "Compare expected text boxes from blueprint source_geometry with the rendered midpoint frames.",
+        },
+        "warnings": [],
+    }
+
+    try:
+        source_probe = probe_media(source_video)
+        render_probe = probe_media(render_path)
+        compare["source"] = source_probe
+        compare["render"] = render_probe
+        if source_probe.get("duration_sec") is not None and render_probe.get("duration_sec") is not None:
+            compare["duration_delta_sec"] = round(
+                float(render_probe["duration_sec"]) - float(source_probe["duration_sec"]),
+                3,
+            )
+        compare["resolution_matches"] = (
+            source_probe.get("width") == render_probe.get("width")
+            and source_probe.get("height") == render_probe.get("height")
+        )
+        if source_probe.get("fps") is not None and render_probe.get("fps") is not None:
+            compare["fps_delta"] = round(float(render_probe["fps"]) - float(source_probe["fps"]), 3)
+
+        source_midpoint = max(float(source_probe.get("duration_sec") or 0) / 2, 0.1)
+        render_midpoint = max(float(render_probe.get("duration_sec") or 0) / 2, 0.1)
+        for input_path, midpoint, output_path in (
+            (source_video, source_midpoint, source_frame),
+            (render_path, render_midpoint, render_frame),
+        ):
+            completed = subprocess.run(
+                [
+                    "ffmpeg",
+                    "-y",
+                    "-ss",
+                    f"{midpoint:.3f}",
+                    "-i",
+                    str(input_path),
+                    "-frames:v",
+                    "1",
+                    str(output_path),
+                ],
+                cwd=REPO_ROOT,
+                capture_output=True,
+                text=True,
+            )
+            if completed.returncode != 0:
+                raise RuntimeError(completed.stderr.strip() or "ffmpeg frame extraction failed")
+
+        filter_graph = (
+            "[0:v]scale=540:960:force_original_aspect_ratio=decrease,"
+            "pad=540:960:(ow-iw)/2:(oh-ih)/2[left];"
+            "[1:v]scale=540:960:force_original_aspect_ratio=decrease,"
+            "pad=540:960:(ow-iw)/2:(oh-ih)/2[right];"
+            "[left][right]hstack=inputs=2"
+        )
+        completed = subprocess.run(
+            [
+                "ffmpeg",
+                "-y",
+                "-i",
+                str(source_frame),
+                "-i",
+                str(render_frame),
+                "-filter_complex",
+                filter_graph,
+                str(contact_sheet_path),
+            ],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+        )
+        if completed.returncode != 0:
+            raise RuntimeError(completed.stderr.strip() or "ffmpeg contact sheet creation failed")
+        compare["contact_sheet"] = repo_relative_string(contact_sheet_path)
+    except Exception as exc:
+        compare["status"] = "compare_failed"
+        compare["warnings"].append(str(exc))
+        notes.append(f"Shotstack smoke comparison could not create all local artifacts: {exc}")
+
+    write_json(compare_path, compare)
+    return compare, notes
+
+
+def run_shotstack_smoke_render(
+    *,
+    package_dir: Path,
+    source_video: Path,
+    renderer: str,
+    smoke_config: dict[str, Any],
+) -> dict[str, Any]:
+    state = make_shotstack_smoke_state(
+        enabled=bool(smoke_config.get("enabled")),
+        mode=str(smoke_config.get("mode", "off")),
+        limit=int(smoke_config.get("limit", 1)),
+    )
+    if not state["enabled"]:
+        return state
+
+    result_path = package_dir / "shotstack_smoke_result.json"
+    compare_path = package_dir / "shotstack_smoke_compare.json"
+    if renderer != "shotstack":
+        state["status"] = "skipped"
+        state["error"] = "Shotstack smoke render only applies to shotstack packages."
+        write_json(result_path, state)
+        write_json(
+            compare_path,
+            {
+                "status": "skipped",
+                "reason": state["error"],
+            },
+        )
+        return state
+
+    if state["limit"] != 1:
+        state["status"] = "configuration_error"
+        state["error"] = "Shotstack smoke limit must be exactly 1."
+        write_json(result_path, state)
+        return state
+
+    render_command = os.environ.get("SHOTSTACK_MCP_RENDER_COMMAND")
+    if not render_command:
+        state["status"] = "configuration_required"
+        state["error"] = (
+            "SHOTSTACK_MCP_RENDER_COMMAND is not configured; no Shotstack MCP render was attempted."
+        )
+        state["improvement_notes"].append(
+            "Local validation passed, but external Shotstack smoke could not run without an MCP command adapter."
+        )
+        write_json(result_path, state)
+        write_json(
+            compare_path,
+            {
+                "status": "skipped",
+                "reason": state["error"],
+            },
+        )
+        return state
+
+    shotstack_json_path = (
+        package_dir / "shotstack.pasteable.json"
+        if (package_dir / "shotstack.pasteable.json").exists()
+        else package_dir / "shotstack.json"
+    )
+    request = {
+        "package_dir": str(package_dir),
+        "shotstack_json": str(shotstack_json_path),
+        "source_video": str(source_video),
+        "limit": 1,
+        "purpose": "review_only_smoke_render",
+    }
+    state["attempted"] = True
+    raw_result: dict[str, Any] = {}
+    try:
+        completed = subprocess.run(
+            shlex.split(render_command),
+            cwd=REPO_ROOT,
+            input=json.dumps(request),
+            capture_output=True,
+            text=True,
+            timeout=900,
+        )
+        raw_result = {
+            "returncode": completed.returncode,
+            "stdout": completed.stdout,
+            "stderr": completed.stderr,
+        }
+        parsed_stdout = None
+        try:
+            parsed_stdout = json.loads(completed.stdout) if completed.stdout.strip() else None
+        except json.JSONDecodeError:
+            parsed_stdout = None
+        raw_result["parsed_stdout"] = parsed_stdout
+
+        if completed.returncode != 0:
+            state["status"] = "failed"
+            state["error"] = completed.stderr.strip() or completed.stdout.strip() or "Shotstack smoke render failed."
+        else:
+            state["status"] = "success"
+            if isinstance(parsed_stdout, dict):
+                render_url = parsed_stdout.get("render_url") or parsed_stdout.get("url")
+                render_path = parsed_stdout.get("render_path") or parsed_stdout.get("file")
+                if isinstance(render_url, str):
+                    state["render_url"] = render_url
+                if isinstance(render_path, str):
+                    state["render_path"] = render_path
+            if not state.get("render_url") and not state.get("render_path"):
+                state["status"] = "failed"
+                state["error"] = "Shotstack smoke adapter did not return render_url or render_path."
+            else:
+                state["improvement_notes"].append(
+                    "Shotstack smoke render completed once. Use the saved compare artifacts for manual improvement planning."
+                )
+    except Exception as exc:
+        raw_result = {"error": str(exc)}
+        state["status"] = "failed"
+        state["error"] = str(exc)
+
+    result_payload = dict(state)
+    result_payload["adapter_result"] = raw_result
+    write_json(result_path, result_payload)
+
+    render_path_value = state.get("render_path")
+    if state["status"] == "success" and isinstance(render_path_value, str):
+        local_render_path = Path(render_path_value).expanduser()
+        if not local_render_path.is_absolute():
+            local_render_path = (REPO_ROOT / local_render_path).resolve()
+        if local_render_path.exists():
+            compare, notes = build_shotstack_smoke_compare(
+                source_video=source_video,
+                render_path=local_render_path,
+                package_dir=package_dir,
+            )
+            state["improvement_notes"].extend(notes)
+            if compare.get("contact_sheet"):
+                state["improvement_notes"].append(
+                    f"Contact sheet saved at {compare['contact_sheet']}."
+                )
+        else:
+            write_json(
+                compare_path,
+                {
+                    "status": "skipped",
+                    "reason": f"Render path does not exist locally: {render_path_value}",
+                },
+            )
+    elif state["status"] == "success" and state.get("render_url"):
+        write_json(
+            compare_path,
+            {
+                "status": "skipped",
+                "reason": "Render URL was returned, but no local render file was available for ffprobe comparison.",
+                "render_url": state.get("render_url"),
+            },
+        )
+    elif not compare_path.exists():
+        write_json(
+            compare_path,
+            {
+                "status": "skipped",
+                "reason": state.get("error") or "Shotstack smoke render did not produce a local render.",
+            },
+        )
+
+    result_payload = dict(state)
+    result_payload["adapter_result"] = raw_result
+    write_json(result_path, result_payload)
+    return state
+
+
+def upsert_manifest_artifact(
+    package_dir: Path,
+    *,
+    artifact_type: str,
+    path: str,
+    status: str = "created",
+) -> None:
+    manifest_path = package_dir / "manifest.json"
+    if not manifest_path.exists():
+        return
+    manifest = load_json(manifest_path)
+    if not isinstance(manifest, dict):
+        return
+    artifacts = manifest.get("artifacts")
+    if not isinstance(artifacts, list):
+        artifacts = []
+        manifest["artifacts"] = artifacts
+    for artifact in artifacts:
+        if isinstance(artifact, dict) and artifact.get("path") == path:
+            artifact["type"] = artifact_type
+            artifact["status"] = status
+            artifact["scene_id"] = None
+            write_json(manifest_path, manifest)
+            return
+    artifacts.append(
+        {
+            "type": artifact_type,
+            "path": path,
+            "scene_id": None,
+            "status": status,
+        }
+    )
+    write_json(manifest_path, manifest)
+
+
 def build_fallback_result(
     *,
     status: str,
@@ -467,6 +897,7 @@ def build_fallback_result(
     source_summary: dict[str, Any] | None = None,
     package_summary: dict[str, Any] | None = None,
     validation: dict[str, Any] | None = None,
+    shotstack_smoke: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     return {
         "status": status,
@@ -489,8 +920,13 @@ def build_fallback_result(
             "source_audio": None,
             "template_contract": None,
             "package_archive": None,
+            "shotstack_smoke_result": None,
+            "shotstack_smoke_compare": None,
+            "shotstack_smoke_contact_sheet": None,
+            "shotstack_smoke_render": None,
             "prompt_files": [],
         },
+        "shotstack_smoke": shotstack_smoke or make_shotstack_smoke_state(),
         "validation": validation
         or {
             "passed": False,
@@ -512,6 +948,10 @@ def collect_artifacts(package_dir: Path) -> dict[str, Any]:
         "source_audio": package_dir / "source_audio.mp3",
         "template_contract": package_dir / "template_contract.json",
         "package_archive": package_dir / "package.zip",
+        "shotstack_smoke_result": package_dir / "shotstack_smoke_result.json",
+        "shotstack_smoke_compare": package_dir / "shotstack_smoke_compare.json",
+        "shotstack_smoke_contact_sheet": package_dir / "shotstack_smoke_contact_sheet.jpg",
+        "shotstack_smoke_render": package_dir / "shotstack_smoke_render.mp4",
     }
     artifacts: dict[str, Any] = {
         key: repo_relative_string(path) if path.exists() else None
@@ -544,6 +984,7 @@ def validate_result_shape(result: dict[str, Any]) -> None:
         "source_summary",
         "package_summary",
         "artifacts",
+        "shotstack_smoke",
         "validation",
         "notes",
     ]
@@ -560,11 +1001,17 @@ def validate_result_shape(result: dict[str, Any]) -> None:
 
 def main() -> int:
     args = parse_args()
+    smoke_config = {
+        "enabled": False,
+        "mode": "off",
+        "limit": 1,
+    }
     caller_context_echo = make_empty_caller_context_echo(
         preferred_renderer=args.preferred_renderer
     )
     raw_caller_context: dict[str, Any] | None = None
     try:
+        smoke_config = resolve_shotstack_smoke_config(args)
         raw_caller_context, caller_context_echo = load_caller_context(args)
         paths = build_job_paths(args)
         source_path = paths["source_path"]
@@ -573,6 +1020,7 @@ def main() -> int:
         job_id = paths["job_id"]
     except Exception as exc:
         fallback_job_id = slugify_job_id(args.job_id or Path(args.input_video).stem)
+        smoke_error = str(exc) if "--shotstack-smoke" in str(exc) else None
         result = build_fallback_result(
             status="input_error",
             job_id=fallback_job_id,
@@ -580,6 +1028,13 @@ def main() -> int:
             notes=[str(exc)],
             preferred_renderer=args.preferred_renderer,
             caller_context_echo=caller_context_echo,
+            shotstack_smoke=make_shotstack_smoke_state(
+                enabled=bool(smoke_error) or bool(smoke_config.get("enabled")),
+                mode="render-once" if smoke_error else str(smoke_config.get("mode", "off")),
+                limit=int(smoke_config.get("limit", 1)),
+                status="configuration_error" if smoke_error else None,
+                error=smoke_error,
+            ),
         )
         if args.result_json:
             print(json.dumps(result, indent=2, ensure_ascii=False))
@@ -607,6 +1062,11 @@ def main() -> int:
             "staged_input": str(staged_input.relative_to(REPO_ROOT)),
             "package_dir": str(package_dir.relative_to(REPO_ROOT)),
             "caller_context_echo": caller_context_echo,
+            "shotstack_smoke": make_shotstack_smoke_state(
+                enabled=bool(smoke_config.get("enabled")),
+                mode=str(smoke_config.get("mode", "off")),
+                limit=int(smoke_config.get("limit", 1)),
+            ),
             "command": codex_command,
             "prompt_preview": prompt,
             "notes": [
@@ -632,6 +1092,7 @@ def main() -> int:
         "stage_mode": args.stage_mode,
         "codex_model": args.codex_model,
         "preferred_renderer": args.preferred_renderer,
+        "shotstack_smoke": smoke_config,
         "caller_context": raw_caller_context,
         "caller_context_echo": caller_context_echo,
     }
@@ -656,6 +1117,11 @@ def main() -> int:
             source_summary=make_empty_source_summary(
                 source_video=str(source_path)
             ),
+            shotstack_smoke=make_shotstack_smoke_state(
+                enabled=bool(smoke_config.get("enabled")),
+                mode=str(smoke_config.get("mode", "off")),
+                limit=int(smoke_config.get("limit", 1)),
+            ),
         )
         write_json(result_path, result)
         if args.result_json:
@@ -670,6 +1136,7 @@ def main() -> int:
         try:
             result = load_json(codex_result_path)
             result.setdefault("renderer", infer_renderer(package_dir))
+            result.setdefault("shotstack_smoke", make_shotstack_smoke_state())
             if isinstance(result.get("artifacts"), dict):
                 result["artifacts"].setdefault(
                     "remotion_package",
@@ -708,6 +1175,11 @@ def main() -> int:
     result["notes"].insert(
         0,
         f"staging_mode={stage_info['mode']}, transcoded={stage_info['transcoded']}",
+    )
+    result["shotstack_smoke"] = make_shotstack_smoke_state(
+        enabled=bool(smoke_config.get("enabled")),
+        mode=str(smoke_config.get("mode", "off")),
+        limit=int(smoke_config.get("limit", 1)),
     )
     result["artifacts"] = collect_artifacts(package_dir)
 
@@ -797,6 +1269,42 @@ def main() -> int:
             (package_dir / "validator.log").write_text(validation["raw_output"])
 
     if result["validation"]["passed"]:
+        if smoke_config.get("enabled"):
+            smoke_state = run_shotstack_smoke_render(
+                package_dir=package_dir,
+                source_video=staged_input,
+                renderer=result["renderer"],
+                smoke_config=smoke_config,
+            )
+            result["shotstack_smoke"] = smoke_state
+            for artifact_type, rel_path in (
+                ("shotstack_smoke_result", "shotstack_smoke_result.json"),
+                ("shotstack_smoke_compare", "shotstack_smoke_compare.json"),
+                ("shotstack_smoke_contact_sheet", "shotstack_smoke_contact_sheet.jpg"),
+                ("shotstack_smoke_render", "shotstack_smoke_render.mp4"),
+            ):
+                if (package_dir / rel_path).exists():
+                    upsert_manifest_artifact(
+                        package_dir,
+                        artifact_type=artifact_type,
+                        path=rel_path,
+                    )
+            result["artifacts"] = collect_artifacts(package_dir)
+            result["notes"].extend(smoke_state.get("improvement_notes", []))
+            if smoke_state.get("status") != "success":
+                if result.get("status") == "ok":
+                    result["status"] = "review_required"
+                result["review_status"] = "review_required"
+                if smoke_state.get("error"):
+                    result["notes"].append(f"Shotstack smoke render did not complete: {smoke_state['error']}")
+                update_manifest_runtime_entries(
+                    package_dir,
+                    renderer=result["renderer"],
+                    review_status=result.get("review_status", "review_required"),
+                    include_result=False,
+                    include_archive=False,
+                )
+
         result["artifacts"]["package_archive"] = repo_relative_string(package_dir / "package.zip")
         update_manifest_runtime_entries(
             package_dir,
@@ -819,6 +1327,14 @@ def main() -> int:
                 include_archive=False,
             )
     else:
+        if smoke_config.get("enabled"):
+            result["shotstack_smoke"] = make_shotstack_smoke_state(
+                enabled=True,
+                mode=str(smoke_config.get("mode", "render-once")),
+                limit=int(smoke_config.get("limit", 1)),
+                status="skipped",
+                error="Local validation failed; Shotstack smoke render was not attempted.",
+            )
         update_manifest_runtime_entries(
             package_dir,
             renderer=result["renderer"],

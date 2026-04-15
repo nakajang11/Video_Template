@@ -13,6 +13,7 @@
     "source_summary",
     "package_summary",
     "artifacts",
+    "shotstack_smoke",
     "validation",
     "notes"
   ],
@@ -200,6 +201,10 @@
         "source_audio",
         "template_contract",
         "package_archive",
+        "shotstack_smoke_result",
+        "shotstack_smoke_compare",
+        "shotstack_smoke_contact_sheet",
+        "shotstack_smoke_render",
         "prompt_files"
       ],
       "properties": {
@@ -263,11 +268,96 @@
             "null"
           ]
         },
+        "shotstack_smoke_result": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "shotstack_smoke_compare": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "shotstack_smoke_contact_sheet": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "shotstack_smoke_render": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "prompt_files": {
           "type": "array",
           "items": {
             "type": "string"
           }
+        }
+      }
+    },
+    "shotstack_smoke": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "mode",
+        "limit",
+        "attempted",
+        "status",
+        "render_url",
+        "render_path",
+        "improvement_notes",
+        "error"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "off",
+            "render-once"
+          ]
+        },
+        "limit": {
+          "type": "integer",
+          "const": 1
+        },
+        "attempted": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string"
+        },
+        "render_url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "render_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "improvement_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "error": {
+          "type": [
+            "string",
+            "null"
+          ]
         }
       }
     },

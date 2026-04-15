@@ -21,6 +21,8 @@ class ResultContractTests(unittest.TestCase):
         artifact_properties = schema["properties"]["artifacts"]["properties"]
         self.assertIn("template_contract", artifact_properties)
         self.assertIn("package_archive", artifact_properties)
+        self.assertIn("shotstack_smoke_result", artifact_properties)
+        self.assertIn("shotstack_smoke", schema["properties"])
         self.assertFalse(schema["properties"]["caller_context_echo"]["additionalProperties"])
 
     def test_fallback_result_includes_v3_fields(self) -> None:
@@ -38,6 +40,8 @@ class ResultContractTests(unittest.TestCase):
         self.assertEqual(payload["caller_context_echo"]["preferred_renderer"], "shotstack")
         self.assertIn("template_contract", payload["artifacts"])
         self.assertIn("package_archive", payload["artifacts"])
+        self.assertIn("shotstack_smoke_result", payload["artifacts"])
+        self.assertEqual(payload["shotstack_smoke"]["status"], "not_requested")
 
 
 if __name__ == "__main__":
