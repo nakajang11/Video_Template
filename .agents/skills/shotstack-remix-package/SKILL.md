@@ -57,6 +57,9 @@ If `blueprint.renderer != "shotstack"`, stop and route the job to the Remotion p
 - For source audio clips, keep `volume` inside `asset` and use numeric `start` and `length`
 - You may use `start: "auto"` for sequential ordering, but every base scene clip must use a numeric `length` copied from the analyzed source-scene duration in `blueprint.json`
 - When a scene has image or video overlays, place them on higher tracks and map each one from `overlay_layers`
+- Prefer `asset.type = "rich-text"` for editable text overlays. If legacy `asset.type = "text"` is used, keep `font` and `stroke` object-shaped: `font.family`, `font.size`, `font.color`, optional `font.weight`, `stroke.color`, and `stroke.width`.
+- Do not emit Shotstack text assets with `asset.font` as a string, top-level `asset.color`, top-level `asset.size`, or `asset.strokeWidth`; the local validator treats those as render-blocking schema errors.
+- Use built-in font families such as `Montserrat`, `Open Sans`, `Roboto`, and `Work Sans` by default. For custom fonts, add a public HTTPS `.ttf` or `.otf` URL under `timeline.fonts[].src`; do not use a Google Fonts CSS URL.
 - Every packaged job should also include `cloudinary_assets.json` plus a direct-use `shotstack.pasteable.json`
 - In `shotstack.pasteable.json`, replace placeholders with Cloudinary `secure_url` values, remove the `merge` array, and prefer explicit numeric `start` values
 - In `shotstack.pasteable.json`, do not use `width` or `height` on image overlay clips; Shotstack Studio rejects them there, so size image overlays with `fit` plus `scale`
@@ -79,6 +82,8 @@ A package is not ready until the validator confirms:
 - every Shotstack placeholder has a matching merge key
 - every merge key is actually used
 - every alias reference resolves
+- every text or rich-text asset uses object-shaped font and stroke fields
+- every custom font source is a public HTTPS `.ttf` or `.otf` file
 
 ## References
 

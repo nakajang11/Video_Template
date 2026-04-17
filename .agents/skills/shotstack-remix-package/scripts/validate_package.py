@@ -5,10 +5,19 @@ import re
 import sys
 from pathlib import Path
 
+REPO_ROOT = Path(__file__).resolve().parents[4]
+SCRIPTS_DIR = REPO_ROOT / "scripts"
+if str(SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS_DIR))
+
+from template_package_support import validate_template_contract
+
 
 PLACEHOLDER_RE = re.compile(r"\{\{\s*([A-Z0-9_]+)\s*\}\}")
 SINGLE_BRACE_RE = re.compile(r"(?<!\{)\{([A-Za-z0-9_]+)\}(?!\})")
 ALIAS_REF_RE = re.compile(r"alias://([A-Z0-9_]+)")
+HEX_COLOR_RE = re.compile(r"^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$")
+FONT_SRC_RE = re.compile(r"\.(ttf|otf)(?:[?#].*)?$", re.IGNORECASE)
 DURATION_TOLERANCE_SEC = 0.05
 
 
@@ -178,6 +187,117 @@ def collect_alias_declarations(node):
         for item in node:
             declared.update(collect_alias_declarations(item))
     return declared
+
+
+def iter_timeline_clips(shotstack: dict):
+    timeline = shotstack.get("timeline")
+    if not isinstance(timeline, dict):
+        return
+    tracks = timeline.get("tracks")
+    if not isinstance(tracks, list):
+        return
+    for track_index, track in enumerate(tracks):
+        if not isinstance(track, dict):
+            continue
+        clips = track.get("clips")
+        if not isinstance(clips, list):
+            continue
+        for clip_index, clip in enumerate(clips):
+            if isinstance(clip, dict):
+                yield track_index, clip_index, clip
+
+
+def _validate_color(value: object, field_path: str, errors: list[str]):
+    if not isinstance(value, str) or not HEX_COLOR_RE.match(value):
+        errors.append(f"{field_path} must be a hex color string")
+
+
+def _validate_positive_number(value: object, field_path: str, errors: list[str]):
+    if not isinstance(value, (int, float)) or value <= 0:
+        errors.append(f"{field_path} must be a positive number")
+
+
+def _validate_non_negative_number(value: object, field_path: str, errors: list[str]):
+    if not isinstance(value, (int, float)) or value < 0:
+        errors.append(f"{field_path} must be a zero or positive number")
+
+
+def validate_text_asset_schema(asset: dict, asset_path: str, errors: list[str]):
+    asset_type = asset.get("type")
+    if asset_type not in {"text", "rich-text"}:
+        return
+
+    if not isinstance(asset.get("text"), str) or not asset.get("text"):
+        errors.append(f"{asset_path}.text must be a non-empty string")
+
+    for unsupported_key in ("color", "size", "strokeWidth"):
+        if unsupported_key in asset:
+            errors.append(f"{asset_path}.{unsupported_key} is unsupported; use object-shaped font/stroke fields")
+
+    font = asset.get("font")
+    if not isinstance(font, dict):
+        errors.append(f"{asset_path}.font must be an object")
+    else:
+        family = font.get("family")
+        if not isinstance(family, str) or not family:
+            errors.append(f"{asset_path}.font.family must be a non-empty string")
+        _validate_positive_number(font.get("size"), f"{asset_path}.font.size", errors)
+        _validate_color(font.get("color"), f"{asset_path}.font.color", errors)
+        weight = font.get("weight")
+        if weight is not None and not isinstance(weight, (int, str)):
+            errors.append(f"{asset_path}.font.weight must be a number or string when provided")
+
+    stroke = asset.get("stroke")
+    if stroke is not None:
+        if not isinstance(stroke, dict):
+            errors.append(f"{asset_path}.stroke must be an object")
+        else:
+            _validate_color(stroke.get("color"), f"{asset_path}.stroke.color", errors)
+            _validate_non_negative_number(stroke.get("width"), f"{asset_path}.stroke.width", errors)
+
+    for object_key in ("shadow", "background", "style"):
+        if object_key in asset and not isinstance(asset.get(object_key), dict):
+            errors.append(f"{asset_path}.{object_key} must be an object when provided")
+
+
+def validate_timeline_fonts(shotstack: dict, errors: list[str], label: str):
+    timeline = shotstack.get("timeline")
+    if not isinstance(timeline, dict):
+        return
+    fonts = timeline.get("fonts")
+    if fonts is None:
+        return
+    if not isinstance(fonts, list):
+        errors.append(f"{label} timeline.fonts must be an array")
+        return
+    for index, font in enumerate(fonts):
+        font_path = f"{label} timeline.fonts[{index}]"
+        if not isinstance(font, dict):
+            errors.append(f"{font_path} must be an object")
+            continue
+        src = font.get("src")
+        if not isinstance(src, str) or not src:
+            errors.append(f"{font_path}.src must be a non-empty string")
+            continue
+        if "fonts.googleapis.com" in src:
+            errors.append(f"{font_path}.src must point to a font file, not a Google Fonts CSS URL")
+        if not src.startswith("https://"):
+            errors.append(f"{font_path}.src must use https")
+        if not FONT_SRC_RE.search(src):
+            errors.append(f"{font_path}.src must point to a .ttf or .otf font file")
+
+
+def validate_text_assets(shotstack: dict, errors: list[str], label: str):
+    validate_timeline_fonts(shotstack, errors, label)
+    for track_index, clip_index, clip in iter_timeline_clips(shotstack) or []:
+        asset = clip.get("asset")
+        if not isinstance(asset, dict):
+            continue
+        validate_text_asset_schema(
+            asset,
+            f"{label} timeline.tracks[{track_index}].clips[{clip_index}].asset",
+            errors,
+        )
 
 
 def validate_blueprint(blueprint: dict, package_dir: Path, errors: list[str], warnings: list[str]):
@@ -411,6 +531,8 @@ def validate_cloudinary_assets(cloudinary_assets: dict, errors: list[str]):
 
 
 def validate_pasteable_shotstack(shotstack: dict, errors: list[str]):
+    validate_text_assets(shotstack, errors, "shotstack.pasteable.json")
+
     strings = list(iter_strings(shotstack))
     placeholders = set()
     for value in strings:
@@ -473,6 +595,8 @@ def validate_shotstack(
     errors: list[str],
     warnings: list[str],
 ):
+    validate_text_assets(shotstack, errors, "shotstack.json")
+
     strings = list(iter_strings(shotstack))
     placeholders = set()
     suspicious_single_braces = []
@@ -660,6 +784,13 @@ def main():
     shotstack_pasteable = loaded["shotstack_pasteable"]
     if isinstance(shotstack_pasteable, dict):
         validate_pasteable_shotstack(shotstack_pasteable, errors)
+
+    contract_errors, contract_warnings, _ = validate_template_contract(
+        package_dir,
+        expected_renderer="shotstack",
+    )
+    errors.extend(contract_errors)
+    warnings.extend(contract_warnings)
 
     if errors:
         print("Validation failed:")

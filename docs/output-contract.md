@@ -10,12 +10,15 @@ output/<job_id>/
   story.json
   variable_map.json
   blueprint.json
+  template_contract.json
   source_audio.mp3
   scene_001_startframe_image_prompt.md
   scene_001_video_prompt.md
   scene_002_startframe_image_prompt.md
   scene_002_video_prompt.md
   manifest.json
+  result.json
+  package.zip
 ```
 
 Prompt files are scene-scoped. If a scene uses an image-only Shotstack effect,
@@ -43,9 +46,15 @@ output/<job_id>/
     README.md
     src/index.jsx
     src/Root.jsx
+    src/<Composition>.jsx
     props/default-props.json
+    template-partition.json
     public/
 ```
+
+The runtime wrapper may add `template_contract.json`, `result.json`, and
+`package.zip` after package generation. Those files do not replace the review
+gate; they make the package easier for downstream systems to ingest.
 
 ## `analysis.json`
 
@@ -277,7 +286,11 @@ Rules:
 - use the extracted `source_audio.mp3` as the default audio source
 - represent the source audio as an `asset.type = "audio"` clip on its own track for Shotstack editor compatibility; avoid `timeline.soundtrack`
 - when using an audio clip, place `volume` inside `asset` and use numeric `start` and `length`
-- remove editable source text from remake base media and rebuild it as Shotstack `asset.type = "text"` clips with merge keys such as `SCENE_001_TITLE` or `SCENE_001_CAPTION`
+- remove editable source text from remake base media and rebuild it as Shotstack editable text clips with merge keys such as `SCENE_001_TITLE` or `SCENE_001_CAPTION`
+- prefer Shotstack `asset.type = "rich-text"` for editable text overlays; legacy `asset.type = "text"` is allowed only when it uses the current object-shaped schema
+- `font` must be an object with `family`, `size`, and `color`; use `font.weight = 800` or `900` for extra-bold Montserrat-style text instead of `font = "Montserrat ExtraBold"`
+- `stroke` must be an object with `color` and `width`; do not use top-level `asset.color`, `asset.size`, or `asset.strokeWidth`
+- use built-in font families by default. Custom fonts must be public HTTPS `.ttf` or `.otf` files in `timeline.fonts[].src`; Google Fonts CSS URLs are not valid font file sources
 - ignore platform logos, watermarks, usernames, and logo text by default unless the user explicitly wants them preserved
 - omit a terminal social-platform end slate by default when it is purely branded SNS UI rather than creative story content
 - place higher-priority visual layers earlier in `timeline.tracks`: text first, source-authentic text backdrops next when they exist, base visuals below them
@@ -357,13 +370,87 @@ Minimum structure:
 - `README.md`
 - `src/index.jsx`
 - `src/Root.jsx`
+- a composition implementation file under `src/`
 - `props/default-props.json`
 - `public/`
+- `template-partition.json`
 
 Recommended additions:
 
 - `props/variant-*.json`
 - `renders/`
+
+Rules:
+
+- build Remotion packages with `.agents/skills/remotion-package/SKILL.md`
+- keep local assets under `remotion_package/public/`
+- reference local assets and audio with `staticFile()` from Remotion code
+- keep reusable text, media, palette, and timing values in JSON props
+- `src/index.jsx` should only register the root
+- `src/Root.jsx` should define the composition and load `defaultProps`
+- the composition id must match `blueprint.remotion_package.composition_id`
+- `durationInFrames`, `fps`, `width`, and `height` should be explicit unless the package intentionally uses metadata
+- `blueprint.remotion_package.editable_props` should contain every downstream-editable JSON prop path
+- `template-partition.json` should map input media, editable text, colors, timing, and locked animation decisions for downstream review
+- default validation is static and does not render. `scripts/validate_remotion_package.py --run-cli-smoke` may be used explicitly to run `npx remotion compositions` after static validation passes
+
+## `template_contract.json`
+
+Purpose:
+
+- provide the primary downstream contract for slot filling
+- normalize renderer-specific bindings into one slot list
+
+Minimum fields:
+
+- `contract_version`
+- `job_id`
+- `renderer`
+- `template_type`
+- `supported_content_types`
+- `fill_requirements`
+- `package_summary`
+- `slots[]`
+
+Each slot should include at minimum:
+
+- `slot_id`
+- `scene_id`
+- `kind`
+- `required`
+- `fill_strategy`
+- `renderer_binding`
+
+Normalized `kind` values:
+
+- `media`
+- `text`
+- `color`
+- `number`
+- `audio`
+- `overlay`
+
+Normalized `fill_strategy` values:
+
+- `keep_locked`
+- `reuse_template_asset`
+- `select_existing_asset`
+- `generate_text`
+- `generate_media`
+- `reuse_source_trend_video`
+
+Renderer bindings:
+
+- Shotstack slots should expose `renderer_binding.merge_key`
+- Remotion slots should expose `renderer_binding.prop_path`
+
+`package_summary` should include:
+
+- `scene_count`
+- `slot_count`
+- `text_slot_count`
+- `media_slot_count`
+- `renderer`
 
 ## `manifest.json`
 
@@ -385,6 +472,94 @@ Each artifact entry should include:
 - `path`
 - `scene_id`
 - `status`
+
+Runtime-added artifact entries may also include:
+
+- `template_contract`
+- `result`
+- `package_archive`
+
+## `result.json`
+
+Purpose:
+
+- provide the external-backend response contract
+- summarize compact caller context, source media, package slots, and validation
+
+Minimum fields:
+
+- `status`
+- `job_id`
+- `renderer`
+- `review_status`
+- `package_dir`
+- `caller_context_echo`
+- `source_summary`
+- `package_summary`
+- `artifacts`
+- `validation`
+- `notes`
+
+`caller_context_echo` should stay compact. Do not echo raw `step1_json`,
+`step2_json`, or operator metadata verbatim. Return summaries instead, including
+at minimum:
+
+- `template_type`
+- `source_platform`
+- `source_trend_video_id`
+- `preferred_renderer`
+- `step1_hint_summary`
+- `step2_hint_summary`
+- `operator_notes_summary`
+
+`artifacts` should expose the existing package files plus:
+
+- `template_contract`
+- `package_archive`
+- `shotstack_smoke_result`
+- `shotstack_smoke_compare`
+- `shotstack_smoke_contact_sheet`
+- `shotstack_smoke_render`
+
+`shotstack_smoke` should expose the review-only smoke state:
+
+- `enabled`
+- `mode` (`off` or `render-once`)
+- `limit` (always `1`)
+- `attempted`
+- `status`
+- `render_url`
+- `render_path`
+- `improvement_notes`
+- `error`
+
+## Shotstack smoke render
+
+The default backend path does not call Shotstack. A Shotstack smoke render is
+allowed only when the caller explicitly passes `--shotstack-smoke-render` or
+`--shotstack-mcp-mode render-once`.
+
+Rules:
+
+- run only after local package validation passes
+- attempt at most one Shotstack render and never retry inside the same run
+- do not call Nano Banana, Grok, Kling, or other AI media generation providers
+- use the package media placeholders, source audio, and extracted source text for review-only validation
+- save `shotstack_smoke_result.json`; when a local render file is available, also save `shotstack_smoke_compare.json` and `shotstack_smoke_contact_sheet.jpg`
+- use the smoke output for improvement notes only, not as a production render
+
+## `package.zip`
+
+Purpose:
+
+- provide one validation-passed archive for downstream ingestion
+
+Rules:
+
+- create it only after validation passes
+- include the canonical package artifacts, `template_contract.json`, and `result.json`
+- exclude runtime logs, prompt/debug transcripts, cache directories, `node_modules`,
+  and preview renders
 
 ## Validation Checklist
 
@@ -408,9 +583,16 @@ For `renderer = "shotstack"`:
 - every Shotstack placeholder has a matching merge key
 - every merge key is actually used
 - every alias reference resolves to a declared alias
+- text and rich-text assets use object-shaped `font` and `stroke` fields
+- `timeline.fonts[].src` values are public HTTPS `.ttf` or `.otf` files
 
 For `renderer = "remotion"`:
 
 - `remotion_package/` exists with the required files
 - the blueprint includes `remotion_package` metadata
 - normal content changes can be made by swapping JSON props instead of rewriting the composition source
+- blueprint editable prop paths resolve in `props/default-props.json`
+- local media and audio props resolve under `remotion_package/public/`
+- `src/index.jsx` registers the root and `src/Root.jsx` defines the expected composition id
+- Remotion scene frame ranges are positive and align with the composition duration
+- `template_contract.json` exists and its renderer matches the package

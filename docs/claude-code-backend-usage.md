@@ -20,6 +20,8 @@ Use:
 python3 scripts/run_pipeline.py \
   --input-video /absolute/path/to/source.mp4 \
   --job-id my_job \
+  --preferred-renderer auto \
+  --context-json /absolute/path/to/context.json \
   --result-json
 ```
 
@@ -31,6 +33,36 @@ The command will:
 4. run the local package validator
 5. write `output/<job_id>/result.json`
 6. print the structured result
+
+`--preferred-renderer` is optional and accepts `auto`, `shotstack`, or
+`remotion`.
+
+Shotstack smoke rendering is off by default. For a review-only external smoke,
+callers may pass:
+
+- `--shotstack-smoke-render`
+- `--shotstack-mcp-mode render-once`
+- `--shotstack-smoke-limit 1`
+
+The limit is intentionally fixed at one attempt. The CLI rejects higher values
+to prevent automatic render loops. The smoke hook uses the
+`SHOTSTACK_MCP_RENDER_COMMAND` adapter when configured; without it, the run
+records a configuration-required smoke result and does not call Shotstack.
+Shotstack MCP is treated as an external render smoke path, not the primary
+validator; the repo-local validator must pass before any smoke attempt.
+
+For Remotion packages, the backend uses the repo-local `$remotion-package`
+workflow and `scripts/validate_remotion_package.py`. That validator is static
+by default and checks composition metadata, JSON prop paths, local public assets,
+scene frame ranges, and `template_contract.json`. A Remotion CLI smoke may be
+run manually with `python3 scripts/validate_remotion_package.py output/<job_id> --run-cli-smoke`.
+
+Caller context is optional and may be provided with either:
+
+- `--context-json /path/to/context.json`
+- `--context-inline-json '{"template_type":"A-7_trend_single"}'`
+
+Do not pass both at once.
 
 ## Dry run
 
@@ -56,6 +88,9 @@ Claude Code should behave like a thin orchestrator:
    - `status`
    - `renderer`
    - `review_status`
+   - `caller_context_echo`
+   - `source_summary`
+   - `package_summary`
    - `package_dir`
    - key artifact paths
    - validation errors or warnings
@@ -72,11 +107,19 @@ For each run, the backend writes these run-specific files under `output/<job_id>
 - `codex_result.json` when Codex returns a structured result
 - `validator.log` when the validator emits output
 - `result.json`
+- `template_contract.json`
+- `package.zip` when validation passes
+- `remotion_package/` when `renderer = "remotion"`
+- `shotstack_smoke_result.json` when Shotstack smoke was requested
+- `shotstack_smoke_compare.json` and `shotstack_smoke_contact_sheet.jpg` when a local smoke render is available for comparison
+
+`request.json` stores the raw caller context, while `result.json` returns only a
+compact `caller_context_echo` summary.
 
 These files are intended to make debugging possible without making Claude re-read the whole repository.
 
 ## Notes
 
 - The backend still follows the repository rule that it stops at the review gate.
-- Paid generation and final rendering are intentionally out of scope.
+- Paid generation and final rendering are intentionally out of scope. The only exception is an explicitly requested Shotstack smoke render, capped at one attempt and used only for validation/comparison notes.
 - If the planning confidence is low, the backend should return `review_required` instead of inventing unsupported details.

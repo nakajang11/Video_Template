@@ -7,6 +7,26 @@ This repository now supports two review-gated packaging targets:
 
 The choice should be explicit in `blueprint.json` via a top-level `renderer` field.
 
+## Preferred renderer override
+
+The backend CLI may receive `--preferred-renderer` with one of:
+
+- `auto`
+- `shotstack`
+- `remotion`
+
+Rules:
+
+- `auto` keeps the existing routing logic in this document
+- `shotstack` strongly prefers Shotstack while still allowing a review-gated
+  mismatch if the source is clearly a better Remotion fit
+- `remotion` strongly prefers Remotion while still allowing a review-gated
+  mismatch if the source is clearly a better Shotstack fit
+
+If the actual package renderer does not match a non-`auto` preference, the run
+should stay review-gated and the result should explain the mismatch instead of
+silently pretending the preference was honored.
+
 ## Recommended default
 
 Use `shotstack` unless the source depends on motion or layout that becomes fragile,
@@ -49,6 +69,7 @@ For `renderer = "remotion"`:
 
 - keep the shared planning files in `output/<job_id>/`
 - add `output/<job_id>/remotion_package/`
+- build the package with `.agents/skills/remotion-package/SKILL.md`
 - include at minimum:
   - `package.json`
   - `README.md`
@@ -56,6 +77,7 @@ For `renderer = "remotion"`:
   - `src/Root.jsx`
   - `props/default-props.json`
   - `public/`
+  - `template-partition.json`
 
 Optional but recommended:
 
@@ -65,4 +87,7 @@ Optional but recommended:
 ## Important constraint
 
 This repo is still review-gated. A Remotion package should stop at a reviewable
-template package unless the user explicitly asks for rendering.
+template package unless the user explicitly asks for rendering. Local validation
+may run static Remotion checks by default; use `--run-cli-smoke` on
+`scripts/validate_remotion_package.py` only when an explicit Remotion CLI smoke
+is desired.
