@@ -46,7 +46,9 @@ output/<job_id>/
     README.md
     src/index.jsx
     src/Root.jsx
+    src/<Composition>.jsx
     props/default-props.json
+    template-partition.json
     public/
 ```
 
@@ -368,13 +370,29 @@ Minimum structure:
 - `README.md`
 - `src/index.jsx`
 - `src/Root.jsx`
+- a composition implementation file under `src/`
 - `props/default-props.json`
 - `public/`
+- `template-partition.json`
 
 Recommended additions:
 
 - `props/variant-*.json`
 - `renders/`
+
+Rules:
+
+- build Remotion packages with `.agents/skills/remotion-package/SKILL.md`
+- keep local assets under `remotion_package/public/`
+- reference local assets and audio with `staticFile()` from Remotion code
+- keep reusable text, media, palette, and timing values in JSON props
+- `src/index.jsx` should only register the root
+- `src/Root.jsx` should define the composition and load `defaultProps`
+- the composition id must match `blueprint.remotion_package.composition_id`
+- `durationInFrames`, `fps`, `width`, and `height` should be explicit unless the package intentionally uses metadata
+- `blueprint.remotion_package.editable_props` should contain every downstream-editable JSON prop path
+- `template-partition.json` should map input media, editable text, colors, timing, and locked animation decisions for downstream review
+- default validation is static and does not render. `scripts/validate_remotion_package.py --run-cli-smoke` may be used explicitly to run `npx remotion compositions` after static validation passes
 
 ## `template_contract.json`
 
@@ -573,4 +591,8 @@ For `renderer = "remotion"`:
 - `remotion_package/` exists with the required files
 - the blueprint includes `remotion_package` metadata
 - normal content changes can be made by swapping JSON props instead of rewriting the composition source
+- blueprint editable prop paths resolve in `props/default-props.json`
+- local media and audio props resolve under `remotion_package/public/`
+- `src/index.jsx` registers the root and `src/Root.jsx` defines the expected composition id
+- Remotion scene frame ranges are positive and align with the composition duration
 - `template_contract.json` exists and its renderer matches the package

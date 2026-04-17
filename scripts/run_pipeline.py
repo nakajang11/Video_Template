@@ -310,8 +310,9 @@ def build_codex_prompt(
         - If `blueprint.renderer = "shotstack"`, use the packaging workflow from
           `.agents/skills/shotstack-remix-package/SKILL.md`.
         - If `blueprint.renderer = "remotion"`, do not force Shotstack outputs. Instead create
-          `output/{job_id}/remotion_package/` with a reviewable Remotion package including
-          `package.json`, `src/`, `props/`, `public/`, and `README.md`, then update `manifest.json`.
+          `output/{job_id}/remotion_package/` using the packaging workflow from
+          `.agents/skills/remotion-package/SKILL.md`, including `package.json`, `src/`,
+          `props/`, `public/`, `template-partition.json`, and `README.md`, then update `manifest.json`.
         - Keep context usage tight. Only inspect the minimum repository files needed to do the job:
           `AGENTS.md`, `docs/output-contract.md`, `docs/project-plan.md`, `docs/renderer-routing.md`,
           the relevant skill files, and any directly referenced schema/template/validator files needed

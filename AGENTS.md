@@ -4,7 +4,7 @@
 
 - This repository is for planning and packaging trend short-form videos, not for paid media generation or final rendering.
 - Preserve `input/` as the source area and `output/` as the deliverable area. Treat existing `sample_1` and `sample_2` as examples of the target artifact shape, not as a perfect contract.
-- Before writing prompts or Shotstack JSON, separate immutable findings from creative decisions:
+- Before writing prompts, Shotstack JSON, or Remotion code, separate immutable findings from creative decisions:
   1. `analysis.json`
   2. `story.json`
   3. `variable_map.json`
@@ -15,6 +15,9 @@
   8. `cloudinary_assets.json`
   9. `shotstack.pasteable.json`
   10. `manifest.json`
+- For Remotion jobs, replace Shotstack-specific artifacts with `remotion_package/`,
+  including `package.json`, `src/`, `props/default-props.json`, `public/`, and
+  `template-partition.json`.
 - For female-influencer videos, explicitly identify the lead identity lock, wardrobe lock, background lock, on-screen text pattern, optional supporting cast, and the global plot before turning anything into prompts.
 - If the source contains editorial text that should remain changeable, such as hook text, name labels, year labels, or meme captions, remove it from the remake base media and rebuild it as editable Shotstack text overlays. Ignore platform logos, watermarks, usernames, and logo text unless the user explicitly asks to preserve them.
 - For boxed labels or caption bars, measure the source text geometry and carry it into `blueprint.json` so `shotstack.json` and `shotstack.pasteable.json` can be derived from actual source rectangles rather than manual eyeballing.
@@ -54,6 +57,16 @@
 - For `contract_version` `1.1+`, every editable text overlay should include measured `source_geometry` in `blueprint.json`. If the text is plain stroked text with no box to mask the source, require a clean plate or keep the package `review_required`.
 - For Shotstack positioning in this repo, positive `offset.y` moves overlays upward and negative `offset.y` moves them downward. Match caption and label placement against the source frame before finalizing.
 - Validate every package before considering the task complete.
+
+## Remotion guardrails
+
+- Use `.agents/skills/remotion-package/SKILL.md` when `blueprint.renderer = "remotion"`.
+- Keep Remotion packages review-gated by default. Do not run final renders unless the user explicitly asks for rendering.
+- Keep reusable content in JSON props and declare content-facing prop paths in `blueprint.remotion_package.editable_props`.
+- Put local Remotion media and audio under `remotion_package/public/` and reference them via `staticFile()` from code.
+- Keep `src/index.jsx` minimal with `registerRoot`, and define the composition in `src/Root.jsx` with explicit `id`, `durationInFrames`, `fps`, `width`, `height`, and `defaultProps`.
+- Scene timing in `blueprint.scenes[].remotion_sequence` should align with the Remotion composition frame count.
+- Run `scripts/validate_remotion_package.py` for every Remotion package before considering it complete.
 
 ## Review gate
 

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Remotion Package"
+  short_description: "Build and validate a review-gated Remotion package"
+  default_prompt: "Use $remotion-package to turn an approved Remotion blueprint into a reusable remotion_package/ with JSON props, public assets, template partition metadata, and local validation."
+
+policy:
+  allow_implicit_invocation: true

@@ -69,6 +69,7 @@ For `renderer = "remotion"`:
 
 - keep the shared planning files in `output/<job_id>/`
 - add `output/<job_id>/remotion_package/`
+- build the package with `.agents/skills/remotion-package/SKILL.md`
 - include at minimum:
   - `package.json`
   - `README.md`
@@ -76,6 +77,7 @@ For `renderer = "remotion"`:
   - `src/Root.jsx`
   - `props/default-props.json`
   - `public/`
+  - `template-partition.json`
 
 Optional but recommended:
 
@@ -85,4 +87,7 @@ Optional but recommended:
 ## Important constraint
 
 This repo is still review-gated. A Remotion package should stop at a reviewable
-template package unless the user explicitly asks for rendering.
+template package unless the user explicitly asks for rendering. Local validation
+may run static Remotion checks by default; use `--run-cli-smoke` on
+`scripts/validate_remotion_package.py` only when an explicit Remotion CLI smoke
+is desired.

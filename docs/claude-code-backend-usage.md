@@ -51,6 +51,12 @@ records a configuration-required smoke result and does not call Shotstack.
 Shotstack MCP is treated as an external render smoke path, not the primary
 validator; the repo-local validator must pass before any smoke attempt.
 
+For Remotion packages, the backend uses the repo-local `$remotion-package`
+workflow and `scripts/validate_remotion_package.py`. That validator is static
+by default and checks composition metadata, JSON prop paths, local public assets,
+scene frame ranges, and `template_contract.json`. A Remotion CLI smoke may be
+run manually with `python3 scripts/validate_remotion_package.py output/<job_id> --run-cli-smoke`.
+
 Caller context is optional and may be provided with either:
 
 - `--context-json /path/to/context.json`
@@ -103,6 +109,7 @@ For each run, the backend writes these run-specific files under `output/<job_id>
 - `result.json`
 - `template_contract.json`
 - `package.zip` when validation passes
+- `remotion_package/` when `renderer = "remotion"`
 - `shotstack_smoke_result.json` when Shotstack smoke was requested
 - `shotstack_smoke_compare.json` and `shotstack_smoke_contact_sheet.jpg` when a local smoke render is available for comparison
 
