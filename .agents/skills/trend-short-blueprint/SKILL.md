@@ -25,12 +25,15 @@ Do not generate final media. Stop at the review gate if plot or cast confidence 
 2. Read the contract in [`docs/output-contract.md`](../../../docs/output-contract.md).
 3. Read the architecture notes in [`docs/project-plan.md`](../../../docs/project-plan.md).
 4. Read provider guidance in [`references/provider-guidance.md`](references/provider-guidance.md).
-5. Write `analysis.json` first.
-6. Write `story.json` next so the full plot is explicit before prompt writing.
-7. Write `variable_map.json` to separate locks from variables.
-8. Choose `blueprint.renderer` using `docs/renderer-routing.md`. Use `shotstack` by default and switch to `remotion` when the source depends on kinetic typography, procedural graphics, matte-like reveals, or other code-driven animation.
-9. Write `blueprint.json` with deterministic scene ids, expected prompt filenames, an `audio` block that points to `source_audio.mp3`, and any renderer-specific metadata needed for packaging.
-10. Update `manifest.json` with every artifact path, renderer choice, and review state.
+5. When scene boundaries, on-screen text, or cut timing are hard to inspect,
+   use `$video-analysis-support` to create optional `timeline_view/` or
+   `transcript_packed.md` evidence. Do not use it to edit or render a final video.
+6. Write `analysis.json` first.
+7. Write `story.json` next so the full plot is explicit before prompt writing.
+8. Write `variable_map.json` to separate locks from variables.
+9. Choose `blueprint.renderer` using `docs/renderer-routing.md`. Use `shotstack` by default and switch to `remotion` when the source depends on kinetic typography, procedural graphics, matte-like reveals, or other code-driven animation.
+10. Write `blueprint.json` with deterministic scene ids, expected prompt filenames, an `audio` block that points to `source_audio.mp3`, and any renderer-specific metadata needed for packaging.
+11. Update `manifest.json` with every artifact path, renderer choice, and review state.
 
 ## What to analyze
 
@@ -39,6 +42,7 @@ For each source video, capture:
 - scene boundaries and durations
 - shot scale, framing, camera stability, and pacing
 - on-screen text pattern
+- transcript or OCR evidence when available, summarized compactly
 - image-on-video or video-on-video overlays
 - whether the motion design is simple overlay sequencing or needs code-driven animation
 - transformation structure such as timeline jump, outfit reveal, or identity-preserving remix
@@ -68,6 +72,7 @@ If the full plot is needed to know whether extra characters appear, keep that de
 - If a source scene includes a card image, inset portrait, or any picture-in-picture composition, add `overlay_layers` to the scene's `shotstack` block with relative timing and placement.
 - If a source scene includes editable editorial text, plan how it will be rebuilt: boxed labels should carry measured `source_geometry` in `text_overlays`, while plain stroked text should be marked as needing a clean plate or `review_required` Studio handling.
 - If a scene-specific frame is too noisy to measure boxed text reliably, reuse a representative frame from the same text-design family or record a manual bbox instead of guessing.
+- Optional timeline contact sheets and packed transcripts are evidence only. Record them in `analysis.json.evidence_artifacts` or `manifest.json` when useful, but do not make them required artifacts.
 
 ## Model routing rules
 

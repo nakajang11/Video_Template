@@ -18,6 +18,9 @@
 - For Remotion jobs, replace Shotstack-specific artifacts with `remotion_package/`,
   including `package.json`, `src/`, `props/default-props.json`, `public/`, and
   `template-partition.json`.
+- Optional source-inspection evidence from `.agents/skills/video-analysis-support/`
+  may be saved as `timeline_view/` or `transcript_packed.md`, but it must not
+  replace the canonical planning artifacts or trigger final video editing.
 - For female-influencer videos, explicitly identify the lead identity lock, wardrobe lock, background lock, on-screen text pattern, optional supporting cast, and the global plot before turning anything into prompts.
 - If the source contains editorial text that should remain changeable, such as hook text, name labels, year labels, or meme captions, remove it from the remake base media and rebuild it as editable Shotstack text overlays. Ignore platform logos, watermarks, usernames, and logo text unless the user explicitly asks to preserve them.
 - For boxed labels or caption bars, measure the source text geometry and carry it into `blueprint.json` so `shotstack.json` and `shotstack.pasteable.json` can be derived from actual source rectangles rather than manual eyeballing.
@@ -25,6 +28,8 @@
 - If the source scene contains picture-in-picture, inserted photos, reference cards, or any image-on-video composition, model that as a base scene clip plus overlay layers instead of flattening it into one vague prompt.
 - If a parent, friend, partner, or childhood self might be required, confirm it from the full plot across scenes. If the evidence is weak, mark the package as `review_required` instead of inventing extra characters.
 - If the last scene is only a social-platform end slate or branded SNS outro, omit it from the remake package by default unless the user explicitly asks to keep it.
+- If transcript, OCR, or timeline contact sheets are used, keep them compact and
+  evidence-scoped. Do not pass raw oversized transcript content into prompts.
 
 ## Model routing
 

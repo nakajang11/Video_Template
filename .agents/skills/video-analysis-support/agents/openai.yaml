@@ -1,0 +1,7 @@
+interface:
+  display_name: "Video Analysis Support"
+  short_description: "Create transcript and timeline evidence for trend-video analysis"
+  default_prompt: "Use $video-analysis-support to create optional transcript_packed.md or timeline_view evidence for a source video before writing analysis.json and blueprint.json."
+
+policy:
+  allow_implicit_invocation: true

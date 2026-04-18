@@ -57,6 +57,10 @@ by default and checks composition metadata, JSON prop paths, local public assets
 scene frame ranges, and `template_contract.json`. A Remotion CLI smoke may be
 run manually with `python3 scripts/validate_remotion_package.py output/<job_id> --run-cli-smoke`.
 
+For difficult source analysis, the repo also provides `$video-analysis-support`.
+It can create optional `timeline_view/` contact sheets and `transcript_packed.md`
+without changing the package contract or rendering a final video.
+
 Caller context is optional and may be provided with either:
 
 - `--context-json /path/to/context.json`
@@ -110,6 +114,7 @@ For each run, the backend writes these run-specific files under `output/<job_id>
 - `template_contract.json`
 - `package.zip` when validation passes
 - `remotion_package/` when `renderer = "remotion"`
+- `timeline_view/` or `transcript_packed.md` when optional source evidence was generated
 - `shotstack_smoke_result.json` when Shotstack smoke was requested
 - `shotstack_smoke_compare.json` and `shotstack_smoke_contact_sheet.jpg` when a local smoke render is available for comparison
 

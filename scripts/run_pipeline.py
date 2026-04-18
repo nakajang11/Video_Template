@@ -317,6 +317,10 @@ def build_codex_prompt(
           `AGENTS.md`, `docs/output-contract.md`, `docs/project-plan.md`, `docs/renderer-routing.md`,
           the relevant skill files, and any directly referenced schema/template/validator files needed
           for execution.
+        - If source scene boundaries, on-screen text, or cut timing are hard to inspect,
+          you may use `.agents/skills/video-analysis-support/SKILL.md` to create optional
+          evidence artifacts such as `timeline_view/` or `transcript_packed.md`. Do not
+          use it to edit or render a final video.
         - Do not inspect unrelated prior output folders unless required to resolve a concrete format
           ambiguity for this specific job.
         - Produce the canonical package in `output/{job_id}/`.
