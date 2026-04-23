@@ -68,6 +68,31 @@ Caller context is optional and may be provided with either:
 
 Do not pass both at once.
 
+Adult AI Influencer can request a downstream-only assembly handoff suggestion by
+passing the consumer profile explicitly:
+
+```bash
+python3 scripts/run_pipeline.py \
+  --input-video /absolute/path/to/source.mp4 \
+  --job-id adult_a6_example \
+  --consumer-profile adult_ai_influencer_media_template \
+  --context-inline-json '{"assembly_contract":{"schema_version":"adult_ai_influencer_assembly_contract.v1"},"template_type":"A-6_trend_continue"}' \
+  --result-json
+```
+
+The same profile may be supplied as `context_json.consumer_profile`. If both the
+CLI flag and context value are present, they must match or the CLI returns
+`input_error`.
+
+By default, no `assembly_flow_suggestion.json` is produced and the Codex prompt
+does not mention it. When the Adult profile is present, the prompt receives only
+a sanitized profile block: `consumer_profile`,
+`assembly_contract.schema_version`, allowed token names, allowed step targets,
+required source input roles, known template type, and source scene binding
+hints. `request.json` keeps the raw caller context for debugging, but
+`codex_prompt.txt` and `result.json` must not echo raw secrets, resolved URLs, or
+unrelated nested metadata.
+
 ## Dry run
 
 To inspect the command shape and prompt without spending Codex tokens:
@@ -113,6 +138,8 @@ For each run, the backend writes these run-specific files under `output/<job_id>
 - `result.json`
 - `template_contract.json`
 - `package.zip` when validation passes
+- `assembly_flow_suggestion.json` only when
+  `consumer_profile=adult_ai_influencer_media_template`
 - `remotion_package/` when `renderer = "remotion"`
 - `timeline_view/` or `transcript_packed.md` when optional source evidence was generated
 - `shotstack_smoke_result.json` when Shotstack smoke was requested
@@ -121,10 +148,15 @@ For each run, the backend writes these run-specific files under `output/<job_id>
 `request.json` stores the raw caller context, while `result.json` returns only a
 compact `caller_context_echo` summary.
 
+`assembly_flow_suggestion.json`, when present, is indexed through
+`manifest.json` and included in `package.zip`. It is not added to
+`result.artifacts` so existing strict result consumers remain compatible.
+
 These files are intended to make debugging possible without making Claude re-read the whole repository.
 
 ## Notes
 
 - The backend still follows the repository rule that it stops at the review gate.
 - Paid generation and final rendering are intentionally out of scope. The only exception is an explicitly requested Shotstack smoke render, capped at one attempt and used only for validation/comparison notes.
+- Adult AI Influencer assembly suggestions are proposals only. This backend does not resolve Adult-side DB records, Cloudinary URLs, wardrobe randomization, provider execution, or final render outputs.
 - If the planning confidence is low, the backend should return `review_required` instead of inventing unsupported details.

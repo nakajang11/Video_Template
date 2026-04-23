@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Any
 
 from template_package_support import (
+    build_consumer_profile_prompt_context,
     build_source_summary,
     build_template_contract,
     compact_caller_context,
@@ -24,7 +25,10 @@ from template_package_support import (
     make_empty_caller_context_echo,
     make_empty_package_summary,
     make_empty_source_summary,
+    maybe_write_assembly_flow_suggestion,
     render_caller_context_prompt_block,
+    render_consumer_profile_prompt_block,
+    resolve_consumer_profile,
     resolve_review_status,
     update_manifest_runtime_entries,
     validate_template_contract,
@@ -110,6 +114,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--context-inline-json",
         help="Optional inline caller context JSON string.",
+    )
+    parser.add_argument(
+        "--consumer-profile",
+        help=(
+            "Optional downstream consumer profile. Currently supports "
+            "`adult_ai_influencer_media_template` for an optional handoff suggestion."
+        ),
     )
     parser.add_argument(
         "--result-json",
@@ -258,7 +269,9 @@ def stage_video(
     return {"mode": "transcode", "transcoded": True, "path": str(staged_input)}
 
 
-def load_caller_context(args: argparse.Namespace) -> tuple[dict[str, Any] | None, dict[str, Any]]:
+def load_caller_context(
+    args: argparse.Namespace,
+) -> tuple[dict[str, Any] | None, dict[str, Any], str | None]:
     if args.context_json and args.context_inline_json:
         raise ValueError("Use either --context-json or --context-inline-json, not both.")
 
@@ -279,10 +292,14 @@ def load_caller_context(args: argparse.Namespace) -> tuple[dict[str, Any] | None
             raise ValueError("Caller context JSON must decode to an object.")
         raw_context = loaded
 
+    consumer_profile = resolve_consumer_profile(
+        raw_context,
+        cli_consumer_profile=args.consumer_profile,
+    )
     return raw_context, compact_caller_context(
         raw_context,
         preferred_renderer=args.preferred_renderer,
-    )
+    ), consumer_profile
 
 
 def build_codex_prompt(
@@ -290,7 +307,26 @@ def build_codex_prompt(
     *,
     preferred_renderer: str,
     caller_context_echo: dict[str, Any],
+    consumer_profile_context: dict[str, Any] | None = None,
 ) -> str:
+    consumer_profile_prompt = ""
+    if consumer_profile_context:
+        consumer_profile_prompt = textwrap.dedent(
+            f"""
+
+            Consumer profile handoff:
+            - The caller requested a downstream-only optional artifact named
+              `assembly_flow_suggestion.json`.
+            - Generate it only as a tokenized proposal for the downstream consumer. Do not
+              execute provider calls, resolve Cloudinary/DB URLs, store secrets, or include local
+              absolute paths.
+            - Keep all source/media values as whitelisted token references and keep every step
+              review-gated for downstream execution.
+
+            Sanitized consumer profile context:
+            {render_consumer_profile_prompt_block(consumer_profile_context)}
+            """
+        ).rstrip()
     return textwrap.dedent(
         f"""
         You are operating as the backend template-packaging agent for this repository.
@@ -341,6 +377,7 @@ def build_codex_prompt(
 
         Caller context summary:
         {render_caller_context_prompt_block(caller_context_echo)}
+        {consumer_profile_prompt}
 
         Your final answer must be a JSON object matching the provided schema.
         Report artifact paths relative to the repository root.
@@ -1015,9 +1052,16 @@ def main() -> int:
         preferred_renderer=args.preferred_renderer
     )
     raw_caller_context: dict[str, Any] | None = None
+    consumer_profile: str | None = None
+    consumer_profile_context: dict[str, Any] | None = None
     try:
         smoke_config = resolve_shotstack_smoke_config(args)
-        raw_caller_context, caller_context_echo = load_caller_context(args)
+        raw_caller_context, caller_context_echo, consumer_profile = load_caller_context(args)
+        consumer_profile_context = build_consumer_profile_prompt_context(
+            raw_caller_context,
+            consumer_profile=consumer_profile,
+            caller_context_echo=caller_context_echo,
+        )
         paths = build_job_paths(args)
         source_path = paths["source_path"]
         staged_input = paths["staged_input"]
@@ -1051,6 +1095,7 @@ def main() -> int:
         job_id,
         preferred_renderer=args.preferred_renderer,
         caller_context_echo=caller_context_echo,
+        consumer_profile_context=consumer_profile_context,
     )
     codex_command = build_codex_command(
         codex_result_path=package_dir / "codex_result.json",
@@ -1067,6 +1112,8 @@ def main() -> int:
             "staged_input": str(staged_input.relative_to(REPO_ROOT)),
             "package_dir": str(package_dir.relative_to(REPO_ROOT)),
             "caller_context_echo": caller_context_echo,
+            "consumer_profile": consumer_profile,
+            "consumer_profile_context": consumer_profile_context,
             "shotstack_smoke": make_shotstack_smoke_state(
                 enabled=bool(smoke_config.get("enabled")),
                 mode=str(smoke_config.get("mode", "off")),
@@ -1100,6 +1147,7 @@ def main() -> int:
         "shotstack_smoke": smoke_config,
         "caller_context": raw_caller_context,
         "caller_context_echo": caller_context_echo,
+        "consumer_profile": consumer_profile,
     }
     request_path.write_text(json.dumps(request_payload, indent=2, ensure_ascii=False))
     prompt_path.write_text(prompt)
@@ -1197,6 +1245,8 @@ def main() -> int:
     result["caller_context_echo"] = caller_context_echo
     result["source_summary"] = source_summary
     result["package_summary"] = make_empty_package_summary(renderer=result["renderer"])
+    assembly_suggestion_errors: list[str] = []
+    assembly_suggestion_warnings: list[str] = []
 
     if package_dir.exists() and (package_dir / "blueprint.json").exists():
         try:
@@ -1228,6 +1278,33 @@ def main() -> int:
                 renderer=runtime_renderer,
                 review_status=resolved_review_status,
             )
+            suggestion_state = maybe_write_assembly_flow_suggestion(
+                package_dir,
+                consumer_profile=consumer_profile,
+                caller_context=raw_caller_context,
+                caller_context_echo=caller_context_echo,
+                template_contract=template_contract,
+            )
+            assembly_suggestion_errors = [
+                f"assembly_flow_suggestion: {message}"
+                for message in suggestion_state.get("errors", [])
+            ]
+            assembly_suggestion_warnings = [
+                f"assembly_flow_suggestion: {message}"
+                for message in suggestion_state.get("warnings", [])
+            ]
+            if suggestion_state.get("created"):
+                result["notes"].append(
+                    "assembly_flow_suggestion.json created for consumer_profile="
+                    f"{consumer_profile}."
+                )
+            elif suggestion_state.get("requested") and assembly_suggestion_errors:
+                result["review_status"] = "review_required"
+                if result.get("status") == "ok":
+                    result["status"] = "review_required"
+                result["notes"].append(
+                    "assembly_flow_suggestion.json was not packaged because validation required review."
+                )
 
             if (
                 args.preferred_renderer in {"shotstack", "remotion"}
@@ -1252,6 +1329,8 @@ def main() -> int:
         )
         validation["errors"].extend(contract_errors)
         validation["warnings"].extend(contract_warnings)
+        validation["warnings"].extend(assembly_suggestion_warnings)
+        validation["warnings"].extend(assembly_suggestion_errors)
         validation["passed"] = validation["passed"] and not contract_errors
         result["validation"] = {
             "passed": validation["passed"],

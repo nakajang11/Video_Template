@@ -70,6 +70,21 @@ output/<job_id>/
 These files support scene-boundary, on-screen text, and plot-confidence review.
 They are not replacement package artifacts and must not imply a final edit/render.
 
+Consumer-profile artifacts may exist only when explicitly requested by the
+caller. They are not canonical package artifacts:
+
+```text
+output/<job_id>/
+  assembly_flow_suggestion.json
+```
+
+`assembly_flow_suggestion.json` is created only for
+`consumer_profile=adult_ai_influencer_media_template`. It is a downstream
+handoff suggestion for Adult AI Influencer, not an executable plan in this repo.
+It must use tokenized references only and must not contain resolved URLs, local
+absolute paths, provider responses, generated media URLs, Adult-side DB ids, or
+secrets.
+
 ## `analysis.json`
 
 Purpose:
@@ -500,6 +515,21 @@ Runtime-added artifact entries may also include:
 - `result`
 - `package_archive`
 
+When `assembly_flow_suggestion.json` exists and passes local suggestion
+validation, `manifest.json` may include an optional artifact entry:
+
+```json
+{
+  "type": "assembly_flow_suggestion",
+  "path": "assembly_flow_suggestion.json",
+  "scene_id": null,
+  "status": "created"
+}
+```
+
+Invalid suggestions should be treated as review warnings and should not be added
+to `manifest.json` or `package.zip`.
+
 ## `result.json`
 
 Purpose:
@@ -542,6 +572,10 @@ at minimum:
 - `shotstack_smoke_contact_sheet`
 - `shotstack_smoke_render`
 
+`result.artifacts` intentionally does not include `assembly_flow_suggestion`.
+That object is strict for existing backend consumers; consumer-profile artifacts
+are indexed through `manifest.json` and archived through `package.zip`.
+
 `shotstack_smoke` should expose the review-only smoke state:
 
 - `enabled`
@@ -579,6 +613,8 @@ Rules:
 
 - create it only after validation passes
 - include the canonical package artifacts, `template_contract.json`, and `result.json`
+- include optional `assembly_flow_suggestion.json` only when it is present in
+  `manifest.json`
 - exclude runtime logs, prompt/debug transcripts, cache directories, `node_modules`,
   and preview renders
 

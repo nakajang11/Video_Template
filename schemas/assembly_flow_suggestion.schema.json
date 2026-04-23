@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Adult AI Influencer Assembly Flow Suggestion",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "consumer_profile",
+    "template_type",
+    "source_scene_bindings",
+    "required_source_inputs",
+    "suggested_flow",
+    "safety",
+    "review_flags"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "media_template_assembly_suggestion.v1"
+    },
+    "consumer_profile": {
+      "type": "string",
+      "const": "adult_ai_influencer_media_template"
+    },
+    "template_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_scene_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "scene_id",
+          "source_role",
+          "token"
+        ],
+        "properties": {
+          "scene_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_role": {
+            "type": "string",
+            "const": "source_start_frame"
+          },
+          "token": {
+            "type": "string",
+            "pattern": "^\\{\\{[A-Za-z0-9_.\\[\\] -]+\\}\\}$"
+          }
+        }
+      }
+    },
+    "required_source_inputs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "b_wardrobe_image",
+          "room_asset",
+          "base_image",
+          "source_audio"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "suggested_flow": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "schema_version",
+        "template_type",
+        "review_gate",
+        "paid_generation",
+        "steps"
+      ],
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "const": "media_template_assembly.v1"
+        },
+        "template_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "renderer": {
+          "type": "string"
+        },
+        "review_gate": {
+          "type": "boolean",
+          "const": true
+        },
+        "paid_generation": {
+          "type": "boolean",
+          "const": false
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "step_key",
+              "target",
+              "execution"
+            ],
+            "properties": {
+              "step_key": {
+                "type": "string",
+                "minLength": 1
+              },
+              "target": {
+                "type": "string",
+                "enum": [
+                  "asset_select",
+                  "image_prompt",
+                  "image_generate",
+                  "video_prompt",
+                  "video_generate",
+                  "assemble",
+                  "validate"
+                ]
+              },
+              "execution": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "paid_generation",
+        "provider_execution",
+        "resolved_urls_allowed",
+        "review_gate"
+      ],
+      "properties": {
+        "paid_generation": {
+          "type": "boolean",
+          "const": false
+        },
+        "provider_execution": {
+          "type": "boolean",
+          "const": false
+        },
+        "resolved_urls_allowed": {
+          "type": "boolean",
+          "const": false
+        },
+        "review_gate": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "review_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

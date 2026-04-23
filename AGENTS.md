@@ -3,6 +3,12 @@
 ## Repository expectations
 
 - This repository is for planning and packaging trend short-form videos, not for paid media generation or final rendering.
+- This repository is a shared backend. Do not execute downstream project logic such
+  as Adult AI Influencer DB lookups, Cloudinary URL resolution, wardrobe
+  randomization, provider calls, paid media generation, or final rendering.
+- Downstream handoff suggestions may be generated only when an explicit
+  `consumer_profile` requests them. Keep those suggestions optional,
+  tokenized, review-gated, and outside the canonical default artifact contract.
 - Preserve `input/` as the source area and `output/` as the deliverable area. Treat existing `sample_1` and `sample_2` as examples of the target artifact shape, not as a perfect contract.
 - Before writing prompts, Shotstack JSON, or Remotion code, separate immutable findings from creative decisions:
   1. `analysis.json`

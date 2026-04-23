@@ -19,9 +19,12 @@ class ResultContractTests(unittest.TestCase):
         self.assertIn("source_summary", schema["required"])
         self.assertIn("package_summary", schema["required"])
         artifact_properties = schema["properties"]["artifacts"]["properties"]
+        artifacts_schema = schema["properties"]["artifacts"]
         self.assertIn("template_contract", artifact_properties)
         self.assertIn("package_archive", artifact_properties)
         self.assertIn("shotstack_smoke_result", artifact_properties)
+        self.assertNotIn("assembly_flow_suggestion", artifact_properties)
+        self.assertFalse(artifacts_schema["additionalProperties"])
         self.assertIn("shotstack_smoke", schema["properties"])
         self.assertFalse(schema["properties"]["caller_context_echo"]["additionalProperties"])
 

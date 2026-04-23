@@ -81,6 +81,74 @@ PROP_TOKEN_RE = re.compile(r"([^\.\[\]]+)|\[(\d+)\]")
 CONTENT_TYPE_RE = re.compile(r"^(A-\\d+)")
 CAMEL_BOUNDARY_RE = re.compile(r"(?<!^)(?=[A-Z])")
 ARCHIVE_EXCLUDE_PARTS = {"__pycache__", "node_modules", "renders"}
+ADULT_AI_INFLUENCER_CONSUMER_PROFILE = "adult_ai_influencer_media_template"
+ADULT_AI_INFLUENCER_CONSUMER_PROFILES = {ADULT_AI_INFLUENCER_CONSUMER_PROFILE}
+ASSEMBLY_FLOW_SUGGESTION_SCHEMA_VERSION = "media_template_assembly_suggestion.v1"
+ASSEMBLY_FLOW_SCHEMA_VERSION = "media_template_assembly.v1"
+ADULT_ASSEMBLY_CONTRACT_SCHEMA_VERSION = "adult_ai_influencer_assembly_contract.v1"
+ADULT_ASSEMBLY_REQUIRED_SOURCE_INPUTS = [
+    "b_wardrobe_image",
+    "room_asset",
+    "base_image",
+    "source_audio",
+]
+ADULT_ASSEMBLY_ALLOWED_STEP_TARGETS = [
+    "asset_select",
+    "image_prompt",
+    "image_generate",
+    "video_prompt",
+    "video_generate",
+    "assemble",
+    "validate",
+]
+ADULT_ASSEMBLY_ALLOWED_TOKENS = [
+    "{{b_wardrobe_image.front_url}}",
+    "{{room_asset.url}}",
+    "{{base_image.url}}",
+    "{{identity_pack.base_upscaled_url}}",
+    "{{source_scene_001.start_frame_url}}",
+    "{{source_audio.url}}",
+]
+SENSITIVE_CONTEXT_PATH_PARTS = {
+    "api_key",
+    "apikey",
+    "auth",
+    "authorization",
+    "bearer",
+    "password",
+    "secret",
+    "token",
+}
+URL_VALUE_RE = re.compile(r"https?://", re.IGNORECASE)
+LOCAL_ABSOLUTE_PATH_RE = re.compile(r"^(?:/|[A-Za-z]:[\\/])")
+TOKEN_ONLY_RE = re.compile(r"^\{\{\s*[A-Za-z0-9_.\[\] -]+\s*\}\}$")
+FORBIDDEN_SUGGESTION_KEYS = {
+    "api_key",
+    "adult_db_id",
+    "cloudinary_url",
+    "database_id",
+    "db_id",
+    "generated_media_url",
+    "generated_url",
+    "output_artifacts",
+    "output_url",
+    "provider_response",
+    "provider_result",
+    "provider_url",
+    "resolved_tool_inputs",
+    "secret",
+    "secure_url",
+}
+FORBIDDEN_SUGGESTION_KEY_PARTS = {
+    "cloudinary",
+    "generated_media_url",
+    "generated_url",
+    "output_artifact",
+    "output_url",
+    "provider_response",
+    "provider_result",
+    "resolved_tool_input",
+}
 
 
 def load_json(path: Path) -> Any:
@@ -132,6 +200,10 @@ def _stringify_scalar(value: Any) -> str | None:
         return str(value)
     if isinstance(value, str):
         collapsed = " ".join(value.split())
+        if URL_VALUE_RE.search(collapsed):
+            return "[redacted-url]"
+        if re.search(r"\b(?:sk-|api[_-]?key|secret|password)\b", collapsed, re.IGNORECASE):
+            return "[redacted-secret]"
         return collapsed or None
     return None
 
@@ -186,6 +258,11 @@ def summarize_context_block(node: Any, *, max_items: int = 6, max_chars: int = 2
     selected = preferred[:max_items]
     if len(selected) < max_items:
         selected.extend(fallback[: max_items - len(selected)])
+    selected = [
+        (path, value)
+        for path, value in selected
+        if not any(part in path.lower() for part in SENSITIVE_CONTEXT_PATH_PARTS)
+    ]
 
     rendered = ", ".join(f"{path}={value}" for path, value in selected)
     return _truncate_text(rendered, max_chars)
@@ -246,6 +323,136 @@ def infer_supported_content_types(template_type: str | None) -> list[str]:
         return []
     match = CONTENT_TYPE_RE.match(template_type)
     return [match.group(1)] if match else []
+
+
+def resolve_consumer_profile(
+    raw_context: Any,
+    *,
+    cli_consumer_profile: str | None = None,
+) -> str | None:
+    cli_profile = _stringify_scalar(cli_consumer_profile)
+    context_profile = None
+    if isinstance(raw_context, dict):
+        context_profile = _stringify_scalar(raw_context.get("consumer_profile"))
+
+    if cli_profile and context_profile and cli_profile != context_profile:
+        raise ValueError(
+            f"consumer_profile mismatch: CLI `{cli_profile}` does not match context `{context_profile}`."
+        )
+
+    profile = cli_profile or context_profile
+    if profile and profile not in ADULT_AI_INFLUENCER_CONSUMER_PROFILES:
+        raise ValueError(f"Unsupported consumer_profile: {profile}")
+    return profile
+
+
+def _safe_token(value: Any) -> str | None:
+    token = _stringify_scalar(value)
+    if not isinstance(token, str) or not TOKEN_ONLY_RE.match(token):
+        return None
+    if URL_VALUE_RE.search(token) or LOCAL_ABSOLUTE_PATH_RE.match(token):
+        return None
+    return token
+
+
+def _safe_token_list(values: Any, *, max_items: int = 24) -> list[str]:
+    if not isinstance(values, list):
+        return []
+    tokens: list[str] = []
+    for value in values:
+        token = _safe_token(value)
+        if token is not None and token not in tokens:
+            tokens.append(token)
+        if len(tokens) >= max_items:
+            break
+    return tokens
+
+
+def _safe_string_list(values: Any, *, allowed: set[str], max_items: int = 32) -> list[str]:
+    if not isinstance(values, list):
+        return []
+    selected: list[str] = []
+    for value in values:
+        item = _stringify_scalar(value)
+        if isinstance(item, str) and item in allowed and item not in selected:
+            selected.append(item)
+        if len(selected) >= max_items:
+            break
+    return selected
+
+
+def _safe_source_scene_binding_hints(raw_context: Any) -> list[dict[str, Any]]:
+    if not isinstance(raw_context, dict):
+        return []
+    hints = raw_context.get("source_scene_binding_hints")
+    if not isinstance(hints, list):
+        return []
+    safe_hints: list[dict[str, Any]] = []
+    for item in hints[:12]:
+        if not isinstance(item, dict):
+            continue
+        scene_id = _stringify_scalar(item.get("scene_id"))
+        source_role = _stringify_scalar(item.get("source_role"))
+        token = _safe_token(item.get("token"))
+        if not scene_id or not source_role or not token:
+            continue
+        safe_hints.append(
+            {
+                "scene_id": scene_id,
+                "source_role": source_role,
+                "token": token,
+            }
+        )
+    return safe_hints
+
+
+def build_consumer_profile_prompt_context(
+    raw_context: Any,
+    *,
+    consumer_profile: str | None,
+    caller_context_echo: dict[str, Any] | None = None,
+) -> dict[str, Any] | None:
+    if consumer_profile != ADULT_AI_INFLUENCER_CONSUMER_PROFILE:
+        return None
+
+    assembly_contract = raw_context.get("assembly_contract") if isinstance(raw_context, dict) else None
+    assembly_contract_summary: dict[str, Any] = {}
+    if isinstance(assembly_contract, dict):
+        schema_version = _stringify_scalar(assembly_contract.get("schema_version"))
+        if schema_version:
+            assembly_contract_summary["schema_version"] = schema_version
+
+    template_type = infer_template_type(raw_context, caller_context_echo)
+    allowed_tokens = list(ADULT_ASSEMBLY_ALLOWED_TOKENS)
+    if isinstance(raw_context, dict):
+        for token in _safe_token_list(raw_context.get("allowed_tokens")):
+            if token not in allowed_tokens:
+                allowed_tokens.append(token)
+
+    allowed_targets = list(ADULT_ASSEMBLY_ALLOWED_STEP_TARGETS)
+    if isinstance(raw_context, dict):
+        requested_targets = _safe_string_list(
+            raw_context.get("allowed_target_step_types"),
+            allowed=set(ADULT_ASSEMBLY_ALLOWED_STEP_TARGETS),
+        )
+        if requested_targets:
+            allowed_targets = requested_targets
+
+    return {
+        "consumer_profile": consumer_profile,
+        "assembly_contract": assembly_contract_summary,
+        "allowed_tokens": allowed_tokens,
+        "allowed_target_step_types": allowed_targets,
+        "required_source_input_roles": list(ADULT_ASSEMBLY_REQUIRED_SOURCE_INPUTS),
+        "known_template_type": template_type,
+        "source_scene_binding_hints": _safe_source_scene_binding_hints(raw_context),
+    }
+
+
+def render_consumer_profile_prompt_block(context: dict[str, Any] | None) -> str:
+    if not context:
+        return "none"
+    return json.dumps(context, ensure_ascii=False, indent=2, sort_keys=True)
 
 
 def _tokenize_prop_path(path: str) -> list[str]:
@@ -728,6 +935,344 @@ def build_template_contract(
     return contract
 
 
+def _source_scene_token_for_scene(scene_id: str, index: int) -> tuple[str, str]:
+    match = re.search(r"(\d+)$", scene_id)
+    suffix = match.group(1).zfill(3) if match else f"{index:03d}"
+    source_scene_key = f"source_scene_{suffix}"
+    return source_scene_key, f"{{{{{source_scene_key}.start_frame_url}}}}"
+
+
+def _scene_ids_from_package(package_dir: Path) -> list[str]:
+    scene_ids: list[str] = []
+    blueprint_path = package_dir / "blueprint.json"
+    analysis_path = package_dir / "analysis.json"
+
+    blueprint = load_json(blueprint_path) if blueprint_path.exists() else None
+    if isinstance(blueprint, dict):
+        scene_order = blueprint.get("scene_order")
+        if isinstance(scene_order, list):
+            scene_ids.extend(
+                scene_id
+                for scene_id in scene_order
+                if isinstance(scene_id, str) and scene_id
+            )
+        if not scene_ids:
+            scenes = blueprint.get("scenes")
+            if isinstance(scenes, list):
+                scene_ids.extend(
+                    scene.get("scene_id")
+                    for scene in scenes
+                    if isinstance(scene, dict)
+                    and isinstance(scene.get("scene_id"), str)
+                    and scene.get("scene_id")
+                )
+
+    if not scene_ids:
+        analysis = load_json(analysis_path) if analysis_path.exists() else None
+        scenes = analysis.get("scenes") if isinstance(analysis, dict) else None
+        if isinstance(scenes, list):
+            scene_ids.extend(
+                scene.get("scene_id")
+                for scene in scenes
+                if isinstance(scene, dict)
+                and isinstance(scene.get("scene_id"), str)
+                and scene.get("scene_id")
+            )
+
+    if not scene_ids:
+        scene_ids = ["scene_001"]
+
+    unique_scene_ids: list[str] = []
+    for scene_id in scene_ids:
+        if scene_id not in unique_scene_ids:
+            unique_scene_ids.append(scene_id)
+    return unique_scene_ids
+
+
+def _build_scene_assembly_steps(scene_id: str, index: int) -> list[dict[str, Any]]:
+    source_scene_key, source_scene_token = _source_scene_token_for_scene(scene_id, index)
+    image_prompt_key = f"{scene_id}_image_prompt"
+    image_generate_key = f"{scene_id}_image_generate"
+    video_prompt_key = f"{scene_id}_video_prompt"
+    video_generate_key = f"{scene_id}_video_generate"
+    reference_tokens = [
+        source_scene_token,
+        "{{b_wardrobe_image.front_url}}",
+        "{{room_asset.url}}" if index == 1 else "{{base_image.url}}",
+        "{{identity_pack.base_upscaled_url}}",
+    ]
+
+    return [
+        {
+            "step_key": image_prompt_key,
+            "target": "image_prompt",
+            "label": f"{scene_id} start-frame image prompt",
+            "tool": "openrouter",
+            "model": "google/gemini-3.1-flash-lite-preview",
+            "inputs": [source_scene_key, "b_wardrobe_image", "room_asset", "base_image"],
+            "prompt_role": (
+                "Write an editable start-frame image prompt using only tokenized source "
+                "references and the analyzed trend scene structure."
+            ),
+            "tool_inputs": {
+                "image_urls": reference_tokens,
+                "provider_params": {},
+            },
+            "editable": True,
+            "execution": "handoff_only",
+        },
+        {
+            "step_key": image_generate_key,
+            "target": "image_generate",
+            "label": f"{scene_id} start-frame image plan",
+            "tool": "fal.ai",
+            "model": "nano banana 2",
+            "inputs": [image_prompt_key, source_scene_key, "b_wardrobe_image"],
+            "tool_inputs": {
+                "prompt": f"{{{{{image_prompt_key}.output.prompt}}}}",
+                "image_urls": reference_tokens,
+                "provider_params": {},
+            },
+            "execution": "handoff_only",
+        },
+        {
+            "step_key": video_prompt_key,
+            "target": "video_prompt",
+            "label": f"{scene_id} motion prompt",
+            "tool": "openrouter",
+            "model": "google/gemini-3.1-flash-lite-preview",
+            "inputs": [image_generate_key, source_scene_key],
+            "prompt_role": (
+                "Write a motion prompt that preserves the source scene rhythm and "
+                "keeps generated media execution in the downstream system."
+            ),
+            "tool_inputs": {
+                "image_url": f"{{{{{image_generate_key}.output.image_url}}}}",
+                "provider_params": {},
+            },
+            "editable": True,
+            "execution": "handoff_only",
+        },
+        {
+            "step_key": video_generate_key,
+            "target": "video_generate",
+            "label": f"{scene_id} video generation plan",
+            "tool": "fal.ai",
+            "model": "kling v3",
+            "inputs": [video_prompt_key, image_generate_key],
+            "tool_inputs": {
+                "prompt": f"{{{{{video_prompt_key}.output.prompt}}}}",
+                "image_url": f"{{{{{image_generate_key}.output.image_url}}}}",
+                "provider_params": {},
+            },
+            "execution": "handoff_only",
+        },
+    ]
+
+
+def build_assembly_flow_suggestion(
+    package_dir: Path,
+    *,
+    consumer_profile: str | None,
+    caller_context: Any = None,
+    caller_context_echo: dict[str, Any] | None = None,
+    template_contract: dict[str, Any] | None = None,
+) -> dict[str, Any] | None:
+    if consumer_profile != ADULT_AI_INFLUENCER_CONSUMER_PROFILE:
+        return None
+
+    review_flags: list[str] = []
+    template_type = None
+    if isinstance(template_contract, dict):
+        template_type = _stringify_scalar(template_contract.get("template_type"))
+    template_type = template_type or infer_template_type(caller_context, caller_context_echo)
+    if not template_type:
+        template_type = "A-6_trend_continue"
+        review_flags.append("template_type_defaulted")
+    elif template_type != "A-6_trend_continue":
+        review_flags.append("template_type_not_a6_v1")
+
+    scene_ids = _scene_ids_from_package(package_dir)
+    source_scene_bindings = []
+    for index, scene_id in enumerate(scene_ids, start=1):
+        _, token = _source_scene_token_for_scene(scene_id, index)
+        source_scene_bindings.append(
+            {
+                "scene_id": scene_id,
+                "source_role": "source_start_frame",
+                "token": token,
+            }
+        )
+
+    steps: list[dict[str, Any]] = [
+        {
+            "step_key": "select_assets",
+            "target": "asset_select",
+            "label": "Select Adult-side source assets",
+            "tool": "manual",
+            "asset_source": "wardrobe",
+            "wardrobe_type": "B",
+            "selection_mode": "random",
+            "unused_only": True,
+            "bind_as": "b_wardrobe_image",
+            "selection_policy": {
+                "asset_source": "wardrobe",
+                "wardrobe_type": "B",
+                "selection_mode": "random",
+                "unused_only": True,
+                "bind_as": "b_wardrobe_image",
+            },
+            "outputs": list(ADULT_ASSEMBLY_REQUIRED_SOURCE_INPUTS),
+            "execution": "downstream_only",
+        }
+    ]
+    for index, scene_id in enumerate(scene_ids, start=1):
+        steps.extend(_build_scene_assembly_steps(scene_id, index))
+    steps.extend(
+        [
+            {
+                "step_key": "assemble_video",
+                "target": "assemble",
+                "label": "Assemble renderer package",
+                "tool": "manual",
+                "renderer": "shotstack",
+                "inputs": [
+                    *[f"{scene_id}_video_generate" for scene_id in scene_ids],
+                    "source_audio",
+                ],
+                "tool_inputs": {
+                    "audio_url": "{{source_audio.url}}",
+                },
+                "execution": "review_gate",
+            },
+            {
+                "step_key": "validate_package",
+                "target": "validate",
+                "label": "Validate before downstream handoff",
+                "tool": "manual",
+                "checks": [
+                    "required_inputs",
+                    "renderer_bindings",
+                    "no_paid_generation",
+                    "no_resolved_urls",
+                ],
+                "execution": "review_gate",
+            },
+        ]
+    )
+
+    return {
+        "schema_version": ASSEMBLY_FLOW_SUGGESTION_SCHEMA_VERSION,
+        "consumer_profile": ADULT_AI_INFLUENCER_CONSUMER_PROFILE,
+        "template_type": template_type,
+        "source_scene_bindings": source_scene_bindings,
+        "required_source_inputs": list(ADULT_ASSEMBLY_REQUIRED_SOURCE_INPUTS),
+        "suggested_flow": {
+            "schema_version": ASSEMBLY_FLOW_SCHEMA_VERSION,
+            "template_type": template_type,
+            "renderer": "shotstack",
+            "review_gate": True,
+            "paid_generation": False,
+            "steps": steps,
+        },
+        "safety": {
+            "paid_generation": False,
+            "provider_execution": False,
+            "resolved_urls_allowed": False,
+            "review_gate": True,
+        },
+        "review_flags": review_flags,
+    }
+
+
+def _iter_json_items(node: Any, path: str = "$"):
+    if isinstance(node, dict):
+        for key, value in node.items():
+            child_path = f"{path}.{key}"
+            yield child_path, key, value
+            yield from _iter_json_items(value, child_path)
+    elif isinstance(node, list):
+        for index, value in enumerate(node):
+            child_path = f"{path}[{index}]"
+            yield child_path, str(index), value
+            yield from _iter_json_items(value, child_path)
+
+
+def validate_assembly_flow_suggestion(payload: Any) -> tuple[list[str], list[str]]:
+    errors: list[str] = []
+    warnings: list[str] = []
+    if not isinstance(payload, dict):
+        return ["assembly_flow_suggestion.json must contain a JSON object."], warnings
+
+    if payload.get("schema_version") != ASSEMBLY_FLOW_SUGGESTION_SCHEMA_VERSION:
+        errors.append(
+            "assembly_flow_suggestion.schema_version must be "
+            f"`{ASSEMBLY_FLOW_SUGGESTION_SCHEMA_VERSION}`."
+        )
+    if payload.get("consumer_profile") != ADULT_AI_INFLUENCER_CONSUMER_PROFILE:
+        errors.append(
+            "assembly_flow_suggestion.consumer_profile must be "
+            f"`{ADULT_AI_INFLUENCER_CONSUMER_PROFILE}`."
+        )
+
+    safety = payload.get("safety")
+    if not isinstance(safety, dict):
+        errors.append("assembly_flow_suggestion.safety must be an object.")
+    else:
+        expected_safety = {
+            "paid_generation": False,
+            "provider_execution": False,
+            "resolved_urls_allowed": False,
+            "review_gate": True,
+        }
+        for key, expected in expected_safety.items():
+            if safety.get(key) is not expected:
+                errors.append(f"assembly_flow_suggestion.safety.{key} must be {expected}.")
+
+    suggested_flow = payload.get("suggested_flow")
+    if not isinstance(suggested_flow, dict):
+        errors.append("assembly_flow_suggestion.suggested_flow must be an object.")
+    else:
+        if suggested_flow.get("schema_version") != ASSEMBLY_FLOW_SCHEMA_VERSION:
+            errors.append(
+                "assembly_flow_suggestion.suggested_flow.schema_version must be "
+                f"`{ASSEMBLY_FLOW_SCHEMA_VERSION}`."
+            )
+        if suggested_flow.get("paid_generation") is not False:
+            errors.append("assembly_flow_suggestion.suggested_flow.paid_generation must be false.")
+        if suggested_flow.get("review_gate") is not True:
+            errors.append("assembly_flow_suggestion.suggested_flow.review_gate must be true.")
+        steps = suggested_flow.get("steps")
+        if not isinstance(steps, list):
+            errors.append("assembly_flow_suggestion.suggested_flow.steps must be an array.")
+        else:
+            for index, step in enumerate(steps, start=1):
+                if not isinstance(step, dict):
+                    errors.append(f"assembly_flow_suggestion step {index} must be an object.")
+                    continue
+                target = step.get("target")
+                if target not in ADULT_ASSEMBLY_ALLOWED_STEP_TARGETS:
+                    errors.append(
+                        f"assembly_flow_suggestion step {index} has unsupported target `{target}`."
+                    )
+
+    for path, key, value in _iter_json_items(payload):
+        normalized_key = key.lower()
+        if normalized_key in FORBIDDEN_SUGGESTION_KEYS or any(
+            part in normalized_key for part in FORBIDDEN_SUGGESTION_KEY_PARTS
+        ):
+            errors.append(f"assembly_flow_suggestion contains forbidden provider/result key at {path}.")
+        if isinstance(value, str):
+            if URL_VALUE_RE.search(value):
+                errors.append(f"assembly_flow_suggestion contains a resolved URL at {path}.")
+            if LOCAL_ABSOLUTE_PATH_RE.match(value) and not TOKEN_ONLY_RE.match(value):
+                errors.append(f"assembly_flow_suggestion contains a local absolute path at {path}.")
+
+    if not errors and payload.get("template_type") != "A-6_trend_continue":
+        warnings.append("assembly_flow_suggestion v1 is optimized for A-6_trend_continue.")
+    return errors, warnings
+
+
 def resolve_review_status(
     *,
     initial_review_status: str | None,
@@ -776,6 +1321,89 @@ def _upsert_manifest_artifact(
             "status": status,
         }
     )
+
+
+def _remove_manifest_artifact(
+    artifacts: list[dict[str, Any]],
+    *,
+    path: str,
+) -> bool:
+    original_len = len(artifacts)
+    artifacts[:] = [
+        artifact
+        for artifact in artifacts
+        if not (isinstance(artifact, dict) and artifact.get("path") == path)
+    ]
+    return len(artifacts) != original_len
+
+
+def maybe_write_assembly_flow_suggestion(
+    package_dir: Path,
+    *,
+    consumer_profile: str | None,
+    caller_context: Any = None,
+    caller_context_echo: dict[str, Any] | None = None,
+    template_contract: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Create the Adult AI Influencer handoff suggestion only when requested."""
+
+    if consumer_profile != ADULT_AI_INFLUENCER_CONSUMER_PROFILE:
+        return {
+            "requested": False,
+            "created": False,
+            "path": None,
+            "errors": [],
+            "warnings": [],
+        }
+
+    rel_path = "assembly_flow_suggestion.json"
+    suggestion = build_assembly_flow_suggestion(
+        package_dir,
+        consumer_profile=consumer_profile,
+        caller_context=caller_context,
+        caller_context_echo=caller_context_echo,
+        template_contract=template_contract,
+    )
+    errors, warnings = validate_assembly_flow_suggestion(suggestion)
+
+    manifest_path = package_dir / "manifest.json"
+    manifest = load_json(manifest_path) if manifest_path.exists() else {}
+    if not isinstance(manifest, dict):
+        manifest = {}
+    artifacts = manifest.get("artifacts")
+    if not isinstance(artifacts, list):
+        artifacts = []
+        manifest["artifacts"] = artifacts
+
+    if errors:
+        removed = _remove_manifest_artifact(artifacts, path=rel_path)
+        if removed:
+            write_json(manifest_path, manifest)
+        return {
+            "requested": True,
+            "created": False,
+            "path": None,
+            "errors": errors,
+            "warnings": warnings,
+        }
+
+    write_json(package_dir / rel_path, suggestion)
+    manifest["job_id"] = manifest.get("job_id") or package_dir.name
+    _upsert_manifest_artifact(
+        artifacts,
+        artifact_type="assembly_flow_suggestion",
+        path=rel_path,
+        scene_id=None,
+        status="created",
+    )
+    write_json(manifest_path, manifest)
+    return {
+        "requested": True,
+        "created": True,
+        "path": rel_path,
+        "errors": [],
+        "warnings": warnings,
+    }
 
 
 def update_manifest_runtime_entries(

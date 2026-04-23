@@ -40,6 +40,7 @@ class RunPipelineCliTests(unittest.TestCase):
         self.assertIn("shell_environment_policy.inherit=all", payload["command"])
         self.assertNotIn('shell_environment_policy.inherit=["PATH"]', payload["command"])
         self.assertIn("prompt_preview", payload)
+        self.assertNotIn("assembly_flow_suggestion.json", payload["prompt_preview"])
 
     def test_dry_run_with_preferred_renderer_and_context(self) -> None:
         completed = self.run_pipeline(
@@ -74,6 +75,99 @@ class RunPipelineCliTests(unittest.TestCase):
         self.assertIsInstance(echo["step1_hint_summary"], str)
         self.assertIsInstance(echo["step2_hint_summary"], str)
         self.assertIn("Preferred renderer from the caller: `remotion`.", payload["prompt_preview"])
+
+    def test_dry_run_with_adult_profile_uses_sanitized_prompt_block(self) -> None:
+        completed = self.run_pipeline(
+            "--input-video",
+            "input/test_3.mp4",
+            "--job-id",
+            "smoke_adult_profile",
+            "--consumer-profile",
+            "adult_ai_influencer_media_template",
+            "--context-inline-json",
+            json.dumps(
+                {
+                    "consumer_profile": "adult_ai_influencer_media_template",
+                    "template_type": "A-6_trend_continue",
+                    "assembly_contract": {
+                        "schema_version": "adult_ai_influencer_assembly_contract.v1",
+                        "secret": "sk-test-secret",
+                        "resolved_url": "https://res.cloudinary.com/demo/image/upload/a.jpg",
+                    },
+                    "source_scene_binding_hints": [
+                        {
+                            "scene_id": "scene_001",
+                            "source_role": "source_start_frame",
+                            "token": "{{source_scene_001.start_frame_url}}",
+                        },
+                        {
+                            "scene_id": "scene_002",
+                            "source_role": "source_start_frame",
+                            "token": "https://res.cloudinary.com/demo/image/upload/b.jpg",
+                        },
+                    ],
+                    "notes": "keep this compact, not https://res.cloudinary.com/demo/raw.mp4",
+                    "unrelated_nested_metadata": {
+                        "operator_secret": "sk-test-raw",
+                        "resolved_url": "https://res.cloudinary.com/demo/extra.jpg",
+                    },
+                }
+            ),
+            "--dry-run",
+            "--result-json",
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        payload = json.loads(completed.stdout)
+        prompt = payload["prompt_preview"]
+        self.assertEqual(payload["consumer_profile"], "adult_ai_influencer_media_template")
+        self.assertIn("assembly_flow_suggestion.json", prompt)
+        self.assertIn("adult_ai_influencer_media_template", prompt)
+        self.assertIn("adult_ai_influencer_assembly_contract.v1", prompt)
+        self.assertIn("{{source_scene_001.start_frame_url}}", prompt)
+        self.assertNotIn("res.cloudinary.com", prompt)
+        self.assertNotIn("sk-test", prompt)
+        self.assertNotIn("operator_secret", prompt)
+        self.assertNotIn("unrelated_nested_metadata", prompt)
+
+    def test_cli_context_consumer_profile_mismatch_is_input_error(self) -> None:
+        completed = self.run_pipeline(
+            "--input-video",
+            "input/test_3.mp4",
+            "--job-id",
+            "smoke_adult_mismatch",
+            "--consumer-profile",
+            "adult_ai_influencer_media_template",
+            "--context-inline-json",
+            json.dumps({"consumer_profile": "other_profile"}),
+            "--result-json",
+        )
+        self.assertEqual(completed.returncode, 2, completed.stderr)
+        payload = json.loads(completed.stdout)
+        self.assertEqual(payload["status"], "input_error")
+        self.assertIn("consumer_profile mismatch", payload["notes"][0])
+
+    def test_context_consumer_profile_alone_is_accepted(self) -> None:
+        completed = self.run_pipeline(
+            "--input-video",
+            "input/test_3.mp4",
+            "--job-id",
+            "smoke_adult_context_only",
+            "--context-inline-json",
+            json.dumps(
+                {
+                    "consumer_profile": "adult_ai_influencer_media_template",
+                    "assembly_contract": {
+                        "schema_version": "adult_ai_influencer_assembly_contract.v1"
+                    },
+                }
+            ),
+            "--dry-run",
+            "--result-json",
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        payload = json.loads(completed.stdout)
+        self.assertEqual(payload["consumer_profile"], "adult_ai_influencer_media_template")
+        self.assertIn("assembly_flow_suggestion.json", payload["prompt_preview"])
 
     def test_dry_run_with_shotstack_smoke_preview(self) -> None:
         completed = self.run_pipeline(
