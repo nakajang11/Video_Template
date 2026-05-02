@@ -37,6 +37,7 @@
       "enum": [
         "shotstack",
         "remotion",
+        "hybrid",
         "unknown"
       ]
     },
@@ -86,7 +87,8 @@
           "enum": [
             "auto",
             "shotstack",
-            "remotion"
+            "remotion",
+            "hybrid"
           ]
         },
         "step1_hint_summary": {
@@ -182,6 +184,7 @@
           "enum": [
             "shotstack",
             "remotion",
+            "hybrid",
             "unknown"
           ]
         }

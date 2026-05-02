@@ -27,6 +27,15 @@ class ResultContractTests(unittest.TestCase):
         self.assertFalse(artifacts_schema["additionalProperties"])
         self.assertIn("shotstack_smoke", schema["properties"])
         self.assertFalse(schema["properties"]["caller_context_echo"]["additionalProperties"])
+        self.assertIn("hybrid", schema["properties"]["renderer"]["enum"])
+        self.assertIn(
+            "hybrid",
+            schema["properties"]["caller_context_echo"]["properties"]["preferred_renderer"]["enum"],
+        )
+        self.assertIn(
+            "hybrid",
+            schema["properties"]["package_summary"]["properties"]["renderer"]["enum"],
+        )
 
     def test_fallback_result_includes_v3_fields(self) -> None:
         payload = run_pipeline.build_fallback_result(

@@ -1,9 +1,10 @@
 # Renderer Routing
 
-This repository now supports two review-gated packaging targets:
+This repository now supports three review-gated packaging targets:
 
 - `shotstack`
 - `remotion`
+- `hybrid`
 
 The choice should be explicit in `blueprint.json` via a top-level `renderer` field.
 
@@ -14,6 +15,7 @@ The backend CLI may receive `--preferred-renderer` with one of:
 - `auto`
 - `shotstack`
 - `remotion`
+- `hybrid`
 
 Rules:
 
@@ -22,6 +24,8 @@ Rules:
   mismatch if the source is clearly a better Remotion fit
 - `remotion` strongly prefers Remotion while still allowing a review-gated
   mismatch if the source is clearly a better Shotstack fit
+- `hybrid` strongly prefers Shotstack final assembly plus scene-level
+  Remotion/Hyperframes precompose clips
 
 If the actual package renderer does not match a non-`auto` preference, the run
 should stay review-gated and the result should explain the mismatch instead of
@@ -50,6 +54,16 @@ unnatural, or excessively manual in Shotstack.
   code-driven timing that would be brittle in Shotstack
 - the animation should be reusable by swapping JSON props rather than rebuilding
   many clip-level animations by hand
+
+## Choose `hybrid` when
+
+- the final package should stay compatible with Shotstack Studio review
+- source audio, editable Shotstack text overlays, or downstream merge slots
+  should remain in the Shotstack timeline
+- one or more scenes need code-driven motion that would be brittle as direct
+  Shotstack clips
+- the inner scene clip can be described as a Remotion or Hyperframes precompose
+  package and filled into Shotstack later through a video merge placeholder
 
 ## Source-specific guidance
 
@@ -84,10 +98,17 @@ Optional but recommended:
 - `props/variant-*.json`
 - `renders/` preview outputs
 
+For `renderer = "hybrid"`:
+
+- keep the Shotstack package files because Shotstack is the final assembler
+- add scene-level `precompose` metadata in `blueprint.json`
+- optionally add `precompose/<scene_id>/<remotion|hyperframes>/` review packages
+- follow `docs/hybrid-renderer-contract.md`
+
 ## Important constraint
 
-This repo is still review-gated. A Remotion package should stop at a reviewable
-template package unless the user explicitly asks for rendering. Local validation
-may run static Remotion checks by default; use `--run-cli-smoke` on
-`scripts/validate_remotion_package.py` only when an explicit Remotion CLI smoke
-is desired.
+This repo is still review-gated. Remotion, Hyperframes, and hybrid packages
+should stop at reviewable template/precompose packages unless the user
+explicitly asks for rendering. Local validation may run static checks by
+default; use `--run-cli-smoke` on `scripts/validate_remotion_package.py` only
+when an explicit Remotion CLI smoke is desired.

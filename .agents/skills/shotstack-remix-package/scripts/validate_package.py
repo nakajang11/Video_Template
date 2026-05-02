@@ -10,7 +10,10 @@ SCRIPTS_DIR = REPO_ROOT / "scripts"
 if str(SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_DIR))
 
-from template_package_support import validate_template_contract
+from template_package_support import (
+    validate_hybrid_precompose_blueprint,
+    validate_template_contract,
+)
 
 
 PLACEHOLDER_RE = re.compile(r"\{\{\s*([A-Z0-9_]+)\s*\}\}")
@@ -450,6 +453,10 @@ def validate_blueprint(blueprint: dict, package_dir: Path, errors: list[str], wa
     if expected_audio_merge_key:
         expected_merge_keys.add(expected_audio_merge_key)
 
+    hybrid_errors, hybrid_warnings = validate_hybrid_precompose_blueprint(blueprint)
+    errors.extend(hybrid_errors)
+    warnings.extend(hybrid_warnings)
+
     return expected_aliases, expected_merge_keys, alias_to_duration
 
 
@@ -785,9 +792,13 @@ def main():
     if isinstance(shotstack_pasteable, dict):
         validate_pasteable_shotstack(shotstack_pasteable, errors)
 
+    expected_contract_renderer = "shotstack"
+    if isinstance(blueprint, dict) and blueprint.get("renderer") == "hybrid":
+        expected_contract_renderer = "hybrid"
+
     contract_errors, contract_warnings, _ = validate_template_contract(
         package_dir,
-        expected_renderer="shotstack",
+        expected_renderer=expected_contract_renderer,
     )
     errors.extend(contract_errors)
     warnings.extend(contract_warnings)

@@ -76,6 +76,25 @@ class RunPipelineCliTests(unittest.TestCase):
         self.assertIsInstance(echo["step2_hint_summary"], str)
         self.assertIn("Preferred renderer from the caller: `remotion`.", payload["prompt_preview"])
 
+    def test_dry_run_with_hybrid_preferred_renderer(self) -> None:
+        completed = self.run_pipeline(
+            "--input-video",
+            "input/test_3.mp4",
+            "--job-id",
+            "smoke_hybrid",
+            "--preferred-renderer",
+            "hybrid",
+            "--dry-run",
+            "--result-json",
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        payload = json.loads(completed.stdout)
+        self.assertEqual(payload["preferred_renderer"], "hybrid")
+        self.assertEqual(payload["caller_context_echo"]["preferred_renderer"], "hybrid")
+        self.assertIn("Preferred renderer from the caller: `hybrid`.", payload["prompt_preview"])
+        self.assertIn("If `blueprint.renderer = \"hybrid\"`", payload["prompt_preview"])
+        self.assertIn("Do not render Remotion or Hyperframes precompose clips", payload["prompt_preview"])
+
     def test_dry_run_with_adult_profile_uses_sanitized_prompt_block(self) -> None:
         completed = self.run_pipeline(
             "--input-video",

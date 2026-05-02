@@ -29,7 +29,8 @@
       "type": "string",
       "enum": [
         "shotstack",
-        "remotion"
+        "remotion",
+        "hybrid"
       ]
     },
     "audio": {
@@ -231,6 +232,70 @@
                 "items": {
                   "type": "string"
                 }
+              }
+            },
+            "additionalProperties": true
+          },
+          "precompose": {
+            "type": "object",
+            "required": [
+              "renderer",
+              "output_merge_key",
+              "package_dir",
+              "width",
+              "height",
+              "fps",
+              "duration_sec",
+              "audio_policy",
+              "status"
+            ],
+            "properties": {
+              "renderer": {
+                "type": "string",
+                "enum": [
+                  "remotion",
+                  "hyperframes"
+                ]
+              },
+              "output_merge_key": {
+                "type": "string",
+                "pattern": "^[A-Z0-9_]+$"
+              },
+              "package_dir": {
+                "type": "string",
+                "pattern": "^precompose/[^/]+/(remotion|hyperframes)"
+              },
+              "width": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "height": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "fps": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "duration_sec": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "audio_policy": {
+                "type": "string",
+                "enum": [
+                  "mute",
+                  "strip"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "planned",
+                  "package_created",
+                  "pending_render",
+                  "rendered"
+                ]
               }
             },
             "additionalProperties": true
@@ -446,5 +511,32 @@
       }
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "renderer": {
+            "const": "hybrid"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "scenes": {
+            "contains": {
+              "required": [
+                "precompose"
+              ]
+            },
+            "items": {
+              "required": [
+                "shotstack"
+              ]
+            }
+          }
+        }
+      }
+    }
+  ],
   "additionalProperties": true
 }

@@ -21,9 +21,28 @@ CONTENT_FILL_STRATEGIES = {
     "select_existing_asset",
     "generate_text",
     "generate_media",
+    "precompose_video",
     "reuse_source_trend_video",
 }
 SUPPORTED_SLOT_KINDS = {"media", "text", "color", "number", "audio", "overlay"}
+HYBRID_INNER_RENDERERS = {"remotion", "hyperframes"}
+HYBRID_PRECOMPOSE_AUDIO_POLICIES = {"mute", "strip"}
+HYBRID_PRECOMPOSE_STATUSES = {
+    "planned",
+    "package_created",
+    "pending_render",
+    "rendered",
+}
+HYBRID_FORBIDDEN_RENDER_KEYS = {
+    "final_video",
+    "output_file",
+    "output_path",
+    "provider_response",
+    "render_url",
+    "rendered_file",
+    "rendered_url",
+}
+HYBRID_DURATION_TOLERANCE_SEC = 0.05
 TECHNICAL_PROP_ROOTS = {"palette", "transitions", "textStyle"}
 TECHNICAL_PROP_SUFFIXES = {
     "accent",
@@ -122,6 +141,7 @@ SENSITIVE_CONTEXT_PATH_PARTS = {
 URL_VALUE_RE = re.compile(r"https?://", re.IGNORECASE)
 LOCAL_ABSOLUTE_PATH_RE = re.compile(r"^(?:/|[A-Za-z]:[\\/])")
 TOKEN_ONLY_RE = re.compile(r"^\{\{\s*[A-Za-z0-9_.\[\] -]+\s*\}\}$")
+MERGE_KEY_RE = re.compile(r"^[A-Z0-9_]+$")
 FORBIDDEN_SUGGESTION_KEYS = {
     "api_key",
     "adult_db_id",
@@ -585,7 +605,118 @@ def _style_constraints_from_text_overlay(overlay: dict[str, Any]) -> dict[str, A
     return constraints or None
 
 
+def _is_positive_number(value: Any) -> bool:
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and value > 0
+
+
+def _compact_precompose_binding(precompose: dict[str, Any]) -> dict[str, Any]:
+    binding: dict[str, Any] = {}
+    for key in (
+        "renderer",
+        "package_dir",
+        "output_merge_key",
+        "width",
+        "height",
+        "fps",
+        "duration_sec",
+        "audio_policy",
+        "status",
+    ):
+        if key in precompose:
+            binding[key] = precompose[key]
+    return binding
+
+
+def validate_hybrid_precompose_blueprint(
+    blueprint: dict[str, Any],
+) -> tuple[list[str], list[str]]:
+    errors: list[str] = []
+    warnings: list[str] = []
+    if blueprint.get("renderer") != "hybrid":
+        return errors, warnings
+
+    scenes = blueprint.get("scenes")
+    if not isinstance(scenes, list) or not scenes:
+        errors.append("hybrid blueprint requires a non-empty scenes array")
+        return errors, warnings
+
+    precompose_count = 0
+    for index, scene in enumerate(scenes, start=1):
+        if not isinstance(scene, dict):
+            errors.append(f"hybrid scene {index} must be an object")
+            continue
+        scene_id = scene.get("scene_id")
+        scene_label = scene_id if isinstance(scene_id, str) and scene_id else f"scene {index}"
+        shotstack = scene.get("shotstack")
+        if not isinstance(shotstack, dict):
+            errors.append(f"{scene_label}: hybrid scenes require shotstack final assembly binding")
+            continue
+
+        precompose = scene.get("precompose")
+        if precompose is None:
+            continue
+        if not isinstance(precompose, dict):
+            errors.append(f"{scene_label}: precompose must be an object")
+            continue
+        precompose_count += 1
+
+        inner_renderer = precompose.get("renderer")
+        if inner_renderer not in HYBRID_INNER_RENDERERS:
+            errors.append(f"{scene_label}: precompose.renderer must be `remotion` or `hyperframes`")
+
+        output_merge_key = precompose.get("output_merge_key")
+        if not isinstance(output_merge_key, str) or not MERGE_KEY_RE.match(output_merge_key):
+            errors.append(f"{scene_label}: precompose.output_merge_key must be uppercase snake case")
+        elif shotstack.get("merge_key") != output_merge_key:
+            errors.append(f"{scene_label}: precompose.output_merge_key must match shotstack.merge_key")
+
+        package_dir = precompose.get("package_dir")
+        if not isinstance(package_dir, str) or not package_dir:
+            errors.append(f"{scene_label}: precompose.package_dir must be a non-empty relative path")
+        elif LOCAL_ABSOLUTE_PATH_RE.match(package_dir) or ".." in Path(package_dir).parts:
+            errors.append(f"{scene_label}: precompose.package_dir must stay inside the package")
+        elif not package_dir.startswith("precompose/"):
+            warnings.append(f"{scene_label}: precompose.package_dir should live under precompose/")
+
+        for numeric_key in ("width", "height", "fps", "duration_sec"):
+            if not _is_positive_number(precompose.get(numeric_key)):
+                errors.append(f"{scene_label}: precompose.{numeric_key} must be a positive number")
+
+        duration = scene.get("duration_sec")
+        precompose_duration = precompose.get("duration_sec")
+        if _is_positive_number(duration) and _is_positive_number(precompose_duration):
+            if abs(float(duration) - float(precompose_duration)) > HYBRID_DURATION_TOLERANCE_SEC:
+                errors.append(f"{scene_label}: precompose.duration_sec must match duration_sec")
+
+        audio_policy = precompose.get("audio_policy")
+        if audio_policy not in HYBRID_PRECOMPOSE_AUDIO_POLICIES:
+            errors.append(f"{scene_label}: precompose.audio_policy must be `mute` or `strip`")
+
+        status = precompose.get("status")
+        if status not in HYBRID_PRECOMPOSE_STATUSES:
+            errors.append(
+                f"{scene_label}: precompose.status must be planned, package_created, pending_render, or rendered"
+            )
+        elif status == "rendered":
+            errors.append(f"{scene_label}: precompose.status cannot be rendered without explicit render approval")
+
+        forbidden_keys = sorted(
+            key for key in HYBRID_FORBIDDEN_RENDER_KEYS if precompose.get(key) not in (None, "")
+        )
+        if forbidden_keys:
+            errors.append(
+                f"{scene_label}: precompose metadata implies rendered output without approval: {', '.join(forbidden_keys)}"
+            )
+
+    if precompose_count == 0:
+        errors.append("hybrid blueprint requires at least one scene.precompose object")
+    return errors, warnings
+
+
 def _derive_shotstack_media_fill_strategy(scene: dict[str, Any]) -> str:
+    if isinstance(scene.get("precompose"), dict):
+        return "precompose_video"
+
     video = scene.get("video")
     startframe = scene.get("startframe")
     video_mode = video.get("mode") if isinstance(video, dict) else None
@@ -632,6 +763,13 @@ def derive_shotstack_slots(blueprint: dict[str, Any]) -> list[dict[str, Any]]:
         if isinstance(merge_key, str) and merge_key:
             media_kind = shotstack.get("asset_type")
             suffix = "main"
+            renderer_binding = {
+                "merge_key": merge_key,
+                "alias": shotstack.get("alias"),
+            }
+            precompose = scene.get("precompose")
+            if isinstance(precompose, dict):
+                renderer_binding["precompose"] = _compact_precompose_binding(precompose)
             slots.append(
                 {
                     "slot_id": _build_slot_id(scene_id, "media", suffix),
@@ -640,10 +778,7 @@ def derive_shotstack_slots(blueprint: dict[str, Any]) -> list[dict[str, Any]]:
                     "media_kind": media_kind if isinstance(media_kind, str) else None,
                     "required": True,
                     "fill_strategy": _derive_shotstack_media_fill_strategy(scene),
-                    "renderer_binding": {
-                        "merge_key": merge_key,
-                        "alias": shotstack.get("alias"),
-                    },
+                    "renderer_binding": renderer_binding,
                 }
             )
 
@@ -891,9 +1026,9 @@ def build_template_contract(
             template_partition = load_json(package_dir / partition_file)
 
     slots = (
-        derive_shotstack_slots(blueprint)
-        if renderer == "shotstack"
-        else derive_remotion_slots(blueprint, default_props, template_partition)
+        derive_remotion_slots(blueprint, default_props, template_partition)
+        if renderer == "remotion"
+        else derive_shotstack_slots(blueprint)
     )
 
     scene_count = len(blueprint.get("scene_order", [])) if isinstance(blueprint.get("scene_order"), list) else len(blueprint.get("scenes", []))
@@ -906,6 +1041,9 @@ def build_template_contract(
     fill_requirements = {
         "requires_generated_media": any(
             slot.get("fill_strategy") == "generate_media" for slot in slots
+        ),
+        "requires_precompose_video": any(
+            slot.get("fill_strategy") == "precompose_video" for slot in slots
         ),
         "requires_generated_text": any(
             slot.get("fill_strategy") == "generate_text" for slot in slots
@@ -1294,7 +1432,7 @@ def resolve_review_status(
             candidates.append(review_status)
 
     resolved = candidates[0] if candidates else "not_started"
-    if preferred_renderer in {"shotstack", "remotion"} and actual_renderer != preferred_renderer:
+    if preferred_renderer in {"shotstack", "remotion", "hybrid"} and actual_renderer != preferred_renderer:
         return "review_required"
     return resolved
 
@@ -1547,7 +1685,7 @@ def validate_template_contract(
         renderer_binding = slot.get("renderer_binding")
         if not isinstance(renderer_binding, dict):
             errors.append(f"template_contract slot {slot_id} requires renderer_binding.")
-        elif expected_renderer == "shotstack":
+        elif expected_renderer in {"shotstack", "hybrid"}:
             merge_key = renderer_binding.get("merge_key")
             if not isinstance(merge_key, str) or not merge_key:
                 errors.append(

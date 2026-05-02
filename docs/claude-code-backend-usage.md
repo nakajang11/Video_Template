@@ -34,8 +34,8 @@ The command will:
 5. write `output/<job_id>/result.json`
 6. print the structured result
 
-`--preferred-renderer` is optional and accepts `auto`, `shotstack`, or
-`remotion`.
+`--preferred-renderer` is optional and accepts `auto`, `shotstack`, `remotion`,
+or `hybrid`.
 
 Shotstack smoke rendering is off by default. For a review-only external smoke,
 callers may pass:
@@ -56,6 +56,12 @@ workflow and `scripts/validate_remotion_package.py`. That validator is static
 by default and checks composition metadata, JSON prop paths, local public assets,
 scene frame ranges, and `template_contract.json`. A Remotion CLI smoke may be
 run manually with `python3 scripts/validate_remotion_package.py output/<job_id> --run-cli-smoke`.
+
+For Hybrid packages, Shotstack remains the final assembly layer and
+Remotion/Hyperframes are only inner scene precompose package targets. The
+backend validates the Shotstack final assembly plus `blueprint.scenes[].precompose`
+metadata, but does not render Remotion or Hyperframes clips by default. See
+`docs/hybrid-renderer-contract.md`.
 
 For difficult source analysis, the repo also provides `$video-analysis-support`.
 It can create optional `timeline_view/` contact sheets and `transcript_packed.md`
@@ -141,6 +147,7 @@ For each run, the backend writes these run-specific files under `output/<job_id>
 - `assembly_flow_suggestion.json` only when
   `consumer_profile=adult_ai_influencer_media_template`
 - `remotion_package/` when `renderer = "remotion"`
+- `precompose/<scene_id>/<remotion|hyperframes>/` when `renderer = "hybrid"`
 - `timeline_view/` or `transcript_packed.md` when optional source evidence was generated
 - `shotstack_smoke_result.json` when Shotstack smoke was requested
 - `shotstack_smoke_compare.json` and `shotstack_smoke_contact_sheet.jpg` when a local smoke render is available for comparison

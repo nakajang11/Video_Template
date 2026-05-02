@@ -100,11 +100,11 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--preferred-renderer",
-        choices=("auto", "shotstack", "remotion"),
+        choices=("auto", "shotstack", "remotion", "hybrid"),
         default="auto",
         help=(
             "Preferred renderer override. `auto` keeps the existing routing rules, "
-            "while `shotstack` and `remotion` strongly prefer that target."
+            "while `shotstack`, `remotion`, and `hybrid` strongly prefer that target."
         ),
     )
     parser.add_argument(
@@ -341,7 +341,7 @@ def build_codex_prompt(
           or switch to Remotion.
         - Preferred renderer from the caller: `{preferred_renderer}`.
           - If `{preferred_renderer}` is `auto`, keep the existing routing rules.
-          - If `{preferred_renderer}` is `shotstack` or `remotion`, strongly prefer it.
+          - If `{preferred_renderer}` is `shotstack`, `remotion`, or `hybrid`, strongly prefer it.
           - If you cannot safely honor the preference, keep the package review-gated and explain why.
         - If `blueprint.renderer = "shotstack"`, use the packaging workflow from
           `.agents/skills/shotstack-remix-package/SKILL.md`.
@@ -349,6 +349,11 @@ def build_codex_prompt(
           `output/{job_id}/remotion_package/` using the packaging workflow from
           `.agents/skills/remotion-package/SKILL.md`, including `package.json`, `src/`,
           `props/`, `public/`, `template-partition.json`, and `README.md`, then update `manifest.json`.
+        - If `blueprint.renderer = "hybrid"`, use Shotstack as the final assembly package and
+          add scene-level `precompose` metadata for Remotion or Hyperframes clips.
+          Do not render Remotion or Hyperframes precompose clips, do not call providers, and do not
+          run Shotstack final rendering unless the caller explicitly requested the capped Shotstack smoke path.
+          Represent each precompose output as a Shotstack video merge placeholder.
         - Keep context usage tight. Only inspect the minimum repository files needed to do the job:
           `AGENTS.md`, `docs/output-contract.md`, `docs/project-plan.md`, `docs/renderer-routing.md`,
           the relevant skill files, and any directly referenced schema/template/validator files needed
@@ -365,7 +370,7 @@ def build_codex_prompt(
           `cloudinary_assets.json`, and `shotstack.pasteable.json`.
         - For Remotion jobs, keep editable content in props files so the same template can be reused
           by swapping JSON data instead of rewriting the animation logic.
-        - Set the structured result `renderer` field to either `shotstack` or `remotion`.
+        - Set the structured result `renderer` field to `shotstack`, `remotion`, or `hybrid`.
         - Stop at the review gate. Do not perform paid generation or final rendering.
         - If plot confidence or cast confidence is low, mark the package as review required instead
           of inventing unsupported details.
@@ -488,7 +493,7 @@ def infer_renderer(package_dir: Path) -> str:
             blueprint = None
         if isinstance(blueprint, dict):
             renderer = blueprint.get("renderer")
-            if renderer in {"shotstack", "remotion"}:
+            if renderer in {"shotstack", "remotion", "hybrid"}:
                 return renderer
 
     if (package_dir / "remotion_package").exists():
@@ -743,9 +748,9 @@ def run_shotstack_smoke_render(
 
     result_path = package_dir / "shotstack_smoke_result.json"
     compare_path = package_dir / "shotstack_smoke_compare.json"
-    if renderer != "shotstack":
+    if renderer not in {"shotstack", "hybrid"}:
         state["status"] = "skipped"
-        state["error"] = "Shotstack smoke render only applies to shotstack packages."
+        state["error"] = "Shotstack smoke render only applies to shotstack or hybrid packages."
         write_json(result_path, state)
         write_json(
             compare_path,
@@ -1307,7 +1312,7 @@ def main() -> int:
                 )
 
             if (
-                args.preferred_renderer in {"shotstack", "remotion"}
+                args.preferred_renderer in {"shotstack", "remotion", "hybrid"}
                 and runtime_renderer != args.preferred_renderer
             ):
                 if result.get("status") == "ok":

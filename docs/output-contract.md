@@ -52,6 +52,24 @@ output/<job_id>/
     public/
 ```
 
+For `blueprint.renderer = "hybrid"`:
+
+```text
+output/<job_id>/
+  shotstack.json
+  cloudinary_assets.json
+  shotstack.pasteable.json
+  precompose/
+    scene_001/
+      remotion/
+    scene_002/
+      hyperframes/
+```
+
+Hybrid packages use Shotstack for final assembly and optional Remotion or
+Hyperframes scene precompose packages for inner code-driven clips. See
+`docs/hybrid-renderer-contract.md`.
+
 The runtime wrapper may add `template_contract.json`, `result.json`, and
 `package.zip` after package generation. Those files do not replace the review
 gate; they make the package easier for downstream systems to ingest.
@@ -184,10 +202,14 @@ Required top-level fields:
 
 - `shotstack`
 - `remotion`
+- `hybrid`
 
 Use `shotstack` by default. Switch to `remotion` when the source depends on
 kinetic typography, procedural graphics, matte-like reveals, or other animation
 that would be brittle in Shotstack.
+
+Use `hybrid` when Shotstack should remain the final assembly/editor surface but
+one or more scenes need a Remotion or Hyperframes precompose video clip.
 
 `audio` should include:
 
@@ -210,6 +232,7 @@ Renderer-specific fields:
 
 - `shotstack` when `renderer = "shotstack"`
 - `remotion_sequence` when `renderer = "remotion"`
+- `shotstack` plus `precompose` scene metadata when `renderer = "hybrid"`
 
 `startframe` should include:
 
@@ -238,7 +261,8 @@ sequence rather than generated as standalone media.
 - `overlay_layers`
 
 `blueprint.scenes[].duration_sec` must match `analysis.scenes[].duration_sec` for the same `scene_id`.
-When `renderer = "shotstack"`, `blueprint.scenes[].shotstack.clip_length_sec` must match that same duration.
+When `renderer = "shotstack"` or `renderer = "hybrid"`,
+`blueprint.scenes[].shotstack.clip_length_sec` must match that same duration.
 
 `remotion_sequence` should include:
 
@@ -258,6 +282,24 @@ When `renderer = "remotion"`, `blueprint.json` should also include a top-level
 - `composition_id`
 - `props_file`
 - `editable_props`
+
+When `renderer = "hybrid"`, every scene must include `shotstack` final assembly
+metadata. Scenes that need an inner code-driven clip should include
+`precompose` with:
+
+- `renderer` (`remotion` or `hyperframes`)
+- `output_merge_key`
+- `package_dir`
+- `width`
+- `height`
+- `fps`
+- `duration_sec`
+- `audio_policy` (`mute` or `strip`)
+- `status`
+
+`precompose.output_merge_key` must match the scene `shotstack.merge_key`.
+Precompose audio must be muted or stripped; `source_audio.mp3` remains the
+Shotstack timeline audio.
 
 Each `overlay_layers[]` entry should include:
 
@@ -315,7 +357,7 @@ Do not mix `scene_1` and `scene_001`.
 
 ## `shotstack.json`
 
-Only required when `renderer = "shotstack"`.
+Only required when `renderer = "shotstack"` or `renderer = "hybrid"`.
 
 Rules:
 
@@ -338,7 +380,7 @@ Rules:
 
 ## `cloudinary_assets.json`
 
-Only required when `renderer = "shotstack"`.
+Only required when `renderer = "shotstack"` or `renderer = "hybrid"`.
 
 Purpose:
 
@@ -361,7 +403,7 @@ Include `duration_sec` for uploaded scene clips when applicable.
 
 ## `shotstack.pasteable.json`
 
-Only required when `renderer = "shotstack"`.
+Only required when `renderer = "shotstack"` or `renderer = "hybrid"`.
 
 Rules:
 
@@ -473,12 +515,15 @@ Normalized `fill_strategy` values:
 - `select_existing_asset`
 - `generate_text`
 - `generate_media`
+- `precompose_video`
 - `reuse_source_trend_video`
 
 Renderer bindings:
 
 - Shotstack slots should expose `renderer_binding.merge_key`
 - Remotion slots should expose `renderer_binding.prop_path`
+- Hybrid slots should expose `renderer_binding.merge_key` and may include
+  `renderer_binding.precompose`
 
 `package_summary` should include:
 
@@ -653,3 +698,13 @@ For `renderer = "remotion"`:
 - `src/index.jsx` registers the root and `src/Root.jsx` defines the expected composition id
 - Remotion scene frame ranges are positive and align with the composition duration
 - `template_contract.json` exists and its renderer matches the package
+
+For `renderer = "hybrid"`:
+
+- Shotstack package artifacts exist because Shotstack is the final assembly layer
+- every hybrid scene has a `shotstack` binding
+- at least one scene has a valid `precompose` object
+- each `precompose.output_merge_key` matches the scene `shotstack.merge_key`
+- each `precompose.duration_sec` matches the scene `duration_sec`
+- `precompose.audio_policy` is `mute` or `strip`
+- precompose metadata does not claim rendered/final output without explicit render approval
