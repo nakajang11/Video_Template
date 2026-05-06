@@ -34,6 +34,10 @@ Minimum fields:
 - `renderer`
 - `validation`
 
+Committed examples may show the repository commit used when that fixture was
+generated. Runtime-generated packages should record the current backend `HEAD`
+at package-generation time.
+
 Every slot includes a deterministic `token_ref`:
 
 ```json

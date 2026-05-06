@@ -9,15 +9,30 @@
     "template_id",
     "renderer",
     "preferred_renderer",
+    "fallback_renderers",
+    "template_type",
+    "supported_content_types",
+    "fill_requirements",
     "precompose_required",
     "renderer_bindings",
     "precompose_plan",
+    "validation",
     "package_summary",
     "slots"
   ],
   "properties": {
     "contract_version": {
       "const": "1.2"
+    },
+    "job_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "template_id": {
+      "type": "string",
+      "minLength": 1
     },
     "renderer": {
       "$ref": "#/$defs/renderer"
@@ -30,6 +45,42 @@
       "items": {
         "$ref": "#/$defs/renderer"
       }
+    },
+    "template_type": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "supported_content_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "fill_requirements": {
+      "type": "object",
+      "required": [
+        "requires_generated_media",
+        "requires_precompose_video",
+        "requires_generated_text",
+        "requires_motion_reference"
+      ],
+      "properties": {
+        "requires_generated_media": {
+          "type": "boolean"
+        },
+        "requires_precompose_video": {
+          "type": "boolean"
+        },
+        "requires_generated_text": {
+          "type": "boolean"
+        },
+        "requires_motion_reference": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
     },
     "precompose_required": {
       "type": "boolean"
@@ -67,6 +118,9 @@
         }
       },
       "additionalProperties": true
+    },
+    "validation": {
+      "$ref": "#/$defs/slot_validation"
     },
     "package_summary": {
       "type": "object",

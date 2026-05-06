@@ -5,6 +5,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 
 
@@ -195,6 +196,26 @@ class ContractV12ValidatorTests(unittest.TestCase):
 
         self.assertNotEqual(completed.returncode, 0)
         self.assertIn("must not use Hyperframes as a generation model", completed.stdout)
+
+    def test_template_validator_scans_archive_payload_for_leaks(self) -> None:
+        temp_dir, package_dir, _ = self.make_hyperframes_package()
+        self.addCleanup(temp_dir.cleanup)
+        with zipfile.ZipFile(package_dir / "package.zip", "a") as archive:
+            archive.writestr(
+                "notes/safe_name.json",
+                '{"provider_response":{"url":"https://example.invalid/render.mp4"}}',
+            )
+
+        completed = subprocess.run(
+            [sys.executable, str(TEMPLATE_VALIDATOR), str(package_dir)],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+        )
+
+        self.assertNotEqual(completed.returncode, 0)
+        self.assertIn("forbidden payload marker `provider_response`", completed.stdout)
+        self.assertIn("resolved URL content", completed.stdout)
 
     def test_adult_consumer_contract_rejects_url_leak(self) -> None:
         temp_dir, package_dir, contract = self.make_hyperframes_package()

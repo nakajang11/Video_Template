@@ -26,6 +26,22 @@ FORBIDDEN_ARCHIVE_PARTS = {
     "provider_result",
     "renders",
 }
+ARCHIVE_URL_ALLOWED_FILES = {
+    "cloudinary_assets.json",
+    "shotstack.pasteable.json",
+    "shotstack_smoke_result.json",
+    "shotstack_smoke_compare.json",
+}
+ARCHIVE_TEXT_SCAN_LIMIT_BYTES = 1_000_000
+ARCHIVE_FORBIDDEN_PAYLOAD_MARKERS = {
+    "api_key",
+    "generated_media_url",
+    "generated_url",
+    "provider_response",
+    "provider_result",
+    "secret",
+    "secure_url",
+}
 
 
 def resolve_package_dir(path: Path) -> Path:
@@ -55,12 +71,13 @@ def scan_archive(package_dir: Path) -> tuple[list[str], list[str]]:
         return errors, warnings
     try:
         with zipfile.ZipFile(archive_path) as archive:
-            names = archive.namelist()
+            infos = archive.infolist()
     except zipfile.BadZipFile as exc:
         errors.append(f"package.zip is not a readable zip archive: {exc}")
         return errors, warnings
 
-    for name in names:
+    for info in infos:
+        name = info.filename
         parts = set(Path(name).parts)
         lower_name = name.lower()
         if parts & FORBIDDEN_ARCHIVE_PARTS:
@@ -69,6 +86,32 @@ def scan_archive(package_dir: Path) -> tuple[list[str], list[str]]:
             errors.append(f"package.zip contains provider execution artifact: {name}")
         if lower_name.startswith("/") or ".." in Path(name).parts:
             errors.append(f"package.zip contains unsafe path: {name}")
+        if info.is_dir():
+            continue
+        if info.file_size > ARCHIVE_TEXT_SCAN_LIMIT_BYTES:
+            warnings.append(f"package.zip member was too large for text leak scan: {name}")
+            continue
+        suffix = Path(name).suffix.lower()
+        if suffix not in {".json", ".md", ".txt", ".html", ".js", ".jsx", ".css"}:
+            continue
+        try:
+            with zipfile.ZipFile(archive_path) as archive:
+                text = archive.read(info).decode("utf-8", errors="ignore")
+        except Exception as exc:
+            warnings.append(f"package.zip member could not be text-scanned: {name}: {exc}")
+            continue
+        lower_text = text.lower()
+        for marker in ARCHIVE_FORBIDDEN_PAYLOAD_MARKERS:
+            if marker in lower_text:
+                if marker == "secure_url" and Path(name).name in ARCHIVE_URL_ALLOWED_FILES:
+                    warnings.append(f"package.zip member contains review-sidecar secure_url content: {name}")
+                    continue
+                errors.append(f"package.zip member contains forbidden payload marker `{marker}`: {name}")
+        if "http://" in lower_text or "https://" in lower_text:
+            if Path(name).name in ARCHIVE_URL_ALLOWED_FILES:
+                warnings.append(f"package.zip member contains review-sidecar URL content: {name}")
+            else:
+                errors.append(f"package.zip member contains resolved URL content: {name}")
     return errors, warnings
 
 

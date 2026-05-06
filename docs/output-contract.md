@@ -226,11 +226,15 @@ Required top-level fields:
 
 - `shotstack`
 - `remotion`
+- `hyperframes`
 - `hybrid`
 
 Use `shotstack` by default. Switch to `remotion` when the source depends on
 kinetic typography, procedural graphics, matte-like reveals, or other animation
 that would be brittle in Shotstack.
+
+Use `hyperframes` when the source is best represented as a static
+HTML/CSS/JS-native animation package with graph/node editable slots.
 
 Use `hybrid` when Shotstack should remain the final assembly/editor surface but
 one or more scenes need a Remotion or Hyperframes precompose video clip.
