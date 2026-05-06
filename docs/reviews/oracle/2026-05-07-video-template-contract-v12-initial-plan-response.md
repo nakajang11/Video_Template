@@ -1,0 +1,127 @@
+observed_model: GPT-5.5 Pro
+review_validity: valid
+verdict: approve_with_conditions
+score: 7.6
+repo_findings:
+
+* "GitHub connector review confirms `main` is identical to baseline commit `a61a31cb125074fc18a366edb6cfaea3f0c73397`; this is a planning review against the current hybrid-renderer baseline, not a PR diff review."
+* "Current baseline already has partial hybrid support: `shotstack`, `remotion`, and `hybrid` are documented, and hybrid uses Shotstack as final assembly with Remotion/Hyperframes as inner precompose targets."
+* "Current template contract support is still version `1.0`; target requires contract version `1.2`."
+* "Current renderer surface does not fully cover target support: `hyperframes` exists only as an inner hybrid precompose renderer, not as a top-level renderer/assembly target in CLI/result schema."
+* "Current slot schema has stable `slot_id` and basic fields, but lacks required v1.2 fields: `generation_policy`, `approval_policy`, `validation`, and explicit `precompose_required`."
+* "Current fill strategy enum still includes broad `generate_media`; target requires split strategies including `generate_startframe`, `generate_image_slot`, and `generate_video_slot`."
+* "Current consumer profile is `adult_ai_influencer_media_template` and emits `assembly_flow_suggestion.json`; target requires `--consumer-profile adult_ai_influencer_template` and `adult_ai_influencer_template_contract.json`."
+* "Requested standalone validators are missing: `scripts/validate_template_contract.py`, `scripts/validate_adult_ai_consumer_contract.py`, `scripts/validate_hyperframes_package.py`, and `scripts/validate_hybrid_precompose_plan.py`."
+* "Existing guardrails correctly prohibit Adult AI DB mutation, provider calls, paid media generation, and default final rendering."
+  blocking_risks:
+* "Adult AI import compatibility will remain fragile until `template_contract.json` v1.2 is schema-backed and `adult_ai_influencer_template_contract.json` is generated from the same canonical slot model."
+* "Leaving `generate_media` in place will force downstream manual interpretation; split fill strategies must be enforced before import fixtures are considered valid."
+* "Hyperframes must not be modeled as an image/video generation model. It should be a renderer/assembly target with static package validation only."
+* "Hybrid packages need explicit `precompose_plan.steps[]`; scene-level `precompose` metadata alone is not enough for Adult AI to reason about missing precompose outputs and blockers."
+* "Consumer artifacts must be strictly separated from editor/testing artifacts such as `cloudinary_assets.json` and `shotstack.pasteable.json`, because those can contain direct URLs that must not enter the Adult AI consumer contract."
+* "Committed examples should move under `examples/`; relying on `output/` fixtures risks confusing generated run outputs with stable contract fixtures."
+  recommended_scope_for_this_session:
+* "Implement contract v1.2 schema and builder changes first, before adding examples."
+* "Add the four requested validator entrypoints as static, no-render validators."
+* "Add `adult_ai_influencer_template` as the primary consumer profile while optionally keeping the old `adult_ai_influencer_media_template` profile as a deprecated alias for backward compatibility."
+* "Add small committed example packages under `examples/` with tokenized refs and placeholder metadata only."
+* "Do not touch Adult AI runtime code, production queues, provider integrations, Cloudinary resolution, Shotstack final rendering, Remotion rendering, or Hyperframes rendering."
+  phase_plan:
+  phase_0_baseline_audit:
+
+  * "Record that `main` equals baseline `a61a31cb125074fc18a366edb6cfaea3f0c73397`."
+  * "Inventory current contract generation in `scripts/template_package_support.py`, current CLI profile handling in `scripts/run_pipeline.py`, and current renderer schemas."
+  * "Treat `input/` and `output/` as generated/run areas; do not base the review on untracked local files there."
+  * "Define the v1.2 contract as the canonical source for both `template_contract.json` and Adult AI consumer contract generation."
+    phase_1_contract_schema_v12:
+  * "Set `TEMPLATE_CONTRACT_VERSION` to `1.2`."
+  * "Add a formal `schemas/template_contract.v1.2.schema.json` with renderer enum `shotstack`, `remotion`, `hyperframes`, and `hybrid`."
+  * "Require every slot to include `slot_id`, `kind`, `media_kind`, `required`, `fill_strategy`, `generation_policy`, `approval_policy`, `renderer_binding`, and `validation`."
+  * "Add explicit top-level and/or slot-level `precompose_required`."
+  * "Replace `generate_media` with target fill strategies: `generate_startframe`, `generate_image_slot`, `generate_video_slot`, `select_existing_asset`, `reuse_template_asset`, `reuse_source_trend_video`, `generate_text`, `precompose_video`, and `keep_locked`."
+  * "Preserve stable slot IDs by deriving them deterministically from scene id, kind, renderer binding, and role."
+  * "Add `scripts/validate_template_contract.py` as a CLI wrapper around schema validation plus repo-specific semantic checks."
+    phase_2_hyperframes_binding:
+  * "Add `hyperframes` to renderer enums in `schemas/run_result.schema.json`, CLI preferred-renderer choices, package summary validation, and docs."
+  * "Represent Hyperframes as a renderer/assembly target, never as `generation_policy.model`."
+  * "Define `hyperframes_package/` for top-level Hyperframes packages and `precompose/<scene_id>/hyperframes/` for hybrid inner packages."
+  * "Add static Hyperframes package shape checks: `package.json`, `README.md`, `meta.json`, `index.html`, `assets/`, `template-partition.json`, composition id, dimensions, fps, duration, local asset refs, and editable fields."
+  * "Add `scripts/validate_hyperframes_package.py` with no `npx hyperframes render`; optional lint/inspect may be a separate explicit smoke flag only."
+    phase_3_hybrid_precompose:
+  * "Add `precompose_required` and `precompose_plan` to v1.2 contracts."
+  * "Require `precompose_plan.steps[]` with stable `step_id`, `renderer`, `input_slots`, `output_slot`, `package_dir`, `status`, and `blockers`."
+  * "Validate that `output_slot` exists in `slots[]`, uses `fill_strategy: precompose_video`, and is bound to the Shotstack final assembly merge key."
+  * "Require blockers when a precompose output is missing, for example `missing_precompose_output` or `pending_adult_ai_materialization`."
+  * "Keep Shotstack final assembly as the hybrid outer renderer and keep editable text in Shotstack unless explicitly locked into precompose."
+  * "Add `scripts/validate_hybrid_precompose_plan.py` and call it from package validators."
+    phase_4_adult_ai_consumer_profile:
+  * "Add `--consumer-profile adult_ai_influencer_template`."
+  * "Generate `adult_ai_influencer_template_contract.json` from the validated v1.2 contract."
+  * "Use tokenized refs only, such as `{{source_scene_001.start_frame_url}}`, `{{source_audio.url}}`, or `{{slot.scene_001.media.main}}`."
+  * "Reject private URLs, direct Cloudinary URLs, local absolute paths, secrets, Adult-side DB IDs, provider responses, generated output URLs, and paid generation artifacts."
+  * "Keep the consumer contract declarative: Adult AI owns materialization, startframe/key image generation, approval, preview rendering, media effects, and publishing through its own gates."
+  * "Add `scripts/validate_adult_ai_consumer_contract.py`."
+    phase_5_validation_and_examples:
+  * "Add committed examples under `examples/shotstack_basic/`, `examples/remotion_basic/`, `examples/hyperframes_basic/`, and `examples/hybrid_precompose/`."
+  * "Each example should include minimal `analysis.json`, `story.json`, `variable_map.json`, `blueprint.json`, `template_contract.json`, `adult_ai_influencer_template_contract.json`, `manifest.json`, and renderer-specific static package files."
+  * "Use tiny placeholder assets or token refs, not private URLs or generated media."
+  * "Update unit tests for v1.2 fields, fill strategy enum, consumer profile output, Hyperframes validation, and hybrid precompose blockers."
+  * "Ensure archive creation excludes `node_modules`, `renders`, provider outputs, logs, secrets, and final render artifacts."
+    phase_6_cross_repo_import_fixture:
+  * "Add a read-only import fixture that simulates what Adult AI would consume, without touching the Adult AI repo or runtime DB."
+  * "Validate that Adult AI can import by reading `adult_ai_influencer_template_contract.json` and resolving only tokenized slots, with no manual translation layer."
+  * "Include negative fixtures for URL leakage, local path leakage, missing slot IDs, missing approval policy, missing blockers, and invalid renderer binding."
+    test_plan:
+* "Run the existing Python test suite with `python -m unittest discover -s tests`."
+* "Validate all example `template_contract.json` files with `scripts/validate_template_contract.py`."
+* "Validate all example `adult_ai_influencer_template_contract.json` files with `scripts/validate_adult_ai_consumer_contract.py`."
+* "Run `scripts/validate_hyperframes_package.py examples/hyperframes_basic` and against any hybrid Hyperframes precompose directory."
+* "Run `scripts/validate_hybrid_precompose_plan.py examples/hybrid_precompose`."
+* "Run existing Shotstack and Remotion validators on the matching examples, without render flags."
+* "Add CLI dry-run tests for `--preferred-renderer hyperframes` and `--consumer-profile adult_ai_influencer_template`."
+* "Add negative tests for private URL leakage, local absolute paths, secrets, Adult DB IDs, provider responses, generated media URLs, duplicate slot IDs, missing v1.2 slot fields, unknown fill strategies, and precompose steps without blockers."
+* "Add no-render regression tests that fail if default validators execute `npx remotion render`, `npx hyperframes render`, Shotstack render calls, or provider APIs."
+  files_to_change:
+* "scripts/template_package_support.py"
+* "scripts/run_pipeline.py"
+* "scripts/validate_template_contract.py"
+* "scripts/validate_adult_ai_consumer_contract.py"
+* "scripts/validate_hyperframes_package.py"
+* "scripts/validate_hybrid_precompose_plan.py"
+* "schemas/run_result.schema.json"
+* "schemas/template_contract.v1.2.schema.json"
+* "schemas/adult_ai_influencer_template_contract.schema.json"
+* ".agents/skills/trend-short-blueprint/assets/blueprint.schema.json"
+* ".agents/skills/shotstack-remix-package/scripts/validate_package.py"
+* "scripts/validate_remotion_package.py"
+* "docs/output-contract.md"
+* "docs/renderer-routing.md"
+* "docs/hybrid-renderer-contract.md"
+* "docs/adult-ai-consumer-contract.md"
+* "docs/hyperframes-renderer-contract.md"
+* "tests/test_template_contracts.py"
+* "tests/test_run_pipeline_cli.py"
+* "tests/test_adult_ai_consumer_contract.py"
+* "tests/test_hyperframes_validator.py"
+* "tests/test_hybrid_precompose_plan.py"
+* "examples/shotstack_basic/"
+* "examples/remotion_basic/"
+* "examples/hyperframes_basic/"
+* "examples/hybrid_precompose/"
+  files_not_to_change:
+* "input/**"
+* "untracked output/**"
+* "adult-ai-influencer runtime repository files"
+* "Adult AI database migrations, runtime DB records, queues, approvals, publishing code, identity packs, coverage packs, wardrobe packs, or production media effects"
+* ".env files, secrets, provider credentials, private media URLs, or local absolute-path references"
+* "node_modules/**"
+* "render outputs, paid generation outputs, provider responses, Shotstack final renders, Remotion renders, or Hyperframes renders"
+  no_paid_generation_assessment:
+  status: pass_with_conditions
+  assessment:
+
+  * "Current repository guardrails already prohibit provider calls, paid generation, Adult AI DB mutation, and default final rendering."
+  * "The implementation must keep all new validators static by default."
+  * "Hyperframes, Remotion, and hybrid precompose work should stop at package metadata and review artifacts."
+  * "Shotstack smoke remains acceptable only as the existing explicit, capped, review-only path; it must not be part of default validation or example generation."
+    overall_recommendation: "Proceed with the implementation, but require v1.2 schema validation, standalone validators, token-only Adult AI consumer contracts, and static Hyperframes/hybrid checks before considering the contract complete. The current baseline is a good hybrid foundation, but it is not yet import-ready for Adult AI without the v1.2 slot policy, consumer-profile artifact, Hyperframes surface, and example fixture work."
