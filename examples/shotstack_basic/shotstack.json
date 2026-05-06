@@ -1,0 +1,19 @@
+{
+  "timeline": {
+    "tracks": []
+  },
+  "merge": [
+    {
+      "find": "SCENE_001_MEDIA",
+      "replace": "{{ SCENE_001_MEDIA }}"
+    },
+    {
+      "find": "SCENE_001_HEADLINE",
+      "replace": "{{ SCENE_001_HEADLINE }}"
+    }
+  ],
+  "output": {
+    "format": "mp4",
+    "resolution": "1080"
+  }
+}

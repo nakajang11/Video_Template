@@ -1,9 +1,10 @@
 # Renderer Routing
 
-This repository now supports three review-gated packaging targets:
+This repository now supports four review-gated packaging targets:
 
 - `shotstack`
 - `remotion`
+- `hyperframes`
 - `hybrid`
 
 The choice should be explicit in `blueprint.json` via a top-level `renderer` field.
@@ -15,6 +16,7 @@ The backend CLI may receive `--preferred-renderer` with one of:
 - `auto`
 - `shotstack`
 - `remotion`
+- `hyperframes`
 - `hybrid`
 
 Rules:
@@ -24,6 +26,9 @@ Rules:
   mismatch if the source is clearly a better Remotion fit
 - `remotion` strongly prefers Remotion while still allowing a review-gated
   mismatch if the source is clearly a better Shotstack fit
+- `hyperframes` strongly prefers a static Hyperframes assembly package for
+  HTML/CSS/JS-native motion, while still allowing a review-gated mismatch if a
+  source is better handled by Shotstack, Remotion, or hybrid
 - `hybrid` strongly prefers Shotstack final assembly plus scene-level
   Remotion/Hyperframes precompose clips
 
@@ -54,6 +59,17 @@ unnatural, or excessively manual in Shotstack.
   code-driven timing that would be brittle in Shotstack
 - the animation should be reusable by swapping JSON props rather than rebuilding
   many clip-level animations by hand
+
+## Choose `hyperframes` when
+
+- the source is primarily DOM-like layout, caption choreography, HTML/CSS-native
+  animation, or web-style component motion
+- the package can be reviewed as static Hyperframes files with `meta.json`,
+  `index.html`, assets, and `template-partition.json`
+- editable slots are better represented as graph/node references than Remotion
+  prop paths or Shotstack merge keys
+- no media generation model is needed inside this repository; Hyperframes is the
+  assembly renderer only
 
 ## Choose `hybrid` when
 
@@ -91,12 +107,25 @@ For `renderer = "remotion"`:
   - `src/Root.jsx`
   - `props/default-props.json`
   - `public/`
-  - `template-partition.json`
+- `template-partition.json`
 
 Optional but recommended:
 
 - `props/variant-*.json`
 - `renders/` preview outputs
+
+For `renderer = "hyperframes"`:
+
+- keep the shared planning files in `output/<job_id>/`
+- add `output/<job_id>/hyperframes_package/`
+- include at minimum:
+  - `package.json`
+  - `README.md`
+  - `meta.json`
+  - `index.html`
+  - `assets/`
+  - `template-partition.json`
+- expose editable graph/node slots through `template_contract.json`
 
 For `renderer = "hybrid"`:
 
@@ -111,4 +140,5 @@ This repo is still review-gated. Remotion, Hyperframes, and hybrid packages
 should stop at reviewable template/precompose packages unless the user
 explicitly asks for rendering. Local validation may run static checks by
 default; use `--run-cli-smoke` on `scripts/validate_remotion_package.py` only
-when an explicit Remotion CLI smoke is desired.
+when an explicit Remotion CLI smoke is desired. Hyperframes validation is static
+by default and must not run `npx hyperframes render`.

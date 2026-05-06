@@ -1,0 +1,60 @@
+{
+  "contract_version": "1.2",
+  "job_id": "remotion_basic",
+  "source_video": "input/remotion_basic.mp4",
+  "renderer": "remotion",
+  "audio": {
+    "strategy": "use_input_audio",
+    "source_file": "source_audio.mp3",
+    "shotstack_merge_key": "SOURCE_AUDIO_MP3"
+  },
+  "review_status": "review_required",
+  "scene_order": [
+    "scene_001"
+  ],
+  "remotion_package": {
+    "package_dir": "remotion_package",
+    "entry_file": "remotion_package/src/index.jsx",
+    "composition_id": "RemotionBasic",
+    "props_file": "remotion_package/props/default-props.json",
+    "partition_file": "remotion_package/template-partition.json",
+    "editable_props": [
+      "title",
+      "mediaInputs.background.src",
+      "audioFile"
+    ]
+  },
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "duration_sec": 3.0,
+      "story_role": "kinetic title",
+      "cast": [],
+      "locks": [],
+      "variables": [
+        "title"
+      ],
+      "startframe": {
+        "required": false,
+        "model": null,
+        "prompt_file": null,
+        "reference_assets": []
+      },
+      "video": {
+        "mode": "code-driven",
+        "model": null,
+        "prompt_file": null,
+        "reference_assets": []
+      },
+      "remotion_sequence": {
+        "sequence_id": "scene_001",
+        "start_frame": 0,
+        "duration_frames": 90,
+        "editable_props": [
+          "title",
+          "mediaInputs.background.src"
+        ]
+      }
+    }
+  ]
+}

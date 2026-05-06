@@ -197,3 +197,35 @@ git diff --check
 
 Before implementation, this plan must be reviewed through Oracle browser mode
 using GitHub connector context and the GPT-5.5 Pro / Extended Pro validity gate.
+
+## Oracle Plan Review Conditions Incorporated
+
+The plan review response at
+`docs/reviews/oracle/2026-05-07-video-template-contract-v12-plan-review-response.md`
+returned `review_validity: valid`, `observed_model: GPT-5.5 Pro`, and
+`implementation_go_no_go: go_with_conditions`.
+
+The following conditions are binding for implementation:
+
+- Hyperframes is renderer/assembly only. It must never be accepted as a media
+  generation model, provider, or `generation_policy.model_route` value.
+- `adult_ai_influencer_template_contract.json` must be generated only from the
+  validated v1.2 `template_contract.json`, not from URL-bearing sidecars such as
+  `cloudinary_assets.json` or `shotstack.pasteable.json`.
+- `docs/hybrid-renderer-contract.md` must distinguish
+  top-level `renderer: "hyperframes"` from `renderer: "hybrid"` with an inner
+  Hyperframes precompose package.
+- `precompose_plan.steps[].status` vocabulary is:
+  `planned`, `package_created`, `pending_render`, `blocked`, and `rendered`.
+- `precompose_plan.steps[].blockers[].code` vocabulary is:
+  `missing_precompose_output`, `pending_adult_ai_materialization`,
+  `missing_input_slot`, `missing_output_slot`, `invalid_renderer_binding`, and
+  `render_output_not_approved`.
+- `media_kind` is nullable for text, color, and number slots; it is `audio` for
+  audio slots and `image` or `video` for media/overlay slots.
+- Validators must be schema plus semantic validators. They must perform
+  cross-reference validation, recursive leak scanning, archive-content scanning,
+  and no-render subprocess guards.
+- Tests must include negative cases for URL leakage, local path leakage, missing
+  blockers, invalid renderer binding, Hyperframes-as-generation-model misuse, and
+  accidental render-output inclusion.

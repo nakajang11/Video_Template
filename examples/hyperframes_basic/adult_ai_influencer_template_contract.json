@@ -1,0 +1,106 @@
+{
+  "consumer_profile": "adult_ai_influencer_template",
+  "schema_version": "adult_ai_influencer_template_contract.v1",
+  "contract_version": "1.2",
+  "source": {
+    "repo": "nakajang11/Video_Template",
+    "commit": "b29681785b6d1a14d577610888d6cb1a83e1ac7e",
+    "job_id": "hyperframes_basic"
+  },
+  "template": {
+    "template_id": "A-7_trend_single:hyperframes_basic",
+    "template_type": "A-7_trend_single",
+    "supported_content_types": [],
+    "renderer": "hyperframes",
+    "aspect_ratio": "9:16",
+    "duration_seconds": 3.0,
+    "precompose_required": false
+  },
+  "slots": [
+    {
+      "slot_id": "scene_001.text.title",
+      "scene_id": "scene_001",
+      "kind": "text",
+      "media_kind": null,
+      "required": true,
+      "fill_strategy": "generate_text",
+      "token_ref": "{{slot.scene_001.text.title}}",
+      "prompt_file": null,
+      "generation_policy": {
+        "model_route": null,
+        "prompt_file": null,
+        "renderer_use": "hyperframes_input"
+      },
+      "approval_policy": {
+        "requires_slot_approval": true,
+        "approval_type": "post_template_slot"
+      },
+      "renderer_binding": {
+        "graph_ref": "nodes.title.text",
+        "node_id": null,
+        "input_path": null,
+        "package_dir": "hyperframes_package"
+      },
+      "validation": {
+        "warnings": [],
+        "blocking": []
+      }
+    },
+    {
+      "slot_id": "scene_001.media.background",
+      "scene_id": "scene_001",
+      "kind": "media",
+      "media_kind": "image",
+      "required": true,
+      "fill_strategy": "select_existing_asset",
+      "token_ref": "{{slot.scene_001.media.background}}",
+      "prompt_file": null,
+      "generation_policy": {
+        "model_route": null,
+        "prompt_file": null,
+        "renderer_use": "hyperframes_input"
+      },
+      "approval_policy": {
+        "requires_slot_approval": true,
+        "approval_type": "post_template_slot"
+      },
+      "renderer_binding": {
+        "graph_ref": "nodes.background.src",
+        "node_id": null,
+        "input_path": null,
+        "package_dir": "hyperframes_package"
+      },
+      "validation": {
+        "warnings": [],
+        "blocking": []
+      }
+    }
+  ],
+  "renderer": {
+    "name": "hyperframes",
+    "renderer_bindings": {
+      "renderer": "hyperframes",
+      "slot_bindings": {
+        "scene_001.text.title": {
+          "graph_ref": "nodes.title.text"
+        },
+        "scene_001.media.background": {
+          "graph_ref": "nodes.background.src"
+        }
+      }
+    },
+    "precompose_plan": {
+      "steps": []
+    }
+  },
+  "validation": {
+    "source_contract_validation": {
+      "warnings": [],
+      "blocking": []
+    },
+    "tokenized_refs_only": true,
+    "paid_generation_performed": false,
+    "provider_calls_performed": false,
+    "adult_runtime_mutation_performed": false
+  }
+}

@@ -14,8 +14,9 @@ Shotstack.
 ## Non-goals
 
 - Do not replace Shotstack as the final assembler.
-- Do not treat Remotion or Hyperframes as the top-level renderer for the whole
-  package.
+- Do not treat Remotion or Hyperframes as the top-level renderer for a
+  `renderer: "hybrid"` package. Contract v1.2 separately allows
+  `renderer: "hyperframes"` as its own top-level package type.
 - Do not run Remotion renders, Hyperframes renders, provider calls, or Shotstack
   final renders by default.
 - Do not bake operator-editable copy into precompose clips when it can remain a
@@ -128,6 +129,11 @@ clip uses that merge placeholder as the video source.
 Hyperframes is experimental in this repository. It is static-validation-first
 and should not become a default render path.
 
+For a top-level Hyperframes package, use `renderer: "hyperframes"` and
+`hyperframes_package/` instead of hybrid. Hybrid only uses Hyperframes as an
+inner precompose package whose rendered clip will later fill a Shotstack video
+merge slot.
+
 ## Audio Policy
 
 Hybrid v1 supports only:
@@ -164,6 +170,11 @@ Good precompose-owned visuals:
 ## Template Contract
 
 `template_contract.json` uses `renderer: "hybrid"`.
+
+Contract v1.2 adds `precompose_required: true` and
+`precompose_plan.steps[]`. Pending precompose steps carry explicit blockers,
+such as `missing_precompose_output` and `pending_adult_ai_materialization`,
+until a downstream system renders and approves the clip.
 
 Hybrid slots use Shotstack-style bindings:
 

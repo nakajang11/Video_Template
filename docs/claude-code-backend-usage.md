@@ -35,7 +35,7 @@ The command will:
 6. print the structured result
 
 `--preferred-renderer` is optional and accepts `auto`, `shotstack`, `remotion`,
-or `hybrid`.
+`hyperframes`, or `hybrid`.
 
 Shotstack smoke rendering is off by default. For a review-only external smoke,
 callers may pass:
@@ -57,6 +57,11 @@ by default and checks composition metadata, JSON prop paths, local public assets
 scene frame ranges, and `template_contract.json`. A Remotion CLI smoke may be
 run manually with `python3 scripts/validate_remotion_package.py output/<job_id> --run-cli-smoke`.
 
+For Hyperframes packages, the backend creates `hyperframes_package/` and
+validates it statically with `scripts/validate_hyperframes_package.py`.
+Hyperframes is an assembly renderer here, not a media generation provider, and
+the backend does not run `npx hyperframes render` by default.
+
 For Hybrid packages, Shotstack remains the final assembly layer and
 Remotion/Hyperframes are only inner scene precompose package targets. The
 backend validates the Shotstack final assembly plus `blueprint.scenes[].precompose`
@@ -74,8 +79,25 @@ Caller context is optional and may be provided with either:
 
 Do not pass both at once.
 
-Adult AI Influencer can request a downstream-only assembly handoff suggestion by
-passing the consumer profile explicitly:
+Adult AI Influencer should request the primary token-only template import
+contract with:
+
+```bash
+python3 scripts/run_pipeline.py \
+  --input-video /absolute/path/to/source.mp4 \
+  --job-id adult_template_example \
+  --consumer-profile adult_ai_influencer_template \
+  --context-inline-json '{"template_type":"A-7_trend_single"}' \
+  --result-json
+```
+
+This creates `adult_ai_influencer_template_contract.json` from the validated
+`template_contract.json` v1.2. It must not be populated from URL-bearing
+sidecars, Adult AI runtime lookups, Cloudinary resolution, wardrobe
+randomization, provider calls, or render outputs.
+
+The legacy downstream-only assembly handoff suggestion remains available by
+passing:
 
 ```bash
 python3 scripts/run_pipeline.py \
@@ -90,9 +112,9 @@ The same profile may be supplied as `context_json.consumer_profile`. If both the
 CLI flag and context value are present, they must match or the CLI returns
 `input_error`.
 
-By default, no `assembly_flow_suggestion.json` is produced and the Codex prompt
-does not mention it. When the Adult profile is present, the prompt receives only
-a sanitized profile block: `consumer_profile`,
+By default, no consumer-profile artifact is produced. When a profile is present,
+the prompt receives only a sanitized profile block. For the legacy assembly
+profile that block includes: `consumer_profile`,
 `assembly_contract.schema_version`, allowed token names, allowed step targets,
 required source input roles, known template type, and source scene binding
 hints. `request.json` keeps the raw caller context for debugging, but
@@ -144,9 +166,12 @@ For each run, the backend writes these run-specific files under `output/<job_id>
 - `result.json`
 - `template_contract.json`
 - `package.zip` when validation passes
+- `adult_ai_influencer_template_contract.json` only when
+  `consumer_profile=adult_ai_influencer_template`
 - `assembly_flow_suggestion.json` only when
   `consumer_profile=adult_ai_influencer_media_template`
 - `remotion_package/` when `renderer = "remotion"`
+- `hyperframes_package/` when `renderer = "hyperframes"`
 - `precompose/<scene_id>/<remotion|hyperframes>/` when `renderer = "hybrid"`
 - `timeline_view/` or `transcript_packed.md` when optional source evidence was generated
 - `shotstack_smoke_result.json` when Shotstack smoke was requested
@@ -155,9 +180,9 @@ For each run, the backend writes these run-specific files under `output/<job_id>
 `request.json` stores the raw caller context, while `result.json` returns only a
 compact `caller_context_echo` summary.
 
-`assembly_flow_suggestion.json`, when present, is indexed through
-`manifest.json` and included in `package.zip`. It is not added to
-`result.artifacts` so existing strict result consumers remain compatible.
+Consumer-profile artifacts, when present, are indexed through `manifest.json`
+and included in `package.zip`. The primary Adult AI template contract also has a
+strict `result.artifacts.adult_ai_consumer_contract` pointer.
 
 These files are intended to make debugging possible without making Claude re-read the whole repository.
 
@@ -165,5 +190,5 @@ These files are intended to make debugging possible without making Claude re-rea
 
 - The backend still follows the repository rule that it stops at the review gate.
 - Paid generation and final rendering are intentionally out of scope. The only exception is an explicitly requested Shotstack smoke render, capped at one attempt and used only for validation/comparison notes.
-- Adult AI Influencer assembly suggestions are proposals only. This backend does not resolve Adult-side DB records, Cloudinary URLs, wardrobe randomization, provider execution, or final render outputs.
+- Adult AI Influencer artifacts are proposals or import contracts only. This backend does not resolve Adult-side DB records, Cloudinary URLs, wardrobe randomization, provider execution, or final render outputs.
 - If the planning confidence is low, the backend should return `review_required` instead of inventing unsupported details.

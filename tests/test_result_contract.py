@@ -23,17 +23,30 @@ class ResultContractTests(unittest.TestCase):
         self.assertIn("template_contract", artifact_properties)
         self.assertIn("package_archive", artifact_properties)
         self.assertIn("shotstack_smoke_result", artifact_properties)
+        self.assertIn("hyperframes_package", artifact_properties)
+        self.assertIn("hyperframes_manifest", artifact_properties)
+        self.assertIn("hyperframes_graph", artifact_properties)
+        self.assertIn("adult_ai_consumer_contract", artifact_properties)
         self.assertNotIn("assembly_flow_suggestion", artifact_properties)
         self.assertFalse(artifacts_schema["additionalProperties"])
         self.assertIn("shotstack_smoke", schema["properties"])
         self.assertFalse(schema["properties"]["caller_context_echo"]["additionalProperties"])
         self.assertIn("hybrid", schema["properties"]["renderer"]["enum"])
+        self.assertIn("hyperframes", schema["properties"]["renderer"]["enum"])
         self.assertIn(
             "hybrid",
             schema["properties"]["caller_context_echo"]["properties"]["preferred_renderer"]["enum"],
         )
         self.assertIn(
+            "hyperframes",
+            schema["properties"]["caller_context_echo"]["properties"]["preferred_renderer"]["enum"],
+        )
+        self.assertIn(
             "hybrid",
+            schema["properties"]["package_summary"]["properties"]["renderer"]["enum"],
+        )
+        self.assertIn(
+            "hyperframes",
             schema["properties"]["package_summary"]["properties"]["renderer"]["enum"],
         )
 
@@ -52,6 +65,8 @@ class ResultContractTests(unittest.TestCase):
         self.assertEqual(payload["caller_context_echo"]["preferred_renderer"], "shotstack")
         self.assertIn("template_contract", payload["artifacts"])
         self.assertIn("package_archive", payload["artifacts"])
+        self.assertIn("adult_ai_consumer_contract", payload["artifacts"])
+        self.assertIn("hyperframes_package", payload["artifacts"])
         self.assertIn("shotstack_smoke_result", payload["artifacts"])
         self.assertEqual(payload["shotstack_smoke"]["status"], "not_requested")
 

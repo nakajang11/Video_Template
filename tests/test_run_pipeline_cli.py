@@ -95,6 +95,52 @@ class RunPipelineCliTests(unittest.TestCase):
         self.assertIn("If `blueprint.renderer = \"hybrid\"`", payload["prompt_preview"])
         self.assertIn("Do not render Remotion or Hyperframes precompose clips", payload["prompt_preview"])
 
+    def test_dry_run_with_hyperframes_preferred_renderer(self) -> None:
+        completed = self.run_pipeline(
+            "--input-video",
+            "input/test_3.mp4",
+            "--job-id",
+            "smoke_hyperframes",
+            "--preferred-renderer",
+            "hyperframes",
+            "--dry-run",
+            "--result-json",
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        payload = json.loads(completed.stdout)
+        self.assertEqual(payload["preferred_renderer"], "hyperframes")
+        self.assertEqual(payload["caller_context_echo"]["preferred_renderer"], "hyperframes")
+        self.assertIn("If `blueprint.renderer = \"hyperframes\"`", payload["prompt_preview"])
+        self.assertIn("Do not run `npx hyperframes render`", payload["prompt_preview"])
+
+    def test_dry_run_with_adult_template_profile_uses_contract_prompt_block(self) -> None:
+        completed = self.run_pipeline(
+            "--input-video",
+            "input/test_3.mp4",
+            "--job-id",
+            "smoke_adult_template_profile",
+            "--consumer-profile",
+            "adult_ai_influencer_template",
+            "--context-inline-json",
+            json.dumps(
+                {
+                    "consumer_profile": "adult_ai_influencer_template",
+                    "template_type": "A-7_trend_single",
+                    "notes": "no runtime lookup",
+                }
+            ),
+            "--dry-run",
+            "--result-json",
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        payload = json.loads(completed.stdout)
+        prompt = payload["prompt_preview"]
+        self.assertEqual(payload["consumer_profile"], "adult_ai_influencer_template")
+        self.assertIn("adult_ai_influencer_template_contract.json", prompt)
+        self.assertIn("template_contract.json", prompt)
+        self.assertIn("tokenized slot references", prompt)
+        self.assertNotIn("assembly_flow_suggestion.json", prompt)
+
     def test_dry_run_with_adult_profile_uses_sanitized_prompt_block(self) -> None:
         completed = self.run_pipeline(
             "--input-video",

@@ -1,0 +1,383 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Video Template Contract v1.2",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "contract_version",
+    "job_id",
+    "template_id",
+    "renderer",
+    "preferred_renderer",
+    "precompose_required",
+    "renderer_bindings",
+    "precompose_plan",
+    "package_summary",
+    "slots"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "1.2"
+    },
+    "renderer": {
+      "$ref": "#/$defs/renderer"
+    },
+    "preferred_renderer": {
+      "$ref": "#/$defs/preferred_renderer"
+    },
+    "fallback_renderers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/renderer"
+      }
+    },
+    "precompose_required": {
+      "type": "boolean"
+    },
+    "renderer_bindings": {
+      "type": "object",
+      "required": [
+        "renderer",
+        "slot_bindings"
+      ],
+      "properties": {
+        "renderer": {
+          "$ref": "#/$defs/renderer"
+        },
+        "slot_bindings": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "precompose_plan": {
+      "type": "object",
+      "required": [
+        "steps"
+      ],
+      "properties": {
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/precompose_step"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "package_summary": {
+      "type": "object",
+      "required": [
+        "scene_count",
+        "slot_count",
+        "text_slot_count",
+        "media_slot_count",
+        "renderer"
+      ],
+      "properties": {
+        "scene_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "slot_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "text_slot_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "media_slot_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "renderer": {
+          "$ref": "#/$defs/renderer"
+        }
+      },
+      "additionalProperties": true
+    },
+    "slots": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/slot"
+      }
+    }
+  },
+  "$defs": {
+    "renderer": {
+      "type": "string",
+      "enum": [
+        "shotstack",
+        "remotion",
+        "hyperframes",
+        "hybrid"
+      ]
+    },
+    "preferred_renderer": {
+      "type": "string",
+      "enum": [
+        "auto",
+        "shotstack",
+        "remotion",
+        "hyperframes",
+        "hybrid"
+      ]
+    },
+    "slot_kind": {
+      "type": "string",
+      "enum": [
+        "media",
+        "text",
+        "color",
+        "number",
+        "audio",
+        "overlay"
+      ]
+    },
+    "media_kind": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "image",
+        "video",
+        "audio",
+        "thumbnail",
+        null
+      ]
+    },
+    "fill_strategy": {
+      "type": "string",
+      "enum": [
+        "keep_locked",
+        "reuse_template_asset",
+        "select_existing_asset",
+        "generate_startframe",
+        "generate_image_slot",
+        "generate_video_slot",
+        "generate_text",
+        "precompose_video",
+        "reuse_source_trend_video"
+      ]
+    },
+    "generation_policy": {
+      "type": "object",
+      "required": [
+        "model_route",
+        "prompt_file",
+        "reference_assets",
+        "renderer_use"
+      ],
+      "properties": {
+        "model_route": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "not": {
+            "enum": [
+              "hyperframes",
+              "hyperframes_package",
+              "hyperframes_renderer"
+            ]
+          }
+        },
+        "prompt_file": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reference_assets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "renderer_use": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "approval_policy": {
+      "type": "object",
+      "required": [
+        "requires_slot_approval",
+        "approval_type"
+      ],
+      "properties": {
+        "requires_slot_approval": {
+          "type": "boolean"
+        },
+        "approval_type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "slot_validation": {
+      "type": "object",
+      "required": [
+        "warnings",
+        "blocking"
+      ],
+      "properties": {
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "blocking": {
+          "type": "array"
+        }
+      },
+      "additionalProperties": true
+    },
+    "slot": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "slot_id",
+        "kind",
+        "media_kind",
+        "required",
+        "fill_strategy",
+        "generation_policy",
+        "approval_policy",
+        "renderer_binding",
+        "validation"
+      ],
+      "properties": {
+        "slot_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scene_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "kind": {
+          "$ref": "#/$defs/slot_kind"
+        },
+        "media_kind": {
+          "$ref": "#/$defs/media_kind"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "fill_strategy": {
+          "$ref": "#/$defs/fill_strategy"
+        },
+        "generation_policy": {
+          "$ref": "#/$defs/generation_policy"
+        },
+        "approval_policy": {
+          "$ref": "#/$defs/approval_policy"
+        },
+        "renderer_binding": {
+          "type": "object"
+        },
+        "validation": {
+          "$ref": "#/$defs/slot_validation"
+        }
+      }
+    },
+    "precompose_status": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "package_created",
+        "pending_render",
+        "blocked",
+        "rendered"
+      ]
+    },
+    "blocker_code": {
+      "type": "string",
+      "enum": [
+        "missing_precompose_output",
+        "pending_adult_ai_materialization",
+        "missing_input_slot",
+        "missing_output_slot",
+        "invalid_renderer_binding",
+        "render_output_not_approved"
+      ]
+    },
+    "precompose_step": {
+      "type": "object",
+      "required": [
+        "step_id",
+        "renderer",
+        "input_slots",
+        "output_slot",
+        "package_dir",
+        "required",
+        "status",
+        "blockers"
+      ],
+      "properties": {
+        "step_id": {
+          "type": "string"
+        },
+        "renderer": {
+          "type": "string",
+          "enum": [
+            "remotion",
+            "hyperframes"
+          ]
+        },
+        "input_slots": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "output_slot": {
+          "type": "string"
+        },
+        "package_dir": {
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "status": {
+          "$ref": "#/$defs/precompose_status"
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "code",
+              "message"
+            ],
+            "properties": {
+              "code": {
+                "$ref": "#/$defs/blocker_code"
+              },
+              "message": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

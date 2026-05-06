@@ -1,0 +1,19 @@
+{
+  "timeline": {
+    "tracks": []
+  },
+  "merge": [
+    {
+      "find": "SCENE_001_PRECOMP_VIDEO",
+      "replace": "{{ SCENE_001_PRECOMP_VIDEO }}"
+    },
+    {
+      "find": "SCENE_001_CAPTION",
+      "replace": "{{ SCENE_001_CAPTION }}"
+    }
+  ],
+  "output": {
+    "format": "mp4",
+    "resolution": "1080"
+  }
+}

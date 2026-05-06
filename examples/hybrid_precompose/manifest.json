@@ -1,0 +1,88 @@
+{
+  "job_id": "hybrid_precompose",
+  "renderer": "hybrid",
+  "review_status": "review_required",
+  "artifacts": [
+    {
+      "type": "analysis",
+      "path": "analysis.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "story",
+      "path": "story.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "variable_map",
+      "path": "variable_map.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "blueprint",
+      "path": "blueprint.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "shotstack",
+      "path": "shotstack.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "cloudinary_assets",
+      "path": "cloudinary_assets.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "shotstack_pasteable",
+      "path": "shotstack.pasteable.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "precompose_package",
+      "path": "precompose/scene_001/hyperframes",
+      "scene_id": "scene_001",
+      "status": "created"
+    },
+    {
+      "type": "source_audio",
+      "path": "source_audio.mp3",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "adult_ai_consumer_contract",
+      "path": "adult_ai_influencer_template_contract.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "template_contract",
+      "path": "template_contract.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "result",
+      "path": "result.json",
+      "scene_id": null,
+      "status": "created"
+    },
+    {
+      "type": "package_archive",
+      "path": "package.zip",
+      "scene_id": null,
+      "status": "created"
+    }
+  ],
+  "notes": [
+    "Example fixture only; review-gated and not rendered."
+  ]
+}

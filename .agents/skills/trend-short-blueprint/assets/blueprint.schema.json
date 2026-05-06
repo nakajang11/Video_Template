@@ -30,6 +30,7 @@
       "enum": [
         "shotstack",
         "remotion",
+        "hyperframes",
         "hybrid"
       ]
     },
@@ -85,6 +86,48 @@
           "items": {
             "type": "string"
           }
+        }
+      },
+      "additionalProperties": true
+    },
+    "hyperframes_package": {
+      "type": "object",
+      "required": [
+        "package_dir",
+        "entry_file",
+        "composition_id",
+        "manifest_file",
+        "graph_file",
+        "editable_props",
+        "slot_bindings"
+      ],
+      "properties": {
+        "package_dir": {
+          "type": "string"
+        },
+        "entry_file": {
+          "type": "string"
+        },
+        "composition_id": {
+          "type": "string"
+        },
+        "manifest_file": {
+          "type": "string"
+        },
+        "graph_file": {
+          "type": "string"
+        },
+        "editable_props": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "slot_bindings": {
+          "type": [
+            "array",
+            "object"
+          ]
         }
       },
       "additionalProperties": true
@@ -294,6 +337,7 @@
                   "planned",
                   "package_created",
                   "pending_render",
+                  "blocked",
                   "rendered"
                 ]
               }
@@ -512,6 +556,20 @@
     }
   },
   "allOf": [
+    {
+      "if": {
+        "properties": {
+          "renderer": {
+            "const": "hyperframes"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "hyperframes_package"
+        ]
+      }
+    },
     {
       "if": {
         "properties": {

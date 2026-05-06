@@ -1,0 +1,157 @@
+{
+  "contract_version": "1.2",
+  "job_id": "shotstack_basic",
+  "template_id": "A-7_trend_single:shotstack_basic",
+  "renderer": "shotstack",
+  "preferred_renderer": "shotstack",
+  "fallback_renderers": [],
+  "template_type": "A-7_trend_single",
+  "aspect_ratio": "9:16",
+  "duration_seconds": 3.0,
+  "precompose_required": false,
+  "supported_content_types": [],
+  "fill_requirements": {
+    "requires_generated_media": true,
+    "requires_precompose_video": false,
+    "requires_generated_text": true,
+    "requires_motion_reference": false
+  },
+  "renderer_bindings": {
+    "renderer": "shotstack",
+    "slot_bindings": {
+      "global.audio.source": {
+        "merge_key": "SOURCE_AUDIO_MP3"
+      },
+      "scene_001.media.main": {
+        "merge_key": "SCENE_001_MEDIA"
+      },
+      "scene_001.text.headline": {
+        "merge_key": "SCENE_001_HEADLINE"
+      }
+    }
+  },
+  "precompose_plan": {
+    "steps": []
+  },
+  "consumer_profiles": {},
+  "validation": {
+    "warnings": [],
+    "blocking": []
+  },
+  "package_summary": {
+    "scene_count": 1,
+    "slot_count": 4,
+    "text_slot_count": 1,
+    "media_slot_count": 3,
+    "renderer": "shotstack"
+  },
+  "slots": [
+    {
+      "slot_id": "global.audio.source",
+      "scene_id": null,
+      "kind": "audio",
+      "media_kind": "audio",
+      "required": true,
+      "fill_strategy": "reuse_source_trend_video",
+      "generation_policy": {
+        "model_route": null,
+        "prompt_file": null,
+        "reference_assets": [],
+        "renderer_use": "source_audio"
+      },
+      "renderer_binding": {
+        "merge_key": "SOURCE_AUDIO_MP3",
+        "source_file": "source_audio.mp3"
+      },
+      "approval_policy": {
+        "requires_slot_approval": false,
+        "approval_type": "not_required"
+      },
+      "validation": {
+        "warnings": [],
+        "blocking": []
+      }
+    },
+    {
+      "slot_id": "scene_001.media.startframe",
+      "scene_id": "scene_001",
+      "kind": "media",
+      "media_kind": "image",
+      "required": true,
+      "fill_strategy": "generate_startframe",
+      "generation_policy": {
+        "model_route": "nano banana2",
+        "prompt_file": "scene_001_startframe_image_prompt.md",
+        "reference_assets": [],
+        "renderer_use": "startframe_generation"
+      },
+      "renderer_binding": {
+        "role": "startframe_input",
+        "prompt_file": "scene_001_startframe_image_prompt.md"
+      },
+      "approval_policy": {
+        "requires_slot_approval": true,
+        "approval_type": "post_template_slot"
+      },
+      "validation": {
+        "warnings": [],
+        "blocking": []
+      }
+    },
+    {
+      "slot_id": "scene_001.media.main",
+      "scene_id": "scene_001",
+      "kind": "media",
+      "media_kind": "video",
+      "required": true,
+      "fill_strategy": "generate_video_slot",
+      "generation_policy": {
+        "model_route": "kling v3",
+        "prompt_file": "scene_001_video_prompt.md",
+        "reference_assets": [],
+        "renderer_use": "shotstack_final_media"
+      },
+      "renderer_binding": {
+        "merge_key": "SCENE_001_MEDIA",
+        "alias": "SCENE_001"
+      },
+      "approval_policy": {
+        "requires_slot_approval": true,
+        "approval_type": "post_template_slot"
+      },
+      "validation": {
+        "warnings": [],
+        "blocking": []
+      }
+    },
+    {
+      "slot_id": "scene_001.text.headline",
+      "scene_id": "scene_001",
+      "kind": "text",
+      "media_kind": null,
+      "required": true,
+      "fill_strategy": "generate_text",
+      "generation_policy": {
+        "model_route": null,
+        "prompt_file": null,
+        "reference_assets": [],
+        "renderer_use": "editable_text"
+      },
+      "renderer_binding": {
+        "merge_key": "SCENE_001_HEADLINE",
+        "placement": "top"
+      },
+      "style_constraints": {
+        "placement": "top"
+      },
+      "approval_policy": {
+        "requires_slot_approval": true,
+        "approval_type": "post_template_slot"
+      },
+      "validation": {
+        "warnings": [],
+        "blocking": []
+      }
+    }
+  ]
+}

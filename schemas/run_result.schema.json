@@ -37,6 +37,7 @@
       "enum": [
         "shotstack",
         "remotion",
+        "hyperframes",
         "hybrid",
         "unknown"
       ]
@@ -88,6 +89,7 @@
             "auto",
             "shotstack",
             "remotion",
+            "hyperframes",
             "hybrid"
           ]
         },
@@ -184,6 +186,7 @@
           "enum": [
             "shotstack",
             "remotion",
+            "hyperframes",
             "hybrid",
             "unknown"
           ]
@@ -201,8 +204,12 @@
         "manifest",
         "shotstack",
         "remotion_package",
+        "hyperframes_package",
+        "hyperframes_manifest",
+        "hyperframes_graph",
         "source_audio",
         "template_contract",
+        "adult_ai_consumer_contract",
         "package_archive",
         "shotstack_smoke_result",
         "shotstack_smoke_compare",
@@ -253,6 +260,24 @@
             "null"
           ]
         },
+        "hyperframes_package": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "hyperframes_manifest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "hyperframes_graph": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "source_audio": {
           "type": [
             "string",
@@ -260,6 +285,12 @@
           ]
         },
         "template_contract": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "adult_ai_consumer_contract": {
           "type": [
             "string",
             "null"

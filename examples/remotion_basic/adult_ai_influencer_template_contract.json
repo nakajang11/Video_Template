@@ -1,0 +1,164 @@
+{
+  "consumer_profile": "adult_ai_influencer_template",
+  "schema_version": "adult_ai_influencer_template_contract.v1",
+  "contract_version": "1.2",
+  "source": {
+    "repo": "nakajang11/Video_Template",
+    "commit": "b29681785b6d1a14d577610888d6cb1a83e1ac7e",
+    "job_id": "remotion_basic"
+  },
+  "template": {
+    "template_id": "A-7_trend_single:remotion_basic",
+    "template_type": "A-7_trend_single",
+    "supported_content_types": [],
+    "renderer": "remotion",
+    "aspect_ratio": "9:16",
+    "duration_seconds": 3.0,
+    "precompose_required": false
+  },
+  "slots": [
+    {
+      "slot_id": "global.audio.audio_file",
+      "scene_id": null,
+      "kind": "audio",
+      "media_kind": "audio",
+      "required": true,
+      "fill_strategy": "reuse_source_trend_video",
+      "token_ref": "{{slot.global.audio.audio_file}}",
+      "prompt_file": null,
+      "generation_policy": {
+        "model_route": null,
+        "prompt_file": null,
+        "renderer_use": "remotion_props"
+      },
+      "approval_policy": {
+        "requires_slot_approval": false,
+        "approval_type": "not_required"
+      },
+      "renderer_binding": {
+        "prop_path": "audioFile",
+        "default_value": "source_audio.mp3"
+      },
+      "validation": {
+        "warnings": [],
+        "blocking": []
+      }
+    },
+    {
+      "slot_id": "scene_001.media.background",
+      "scene_id": "scene_001",
+      "kind": "media",
+      "media_kind": "image",
+      "required": true,
+      "fill_strategy": "select_existing_asset",
+      "token_ref": "{{slot.scene_001.media.background}}",
+      "prompt_file": null,
+      "generation_policy": {
+        "model_route": null,
+        "prompt_file": null,
+        "renderer_use": "remotion_props"
+      },
+      "approval_policy": {
+        "requires_slot_approval": true,
+        "approval_type": "post_template_slot"
+      },
+      "renderer_binding": {
+        "prop_path": "mediaInputs.background.src",
+        "default_value": "public/assets/background.png",
+        "partition_slot": "mediaInputs.background.src",
+        "partition_role": "background"
+      },
+      "validation": {
+        "warnings": [],
+        "blocking": []
+      }
+    },
+    {
+      "slot_id": "scene_001.text.title",
+      "scene_id": "scene_001",
+      "kind": "text",
+      "media_kind": null,
+      "required": true,
+      "fill_strategy": "generate_text",
+      "token_ref": "{{slot.scene_001.text.title}}",
+      "prompt_file": null,
+      "generation_policy": {
+        "model_route": null,
+        "prompt_file": null,
+        "renderer_use": "remotion_props"
+      },
+      "approval_policy": {
+        "requires_slot_approval": true,
+        "approval_type": "post_template_slot"
+      },
+      "renderer_binding": {
+        "prop_path": "title",
+        "default_value": "Editable title"
+      },
+      "validation": {
+        "warnings": [],
+        "blocking": []
+      }
+    },
+    {
+      "slot_id": "global.audio.source",
+      "scene_id": null,
+      "kind": "audio",
+      "media_kind": "audio",
+      "required": true,
+      "fill_strategy": "reuse_source_trend_video",
+      "token_ref": "{{slot.global.audio.source}}",
+      "prompt_file": null,
+      "generation_policy": {
+        "model_route": null,
+        "prompt_file": null,
+        "renderer_use": "remotion_audio"
+      },
+      "approval_policy": {
+        "requires_slot_approval": false,
+        "approval_type": "not_required"
+      },
+      "renderer_binding": {
+        "prop_path": "audioFile",
+        "default_value": "source_audio.mp3"
+      },
+      "validation": {
+        "warnings": [],
+        "blocking": []
+      }
+    }
+  ],
+  "renderer": {
+    "name": "remotion",
+    "renderer_bindings": {
+      "renderer": "remotion",
+      "slot_bindings": {
+        "global.audio.audio_file": {
+          "prop_path": "audioFile"
+        },
+        "scene_001.media.background": {
+          "prop_path": "mediaInputs.background.src"
+        },
+        "scene_001.text.title": {
+          "prop_path": "title"
+        },
+        "global.audio.source": {
+          "prop_path": "audioFile"
+        }
+      }
+    },
+    "precompose_plan": {
+      "steps": []
+    }
+  },
+  "validation": {
+    "source_contract_validation": {
+      "warnings": [],
+      "blocking": []
+    },
+    "tokenized_refs_only": true,
+    "paid_generation_performed": false,
+    "provider_calls_performed": false,
+    "adult_runtime_mutation_performed": false
+  }
+}

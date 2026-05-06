@@ -1,0 +1,12 @@
+{
+  "editable_slots": [
+    {
+      "slot_id": "scene_001.text.title",
+      "graph_ref": "nodes.title.text"
+    },
+    {
+      "slot_id": "scene_001.media.background",
+      "graph_ref": "nodes.background.src"
+    }
+  ]
+}

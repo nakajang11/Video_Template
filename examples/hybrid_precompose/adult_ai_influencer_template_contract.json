@@ -1,0 +1,165 @@
+{
+  "consumer_profile": "adult_ai_influencer_template",
+  "schema_version": "adult_ai_influencer_template_contract.v1",
+  "contract_version": "1.2",
+  "source": {
+    "repo": "nakajang11/Video_Template",
+    "commit": "b29681785b6d1a14d577610888d6cb1a83e1ac7e",
+    "job_id": "hybrid_precompose"
+  },
+  "template": {
+    "template_id": "A-7_trend_single:hybrid_precompose",
+    "template_type": "A-7_trend_single",
+    "supported_content_types": [],
+    "renderer": "hybrid",
+    "aspect_ratio": "9:16",
+    "duration_seconds": 3.0,
+    "precompose_required": true
+  },
+  "slots": [
+    {
+      "slot_id": "global.audio.source",
+      "scene_id": null,
+      "kind": "audio",
+      "media_kind": "audio",
+      "required": true,
+      "fill_strategy": "reuse_source_trend_video",
+      "token_ref": "{{slot.global.audio.source}}",
+      "prompt_file": null,
+      "generation_policy": {
+        "model_route": null,
+        "prompt_file": null,
+        "renderer_use": "source_audio"
+      },
+      "approval_policy": {
+        "requires_slot_approval": false,
+        "approval_type": "not_required"
+      },
+      "renderer_binding": {
+        "merge_key": "SOURCE_AUDIO_MP3",
+        "source_file": "source_audio.mp3"
+      },
+      "validation": {
+        "warnings": [],
+        "blocking": []
+      }
+    },
+    {
+      "slot_id": "scene_001.media.main",
+      "scene_id": "scene_001",
+      "kind": "media",
+      "media_kind": "video",
+      "required": true,
+      "fill_strategy": "precompose_video",
+      "token_ref": "{{slot.scene_001.media.main}}",
+      "prompt_file": null,
+      "generation_policy": {
+        "model_route": null,
+        "prompt_file": null,
+        "renderer_use": "shotstack_final_media"
+      },
+      "approval_policy": {
+        "requires_slot_approval": true,
+        "approval_type": "post_template_slot"
+      },
+      "renderer_binding": {
+        "merge_key": "SCENE_001_PRECOMP_VIDEO",
+        "alias": "SCENE_001",
+        "precompose": {
+          "renderer": "hyperframes",
+          "package_dir": "precompose/scene_001/hyperframes",
+          "output_merge_key": "SCENE_001_PRECOMP_VIDEO",
+          "width": 1080,
+          "height": 1920,
+          "fps": 30,
+          "duration_sec": 3.0,
+          "audio_policy": "strip",
+          "status": "package_created"
+        }
+      },
+      "validation": {
+        "warnings": [],
+        "blocking": []
+      }
+    },
+    {
+      "slot_id": "scene_001.text.caption",
+      "scene_id": "scene_001",
+      "kind": "text",
+      "media_kind": null,
+      "required": true,
+      "fill_strategy": "generate_text",
+      "token_ref": "{{slot.scene_001.text.caption}}",
+      "prompt_file": null,
+      "generation_policy": {
+        "model_route": null,
+        "prompt_file": null,
+        "renderer_use": "editable_text"
+      },
+      "approval_policy": {
+        "requires_slot_approval": true,
+        "approval_type": "post_template_slot"
+      },
+      "renderer_binding": {
+        "merge_key": "SCENE_001_CAPTION",
+        "placement": "bottom"
+      },
+      "validation": {
+        "warnings": [],
+        "blocking": []
+      }
+    }
+  ],
+  "renderer": {
+    "name": "hybrid",
+    "renderer_bindings": {
+      "renderer": "hybrid",
+      "slot_bindings": {
+        "global.audio.source": {
+          "merge_key": "SOURCE_AUDIO_MP3"
+        },
+        "scene_001.media.main": {
+          "merge_key": "SCENE_001_PRECOMP_VIDEO"
+        },
+        "scene_001.text.caption": {
+          "merge_key": "SCENE_001_CAPTION"
+        }
+      }
+    },
+    "precompose_plan": {
+      "steps": [
+        {
+          "step_id": "precompose_scene_001",
+          "renderer": "hyperframes",
+          "input_slots": [
+            "scene_001.text.caption"
+          ],
+          "output_slot": "scene_001.media.main",
+          "package_dir": "precompose/scene_001/hyperframes",
+          "required": true,
+          "status": "package_created",
+          "blockers": [
+            {
+              "code": "missing_precompose_output",
+              "message": "Precompose output is not rendered in this review-gated package."
+            },
+            {
+              "code": "pending_adult_ai_materialization",
+              "message": "Adult AI must materialize and approve the precompose output before final render."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "validation": {
+    "source_contract_validation": {
+      "warnings": [],
+      "blocking": []
+    },
+    "tokenized_refs_only": true,
+    "paid_generation_performed": false,
+    "provider_calls_performed": false,
+    "adult_runtime_mutation_performed": false
+  }
+}

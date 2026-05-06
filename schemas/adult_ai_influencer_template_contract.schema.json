@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Adult AI Influencer Template Contract",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "consumer_profile",
+    "schema_version",
+    "contract_version",
+    "source",
+    "template",
+    "slots",
+    "renderer",
+    "validation"
+  ],
+  "properties": {
+    "consumer_profile": {
+      "const": "adult_ai_influencer_template"
+    },
+    "schema_version": {
+      "const": "adult_ai_influencer_template_contract.v1"
+    },
+    "contract_version": {
+      "const": "1.2"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "repo",
+        "commit",
+        "job_id"
+      ],
+      "properties": {
+        "repo": {
+          "const": "nakajang11/Video_Template"
+        },
+        "commit": {
+          "type": "string"
+        },
+        "job_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "template": {
+      "type": "object",
+      "required": [
+        "template_id",
+        "renderer",
+        "precompose_required"
+      ],
+      "properties": {
+        "template_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "renderer": {
+          "$ref": "#/$defs/renderer"
+        },
+        "precompose_required": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    },
+    "slots": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "slot_id",
+          "kind",
+          "fill_strategy",
+          "token_ref",
+          "approval_policy",
+          "renderer_binding"
+        ],
+        "properties": {
+          "slot_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "type": "string"
+          },
+          "media_kind": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "fill_strategy": {
+            "type": "string"
+          },
+          "token_ref": {
+            "type": "string",
+            "pattern": "^\\{\\{\\s*slot\\.[A-Za-z0-9_.\\[\\] -]+\\s*\\}\\}$"
+          },
+          "prompt_file": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "approval_policy": {
+            "type": "object"
+          },
+          "renderer_binding": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "renderer": {
+      "type": "object",
+      "required": [
+        "name",
+        "renderer_bindings",
+        "precompose_plan"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/renderer"
+        },
+        "renderer_bindings": {
+          "type": "object"
+        },
+        "precompose_plan": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": true
+    },
+    "validation": {
+      "type": "object",
+      "required": [
+        "tokenized_refs_only",
+        "paid_generation_performed",
+        "provider_calls_performed",
+        "adult_runtime_mutation_performed"
+      ],
+      "properties": {
+        "tokenized_refs_only": {
+          "const": true
+        },
+        "paid_generation_performed": {
+          "const": false
+        },
+        "provider_calls_performed": {
+          "const": false
+        },
+        "adult_runtime_mutation_performed": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "renderer": {
+      "type": "string",
+      "enum": [
+        "shotstack",
+        "remotion",
+        "hyperframes",
+        "hybrid"
+      ]
+    }
+  }
+}

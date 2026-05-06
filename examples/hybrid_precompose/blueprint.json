@@ -1,0 +1,63 @@
+{
+  "contract_version": "1.2",
+  "job_id": "hybrid_precompose",
+  "source_video": "input/hybrid_precompose.mp4",
+  "renderer": "hybrid",
+  "audio": {
+    "strategy": "use_input_audio",
+    "source_file": "source_audio.mp3",
+    "shotstack_merge_key": "SOURCE_AUDIO_MP3"
+  },
+  "review_status": "review_required",
+  "scene_order": [
+    "scene_001"
+  ],
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "duration_sec": 3.0,
+      "story_role": "precomposed HTML motion inside Shotstack",
+      "cast": [],
+      "locks": [],
+      "variables": [
+        "title"
+      ],
+      "startframe": {
+        "required": false,
+        "model": null,
+        "prompt_file": null,
+        "reference_assets": []
+      },
+      "video": {
+        "mode": "code-driven",
+        "model": null,
+        "prompt_file": null,
+        "reference_assets": []
+      },
+      "precompose": {
+        "renderer": "hyperframes",
+        "output_merge_key": "SCENE_001_PRECOMP_VIDEO",
+        "package_dir": "precompose/scene_001/hyperframes",
+        "width": 1080,
+        "height": 1920,
+        "fps": 30,
+        "duration_sec": 3.0,
+        "audio_policy": "strip",
+        "status": "package_created"
+      },
+      "shotstack": {
+        "asset_type": "video",
+        "alias": "SCENE_001",
+        "merge_key": "SCENE_001_PRECOMP_VIDEO",
+        "clip_length_sec": 3.0,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_001_CAPTION",
+            "placement": "bottom"
+          }
+        ],
+        "overlay_layers": []
+      }
+    }
+  ]
+}

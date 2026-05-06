@@ -1,0 +1,9 @@
+{
+  "title": "Editable title",
+  "mediaInputs": {
+    "background": {
+      "src": "public/assets/background.png"
+    }
+  },
+  "audioFile": "source_audio.mp3"
+}

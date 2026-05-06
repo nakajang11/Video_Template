@@ -1,0 +1,103 @@
+{
+  "contract_version": "1.2",
+  "job_id": "hyperframes_basic",
+  "template_id": "A-7_trend_single:hyperframes_basic",
+  "renderer": "hyperframes",
+  "preferred_renderer": "hyperframes",
+  "fallback_renderers": [],
+  "template_type": "A-7_trend_single",
+  "aspect_ratio": "9:16",
+  "duration_seconds": 3.0,
+  "precompose_required": false,
+  "supported_content_types": [],
+  "fill_requirements": {
+    "requires_generated_media": false,
+    "requires_precompose_video": false,
+    "requires_generated_text": true,
+    "requires_motion_reference": false
+  },
+  "renderer_bindings": {
+    "renderer": "hyperframes",
+    "slot_bindings": {
+      "scene_001.text.title": {
+        "graph_ref": "nodes.title.text"
+      },
+      "scene_001.media.background": {
+        "graph_ref": "nodes.background.src"
+      }
+    }
+  },
+  "precompose_plan": {
+    "steps": []
+  },
+  "consumer_profiles": {},
+  "validation": {
+    "warnings": [],
+    "blocking": []
+  },
+  "package_summary": {
+    "scene_count": 1,
+    "slot_count": 2,
+    "text_slot_count": 1,
+    "media_slot_count": 1,
+    "renderer": "hyperframes"
+  },
+  "slots": [
+    {
+      "slot_id": "scene_001.text.title",
+      "scene_id": "scene_001",
+      "kind": "text",
+      "media_kind": null,
+      "required": true,
+      "fill_strategy": "generate_text",
+      "generation_policy": {
+        "model_route": null,
+        "prompt_file": null,
+        "reference_assets": [],
+        "renderer_use": "hyperframes_input"
+      },
+      "renderer_binding": {
+        "graph_ref": "nodes.title.text",
+        "node_id": null,
+        "input_path": null,
+        "package_dir": "hyperframes_package"
+      },
+      "approval_policy": {
+        "requires_slot_approval": true,
+        "approval_type": "post_template_slot"
+      },
+      "validation": {
+        "warnings": [],
+        "blocking": []
+      }
+    },
+    {
+      "slot_id": "scene_001.media.background",
+      "scene_id": "scene_001",
+      "kind": "media",
+      "media_kind": "image",
+      "required": true,
+      "fill_strategy": "select_existing_asset",
+      "generation_policy": {
+        "model_route": null,
+        "prompt_file": null,
+        "reference_assets": [],
+        "renderer_use": "hyperframes_input"
+      },
+      "renderer_binding": {
+        "graph_ref": "nodes.background.src",
+        "node_id": null,
+        "input_path": null,
+        "package_dir": "hyperframes_package"
+      },
+      "approval_policy": {
+        "requires_slot_approval": true,
+        "approval_type": "post_template_slot"
+      },
+      "validation": {
+        "warnings": [],
+        "blocking": []
+      }
+    }
+  ]
+}

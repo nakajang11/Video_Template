@@ -84,12 +84,14 @@ class HybridContractTests(unittest.TestCase):
             (REPO_ROOT / ".agents/skills/trend-short-blueprint/assets/blueprint.schema.json").read_text()
         )
         self.assertIn("hybrid", schema["properties"]["renderer"]["enum"])
+        self.assertIn("hyperframes", schema["properties"]["renderer"]["enum"])
         scene_properties = schema["properties"]["scenes"]["items"]["properties"]
         self.assertIn("precompose", scene_properties)
         precompose = scene_properties["precompose"]
         self.assertEqual(precompose["properties"]["renderer"]["enum"], ["remotion", "hyperframes"])
         self.assertIn("output_merge_key", precompose["required"])
         self.assertIn("audio_policy", precompose["required"])
+        self.assertIn("blocked", precompose["properties"]["status"]["enum"])
 
     def test_validates_remotion_and_hyperframes_precompose(self) -> None:
         for inner_renderer in ("remotion", "hyperframes"):
@@ -133,8 +135,12 @@ class HybridContractTests(unittest.TestCase):
                 expected_renderer="hybrid",
             )
         self.assertEqual(contract["renderer"], "hybrid")
+        self.assertEqual(contract["contract_version"], "1.2")
         self.assertEqual(contract_errors, [])
         self.assertEqual(contract_warnings, [])
+        self.assertTrue(contract["precompose_required"])
+        self.assertEqual(contract["precompose_plan"]["steps"][0]["status"], "package_created")
+        self.assertTrue(contract["precompose_plan"]["steps"][0]["blockers"])
         media_slots = [slot for slot in contract["slots"] if slot["kind"] == "media"]
         self.assertEqual(len(media_slots), 1)
         media_slot = media_slots[0]

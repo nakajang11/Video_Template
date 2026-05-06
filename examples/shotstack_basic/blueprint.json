@@ -1,0 +1,54 @@
+{
+  "contract_version": "1.2",
+  "job_id": "shotstack_basic",
+  "source_video": "input/shotstack_basic.mp4",
+  "renderer": "shotstack",
+  "audio": {
+    "strategy": "use_input_audio",
+    "source_file": "source_audio.mp3",
+    "shotstack_merge_key": "SOURCE_AUDIO_MP3"
+  },
+  "review_status": "review_required",
+  "scene_order": [
+    "scene_001"
+  ],
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "duration_sec": 3.0,
+      "story_role": "editable text over generated clip",
+      "cast": [],
+      "locks": [
+        "review gate"
+      ],
+      "variables": [
+        "headline"
+      ],
+      "startframe": {
+        "required": true,
+        "model": "nano banana2",
+        "prompt_file": "scene_001_startframe_image_prompt.md",
+        "reference_assets": []
+      },
+      "video": {
+        "mode": "generate",
+        "model": "kling v3",
+        "prompt_file": "scene_001_video_prompt.md",
+        "reference_assets": []
+      },
+      "shotstack": {
+        "asset_type": "video",
+        "alias": "SCENE_001",
+        "merge_key": "SCENE_001_MEDIA",
+        "clip_length_sec": 3.0,
+        "text_overlays": [
+          {
+            "text_key": "SCENE_001_HEADLINE",
+            "placement": "top"
+          }
+        ],
+        "overlay_layers": []
+      }
+    }
+  ]
+}

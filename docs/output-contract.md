@@ -52,6 +52,24 @@ output/<job_id>/
     public/
 ```
 
+For `blueprint.renderer = "hyperframes"`:
+
+```text
+output/<job_id>/
+  hyperframes_package/
+    package.json
+    README.md
+    meta.json
+    index.html
+    assets/
+    template-partition.json
+```
+
+Hyperframes is a top-level review-gated assembly renderer in contract v1.2.
+It is not a media generation provider or model route, and package validation
+must not run `npx hyperframes render`. See
+`docs/hyperframes-renderer-contract.md`.
+
 For `blueprint.renderer = "hybrid"`:
 
 ```text
@@ -94,12 +112,18 @@ caller. They are not canonical package artifacts:
 ```text
 output/<job_id>/
   assembly_flow_suggestion.json
+  adult_ai_influencer_template_contract.json
 ```
 
-`assembly_flow_suggestion.json` is created only for
-`consumer_profile=adult_ai_influencer_media_template`. It is a downstream
-handoff suggestion for Adult AI Influencer, not an executable plan in this repo.
-It must use tokenized references only and must not contain resolved URLs, local
+`adult_ai_influencer_template_contract.json` is the primary Adult AI import
+artifact for `consumer_profile=adult_ai_influencer_template`. It is generated
+only from validated `template_contract.json` v1.2, not from URL-bearing sidecars
+such as `cloudinary_assets.json` or `shotstack.pasteable.json`. See
+`docs/adult-ai-consumer-contract.md`.
+
+`assembly_flow_suggestion.json` is the legacy artifact for
+`consumer_profile=adult_ai_influencer_media_template`. Both consumer artifacts
+must use tokenized references only and must not contain resolved URLs, local
 absolute paths, provider responses, generated media URLs, Adult-side DB ids, or
 secrets.
 
@@ -483,10 +507,17 @@ Minimum fields:
 
 - `contract_version`
 - `job_id`
+- `template_id`
 - `renderer`
+- `preferred_renderer`
+- `fallback_renderers`
 - `template_type`
 - `supported_content_types`
 - `fill_requirements`
+- `renderer_bindings`
+- `precompose_required`
+- `precompose_plan`
+- `validation`
 - `package_summary`
 - `slots[]`
 
@@ -495,9 +526,13 @@ Each slot should include at minimum:
 - `slot_id`
 - `scene_id`
 - `kind`
+- `media_kind`
 - `required`
 - `fill_strategy`
+- `generation_policy`
+- `approval_policy`
 - `renderer_binding`
+- `validation`
 
 Normalized `kind` values:
 
@@ -513,8 +548,10 @@ Normalized `fill_strategy` values:
 - `keep_locked`
 - `reuse_template_asset`
 - `select_existing_asset`
+- `generate_startframe`
+- `generate_image_slot`
+- `generate_video_slot`
 - `generate_text`
-- `generate_media`
 - `precompose_video`
 - `reuse_source_trend_video`
 
@@ -522,8 +559,14 @@ Renderer bindings:
 
 - Shotstack slots should expose `renderer_binding.merge_key`
 - Remotion slots should expose `renderer_binding.prop_path`
+- Hyperframes slots should expose `renderer_binding.graph_ref`
 - Hybrid slots should expose `renderer_binding.merge_key` and may include
   `renderer_binding.precompose`
+
+Hyperframes may appear as `renderer`, `preferred_renderer`, fallback renderer,
+renderer binding, package target, or hybrid `precompose.renderer`. It must not
+appear as `generation_policy.model_route` because it is not a media generation
+provider in this repository.
 
 `package_summary` should include:
 
@@ -611,15 +654,19 @@ at minimum:
 `artifacts` should expose the existing package files plus:
 
 - `template_contract`
+- `adult_ai_consumer_contract`
 - `package_archive`
+- `hyperframes_package`
+- `hyperframes_manifest`
+- `hyperframes_graph`
 - `shotstack_smoke_result`
 - `shotstack_smoke_compare`
 - `shotstack_smoke_contact_sheet`
 - `shotstack_smoke_render`
 
-`result.artifacts` intentionally does not include `assembly_flow_suggestion`.
-That object is strict for existing backend consumers; consumer-profile artifacts
-are indexed through `manifest.json` and archived through `package.zip`.
+`result.artifacts` intentionally does not include the legacy
+`assembly_flow_suggestion`. That object remains indexed through `manifest.json`
+and archived through `package.zip`.
 
 `shotstack_smoke` should expose the review-only smoke state:
 
@@ -658,7 +705,7 @@ Rules:
 
 - create it only after validation passes
 - include the canonical package artifacts, `template_contract.json`, and `result.json`
-- include optional `assembly_flow_suggestion.json` only when it is present in
+- include optional consumer-profile artifacts only when they are present in
   `manifest.json`
 - exclude runtime logs, prompt/debug transcripts, cache directories, `node_modules`,
   and preview renders
@@ -698,6 +745,16 @@ For `renderer = "remotion"`:
 - `src/index.jsx` registers the root and `src/Root.jsx` defines the expected composition id
 - Remotion scene frame ranges are positive and align with the composition duration
 - `template_contract.json` exists and its renderer matches the package
+
+For `renderer = "hyperframes"`:
+
+- `hyperframes_package/` exists with `package.json`, `README.md`, `meta.json`,
+  `index.html`, `assets/`, and `template-partition.json`
+- `blueprint.hyperframes_package` points to the package files and editable slots
+- `template_contract.json` exists and its renderer is `hyperframes`
+- every Hyperframes slot exposes `renderer_binding.graph_ref`
+- the package does not contain rendered outputs or a default `hyperframes render`
+  command path
 
 For `renderer = "hybrid"`:
 

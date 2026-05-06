@@ -1,0 +1,67 @@
+{
+  "contract_version": "1.2",
+  "job_id": "hyperframes_basic",
+  "source_video": "input/hyperframes_basic.mp4",
+  "renderer": "hyperframes",
+  "audio": {
+    "strategy": "use_input_audio",
+    "source_file": "source_audio.mp3",
+    "shotstack_merge_key": "SOURCE_AUDIO_MP3"
+  },
+  "review_status": "review_required",
+  "scene_order": [
+    "scene_001"
+  ],
+  "hyperframes_package": {
+    "package_dir": "hyperframes_package",
+    "entry_file": "hyperframes_package/index.html",
+    "composition_id": "HyperframesBasic",
+    "manifest_file": "hyperframes_package/meta.json",
+    "graph_file": "hyperframes_package/template-partition.json",
+    "editable_props": [
+      "title",
+      "background"
+    ],
+    "slot_bindings": [
+      {
+        "slot_id": "scene_001.text.title",
+        "scene_id": "scene_001",
+        "kind": "text",
+        "graph_ref": "nodes.title.text",
+        "fill_strategy": "generate_text"
+      },
+      {
+        "slot_id": "scene_001.media.background",
+        "scene_id": "scene_001",
+        "kind": "media",
+        "media_kind": "image",
+        "graph_ref": "nodes.background.src",
+        "fill_strategy": "select_existing_asset"
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "duration_sec": 3.0,
+      "story_role": "DOM title motion",
+      "cast": [],
+      "locks": [],
+      "variables": [
+        "title"
+      ],
+      "startframe": {
+        "required": false,
+        "model": null,
+        "prompt_file": null,
+        "reference_assets": []
+      },
+      "video": {
+        "mode": "code-driven",
+        "model": null,
+        "prompt_file": null,
+        "reference_assets": []
+      }
+    }
+  ]
+}

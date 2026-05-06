@@ -1,0 +1,8 @@
+{
+  "variables": [
+    {
+      "key": "title",
+      "editable": true
+    }
+  ]
+}

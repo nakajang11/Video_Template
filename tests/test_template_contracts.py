@@ -66,12 +66,35 @@ def build_result_payload(
             "remotion_package": "remotion_package"
             if (package_dir / "remotion_package").exists()
             else None,
+            "hyperframes_package": "hyperframes_package"
+            if (package_dir / "hyperframes_package").exists()
+            else None,
+            "hyperframes_manifest": "hyperframes_package/meta.json"
+            if (package_dir / "hyperframes_package" / "meta.json").exists()
+            else None,
+            "hyperframes_graph": "hyperframes_package/template-partition.json"
+            if (package_dir / "hyperframes_package" / "template-partition.json").exists()
+            else None,
             "source_audio": "source_audio.mp3"
             if (package_dir / "source_audio.mp3").exists()
             else None,
             "template_contract": "template_contract.json",
+            "adult_ai_consumer_contract": "adult_ai_influencer_template_contract.json"
+            if (package_dir / "adult_ai_influencer_template_contract.json").exists()
+            else None,
             "package_archive": "package.zip",
             "prompt_files": prompt_files,
+        },
+        "shotstack_smoke": {
+            "enabled": False,
+            "mode": "off",
+            "limit": 1,
+            "attempted": False,
+            "status": "not_requested",
+            "render_url": None,
+            "render_path": None,
+            "improvement_notes": [],
+            "error": None,
         },
         "validation": {
             "passed": True,
@@ -141,7 +164,13 @@ class TemplateContractTests(unittest.TestCase):
         )
         self.assertEqual(validation.returncode, 0, validation.stdout + validation.stderr)
         self.assertEqual(contract["renderer"], "shotstack")
+        self.assertEqual(contract["contract_version"], "1.2")
         self.assertGreater(contract["package_summary"]["slot_count"], 0)
+        for slot in contract["slots"]:
+            self.assertIn("generation_policy", slot)
+            self.assertIn("approval_policy", slot)
+            self.assertIn("validation", slot)
+            self.assertNotEqual(slot["fill_strategy"], "generate_media")
         self.assertEqual(contract["package_summary"], result["package_summary"])
 
         support.update_manifest_runtime_entries(
@@ -180,6 +209,7 @@ class TemplateContractTests(unittest.TestCase):
         )
         self.assertEqual(validation.returncode, 0, validation.stdout + validation.stderr)
         self.assertEqual(contract["renderer"], "remotion")
+        self.assertEqual(contract["contract_version"], "1.2")
         self.assertGreater(contract["package_summary"]["text_slot_count"], 0)
         self.assertEqual(contract["package_summary"], result["package_summary"])
 
@@ -200,6 +230,29 @@ class TemplateContractTests(unittest.TestCase):
         self.assertIn("result.json", names)
         self.assertIn("remotion_package/src/Test3GlossaryTemplate.jsx", names)
         self.assertNotIn("remotion_package/renders/test_3_review.mp4", names)
+
+    def test_adult_ai_template_contract_is_token_only(self) -> None:
+        package_dir, contract, _ = self.finalize_fixture(
+            "trend_con_3",
+            renderer="shotstack",
+            caller_context={
+                "template_type": "A-7_trend_single",
+                "consumer_profile": "adult_ai_influencer_template",
+            },
+        )
+        state = support.maybe_write_adult_ai_template_contract(
+            package_dir,
+            consumer_profile="adult_ai_influencer_template",
+            template_contract=contract,
+        )
+        self.assertTrue(state["created"], state)
+        payload = json.loads((package_dir / "adult_ai_influencer_template_contract.json").read_text())
+        errors, warnings = support.validate_adult_ai_template_contract(payload)
+        self.assertEqual(errors, [])
+        self.assertEqual(warnings, [])
+        self.assertEqual(payload["consumer_profile"], "adult_ai_influencer_template")
+        self.assertEqual(payload["contract_version"], "1.2")
+        self.assertTrue(all(slot["token_ref"].startswith("{{slot.") for slot in payload["slots"]))
 
 
 if __name__ == "__main__":

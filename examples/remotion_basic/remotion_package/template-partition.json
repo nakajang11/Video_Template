@@ -1,0 +1,8 @@
+{
+  "input_media": [
+    {
+      "slot": "mediaInputs.background.src",
+      "role": "background"
+    }
+  ]
+}

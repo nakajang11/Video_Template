@@ -1,0 +1,73 @@
+{
+  "status": "ok",
+  "job_id": "hybrid_precompose",
+  "renderer": "hybrid",
+  "review_status": "review_required",
+  "package_dir": "examples/hybrid_precompose",
+  "caller_context_echo": {
+    "template_type": "A-7_trend_single",
+    "source_platform": null,
+    "source_trend_video_id": null,
+    "preferred_renderer": "hybrid",
+    "step1_hint_summary": null,
+    "step2_hint_summary": null,
+    "operator_notes_summary": null
+  },
+  "source_summary": {
+    "source_video": "input/hybrid_precompose.mp4",
+    "duration_sec": 3.0,
+    "width": 1080,
+    "height": 1920,
+    "scene_count": 1
+  },
+  "package_summary": {
+    "scene_count": 1,
+    "slot_count": 3,
+    "text_slot_count": 1,
+    "media_slot_count": 2,
+    "renderer": "hybrid"
+  },
+  "artifacts": {
+    "analysis": "analysis.json",
+    "story": "story.json",
+    "variable_map": "variable_map.json",
+    "blueprint": "blueprint.json",
+    "manifest": "manifest.json",
+    "shotstack": "shotstack.json",
+    "remotion_package": null,
+    "hyperframes_package": null,
+    "hyperframes_manifest": null,
+    "hyperframes_graph": null,
+    "source_audio": "source_audio.mp3",
+    "template_contract": "template_contract.json",
+    "adult_ai_consumer_contract": "adult_ai_influencer_template_contract.json",
+    "package_archive": "package.zip",
+    "shotstack_smoke_result": null,
+    "shotstack_smoke_compare": null,
+    "shotstack_smoke_contact_sheet": null,
+    "shotstack_smoke_render": null,
+    "prompt_files": [
+      "scene_001_startframe_image_prompt.md",
+      "scene_001_video_prompt.md"
+    ]
+  },
+  "shotstack_smoke": {
+    "enabled": false,
+    "mode": "off",
+    "limit": 1,
+    "attempted": false,
+    "status": "not_requested",
+    "render_url": null,
+    "render_path": null,
+    "improvement_notes": [],
+    "error": null
+  },
+  "validation": {
+    "passed": true,
+    "errors": [],
+    "warnings": []
+  },
+  "notes": [
+    "Static example fixture; no renderer/provider execution occurred."
+  ]
+}

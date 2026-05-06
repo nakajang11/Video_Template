@@ -1,0 +1,19 @@
+{
+  "job_id": "hybrid_precompose",
+  "source_video": "input/hybrid_precompose.mp4",
+  "media": {
+    "duration_sec": 3.0,
+    "width": 1080,
+    "height": 1920
+  },
+  "analysis_confidence": "fixture",
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "start_sec": 0,
+      "end_sec": 3.0,
+      "duration_sec": 3.0,
+      "summary": "hybrid example scene"
+    }
+  ]
+}

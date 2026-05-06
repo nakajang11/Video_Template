@@ -25,6 +25,7 @@ from template_package_support import (
     make_empty_caller_context_echo,
     make_empty_package_summary,
     make_empty_source_summary,
+    maybe_write_adult_ai_template_contract,
     maybe_write_assembly_flow_suggestion,
     render_caller_context_prompt_block,
     render_consumer_profile_prompt_block,
@@ -49,6 +50,7 @@ VALIDATOR_PATH = (
     / "validate_package.py"
 )
 REMOTION_VALIDATOR_PATH = REPO_ROOT / "scripts" / "validate_remotion_package.py"
+HYPERFRAMES_VALIDATOR_PATH = REPO_ROOT / "scripts" / "validate_hyperframes_package.py"
 
 
 def parse_args() -> argparse.Namespace:
@@ -100,11 +102,11 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--preferred-renderer",
-        choices=("auto", "shotstack", "remotion", "hybrid"),
+        choices=("auto", "shotstack", "remotion", "hyperframes", "hybrid"),
         default="auto",
         help=(
             "Preferred renderer override. `auto` keeps the existing routing rules, "
-            "while `shotstack`, `remotion`, and `hybrid` strongly prefer that target."
+            "while `shotstack`, `remotion`, `hyperframes`, and `hybrid` strongly prefer that target."
         ),
     )
     parser.add_argument(
@@ -119,7 +121,8 @@ def parse_args() -> argparse.Namespace:
         "--consumer-profile",
         help=(
             "Optional downstream consumer profile. Currently supports "
-            "`adult_ai_influencer_media_template` for an optional handoff suggestion."
+            "`adult_ai_influencer_template` for a token-only v1.2 import contract, "
+            "and the legacy `adult_ai_influencer_media_template` handoff suggestion."
         ),
     )
     parser.add_argument(
@@ -308,25 +311,44 @@ def build_codex_prompt(
     preferred_renderer: str,
     caller_context_echo: dict[str, Any],
     consumer_profile_context: dict[str, Any] | None = None,
+    consumer_profile: str | None = None,
 ) -> str:
     consumer_profile_prompt = ""
     if consumer_profile_context:
-        consumer_profile_prompt = textwrap.dedent(
-            f"""
+        if consumer_profile == "adult_ai_influencer_template":
+            consumer_profile_prompt = textwrap.dedent(
+                f"""
 
-            Consumer profile handoff:
-            - The caller requested a downstream-only optional artifact named
-              `assembly_flow_suggestion.json`.
-            - Generate it only as a tokenized proposal for the downstream consumer. Do not
-              execute provider calls, resolve Cloudinary/DB URLs, store secrets, or include local
-              absolute paths.
-            - Keep all source/media values as whitelisted token references and keep every step
-              review-gated for downstream execution.
+                Consumer profile handoff:
+                - The caller requested the primary Adult AI template import artifact
+                  `adult_ai_influencer_template_contract.json`.
+                - The local wrapper will generate that artifact from the validated
+                  `template_contract.json`; do not read URL-bearing sidecars or downstream runtime state
+                  to populate it.
+                - Keep all media/source values as tokenized slot references. Do not execute provider
+                  calls, resolve Cloudinary/DB URLs, store secrets, or include local absolute paths.
 
-            Sanitized consumer profile context:
-            {render_consumer_profile_prompt_block(consumer_profile_context)}
-            """
-        ).rstrip()
+                Sanitized consumer profile context:
+                {render_consumer_profile_prompt_block(consumer_profile_context)}
+                """
+            ).rstrip()
+        else:
+            consumer_profile_prompt = textwrap.dedent(
+                f"""
+
+                Consumer profile handoff:
+                - The caller requested a downstream-only optional artifact named
+                  `assembly_flow_suggestion.json`.
+                - Generate it only as a tokenized proposal for the downstream consumer. Do not
+                  execute provider calls, resolve Cloudinary/DB URLs, store secrets, or include local
+                  absolute paths.
+                - Keep all source/media values as whitelisted token references and keep every step
+                  review-gated for downstream execution.
+
+                Sanitized consumer profile context:
+                {render_consumer_profile_prompt_block(consumer_profile_context)}
+                """
+            ).rstrip()
     return textwrap.dedent(
         f"""
         You are operating as the backend template-packaging agent for this repository.
@@ -338,10 +360,11 @@ def build_codex_prompt(
         - Use this repository's `AGENTS.md` as the source of truth.
         - Use the planning workflow from `.agents/skills/trend-short-blueprint/SKILL.md`.
         - Read `docs/renderer-routing.md` before deciding whether this job should stay on Shotstack
-          or switch to Remotion.
+          or switch to Remotion, Hyperframes, or hybrid.
         - Preferred renderer from the caller: `{preferred_renderer}`.
           - If `{preferred_renderer}` is `auto`, keep the existing routing rules.
-          - If `{preferred_renderer}` is `shotstack`, `remotion`, or `hybrid`, strongly prefer it.
+          - If `{preferred_renderer}` is `shotstack`, `remotion`, `hyperframes`, or `hybrid`,
+            strongly prefer it.
           - If you cannot safely honor the preference, keep the package review-gated and explain why.
         - If `blueprint.renderer = "shotstack"`, use the packaging workflow from
           `.agents/skills/shotstack-remix-package/SKILL.md`.
@@ -349,6 +372,10 @@ def build_codex_prompt(
           `output/{job_id}/remotion_package/` using the packaging workflow from
           `.agents/skills/remotion-package/SKILL.md`, including `package.json`, `src/`,
           `props/`, `public/`, `template-partition.json`, and `README.md`, then update `manifest.json`.
+        - If `blueprint.renderer = "hyperframes"`, create a static review package under
+          `output/{job_id}/hyperframes_package/` and expose HTML/graph slots in
+          `template_contract.json`. Hyperframes is an assembly renderer here, not a media
+          generation model or provider. Do not run `npx hyperframes render`.
         - If `blueprint.renderer = "hybrid"`, use Shotstack as the final assembly package and
           add scene-level `precompose` metadata for Remotion or Hyperframes clips.
           Do not render Remotion or Hyperframes precompose clips, do not call providers, and do not
@@ -370,7 +397,9 @@ def build_codex_prompt(
           `cloudinary_assets.json`, and `shotstack.pasteable.json`.
         - For Remotion jobs, keep editable content in props files so the same template can be reused
           by swapping JSON data instead of rewriting the animation logic.
-        - Set the structured result `renderer` field to `shotstack`, `remotion`, or `hybrid`.
+        - For Hyperframes jobs, keep editable content in `hyperframes_package/template-partition.json`
+          and `hyperframes_package/meta.json` so the package can be validated statically.
+        - Set the structured result `renderer` field to `shotstack`, `remotion`, `hyperframes`, or `hybrid`.
         - Stop at the review gate. Do not perform paid generation or final rendering.
         - If plot confidence or cast confidence is low, mark the package as review required instead
           of inventing unsupported details.
@@ -493,11 +522,13 @@ def infer_renderer(package_dir: Path) -> str:
             blueprint = None
         if isinstance(blueprint, dict):
             renderer = blueprint.get("renderer")
-            if renderer in {"shotstack", "remotion", "hybrid"}:
+            if renderer in {"shotstack", "remotion", "hyperframes", "hybrid"}:
                 return renderer
 
     if (package_dir / "remotion_package").exists():
         return "remotion"
+    if (package_dir / "hyperframes_package").exists():
+        return "hyperframes"
     if (package_dir / "shotstack.json").exists():
         return "shotstack"
     return "unknown"
@@ -505,7 +536,12 @@ def infer_renderer(package_dir: Path) -> str:
 
 def run_validator(package_dir: Path) -> dict[str, Any]:
     renderer = infer_renderer(package_dir)
-    validator_path = REMOTION_VALIDATOR_PATH if renderer == "remotion" else VALIDATOR_PATH
+    if renderer == "remotion":
+        validator_path = REMOTION_VALIDATOR_PATH
+    elif renderer == "hyperframes":
+        validator_path = HYPERFRAMES_VALIDATOR_PATH
+    else:
+        validator_path = VALIDATOR_PATH
     completed = subprocess.run(
         [sys.executable, str(validator_path), str(package_dir)],
         cwd=REPO_ROOT,
@@ -964,8 +1000,12 @@ def build_fallback_result(
             "manifest": None,
             "shotstack": None,
             "remotion_package": None,
+            "hyperframes_package": None,
+            "hyperframes_manifest": None,
+            "hyperframes_graph": None,
             "source_audio": None,
             "template_contract": None,
+            "adult_ai_consumer_contract": None,
             "package_archive": None,
             "shotstack_smoke_result": None,
             "shotstack_smoke_compare": None,
@@ -994,6 +1034,7 @@ def collect_artifacts(package_dir: Path) -> dict[str, Any]:
         "shotstack": package_dir / "shotstack.json",
         "source_audio": package_dir / "source_audio.mp3",
         "template_contract": package_dir / "template_contract.json",
+        "adult_ai_consumer_contract": package_dir / "adult_ai_influencer_template_contract.json",
         "package_archive": package_dir / "package.zip",
         "shotstack_smoke_result": package_dir / "shotstack_smoke_result.json",
         "shotstack_smoke_compare": package_dir / "shotstack_smoke_compare.json",
@@ -1007,6 +1048,20 @@ def collect_artifacts(package_dir: Path) -> dict[str, Any]:
     remotion_package_dir = package_dir / "remotion_package"
     artifacts["remotion_package"] = (
         repo_relative_string(remotion_package_dir) if remotion_package_dir.exists() else None
+    )
+    hyperframes_package_dir = package_dir / "hyperframes_package"
+    artifacts["hyperframes_package"] = (
+        repo_relative_string(hyperframes_package_dir) if hyperframes_package_dir.exists() else None
+    )
+    artifacts["hyperframes_manifest"] = (
+        repo_relative_string(hyperframes_package_dir / "meta.json")
+        if (hyperframes_package_dir / "meta.json").exists()
+        else None
+    )
+    artifacts["hyperframes_graph"] = (
+        repo_relative_string(hyperframes_package_dir / "template-partition.json")
+        if (hyperframes_package_dir / "template-partition.json").exists()
+        else None
     )
     artifacts["prompt_files"] = [
         repo_relative_string(path)
@@ -1101,6 +1156,7 @@ def main() -> int:
         preferred_renderer=args.preferred_renderer,
         caller_context_echo=caller_context_echo,
         consumer_profile_context=consumer_profile_context,
+        consumer_profile=consumer_profile,
     )
     codex_command = build_codex_command(
         codex_result_path=package_dir / "codex_result.json",
@@ -1252,6 +1308,8 @@ def main() -> int:
     result["package_summary"] = make_empty_package_summary(renderer=result["renderer"])
     assembly_suggestion_errors: list[str] = []
     assembly_suggestion_warnings: list[str] = []
+    adult_contract_errors: list[str] = []
+    adult_contract_warnings: list[str] = []
 
     if package_dir.exists() and (package_dir / "blueprint.json").exists():
         try:
@@ -1311,8 +1369,37 @@ def main() -> int:
                     "assembly_flow_suggestion.json was not packaged because validation required review."
                 )
 
+            adult_contract_state = maybe_write_adult_ai_template_contract(
+                package_dir,
+                consumer_profile=consumer_profile,
+                template_contract=template_contract,
+            )
+            adult_contract_errors = [
+                f"adult_ai_influencer_template_contract: {message}"
+                for message in adult_contract_state.get("errors", [])
+            ]
+            adult_contract_warnings = [
+                f"adult_ai_influencer_template_contract: {message}"
+                for message in adult_contract_state.get("warnings", [])
+            ]
+            if adult_contract_state.get("created"):
+                result["artifacts"]["adult_ai_consumer_contract"] = repo_relative_string(
+                    package_dir / adult_contract_state["path"]
+                )
+                result["notes"].append(
+                    "adult_ai_influencer_template_contract.json created for consumer_profile="
+                    f"{consumer_profile}."
+                )
+            elif adult_contract_state.get("requested") and adult_contract_errors:
+                result["review_status"] = "review_required"
+                if result.get("status") == "ok":
+                    result["status"] = "review_required"
+                result["notes"].append(
+                    "adult_ai_influencer_template_contract.json was not packaged because validation required review."
+                )
+
             if (
-                args.preferred_renderer in {"shotstack", "remotion", "hybrid"}
+                args.preferred_renderer in {"shotstack", "remotion", "hyperframes", "hybrid"}
                 and runtime_renderer != args.preferred_renderer
             ):
                 if result.get("status") == "ok":
@@ -1336,7 +1423,9 @@ def main() -> int:
         validation["warnings"].extend(contract_warnings)
         validation["warnings"].extend(assembly_suggestion_warnings)
         validation["warnings"].extend(assembly_suggestion_errors)
-        validation["passed"] = validation["passed"] and not contract_errors
+        validation["warnings"].extend(adult_contract_warnings)
+        validation["errors"].extend(adult_contract_errors)
+        validation["passed"] = validation["passed"] and not contract_errors and not adult_contract_errors
         result["validation"] = {
             "passed": validation["passed"],
             "errors": validation["errors"],

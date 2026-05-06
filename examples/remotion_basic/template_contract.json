@@ -1,0 +1,159 @@
+{
+  "contract_version": "1.2",
+  "job_id": "remotion_basic",
+  "template_id": "A-7_trend_single:remotion_basic",
+  "renderer": "remotion",
+  "preferred_renderer": "remotion",
+  "fallback_renderers": [],
+  "template_type": "A-7_trend_single",
+  "aspect_ratio": "9:16",
+  "duration_seconds": 3.0,
+  "precompose_required": false,
+  "supported_content_types": [],
+  "fill_requirements": {
+    "requires_generated_media": false,
+    "requires_precompose_video": false,
+    "requires_generated_text": true,
+    "requires_motion_reference": false
+  },
+  "renderer_bindings": {
+    "renderer": "remotion",
+    "slot_bindings": {
+      "global.audio.audio_file": {
+        "prop_path": "audioFile"
+      },
+      "scene_001.media.background": {
+        "prop_path": "mediaInputs.background.src"
+      },
+      "scene_001.text.title": {
+        "prop_path": "title"
+      },
+      "global.audio.source": {
+        "prop_path": "audioFile"
+      }
+    }
+  },
+  "precompose_plan": {
+    "steps": []
+  },
+  "consumer_profiles": {},
+  "validation": {
+    "warnings": [],
+    "blocking": []
+  },
+  "package_summary": {
+    "scene_count": 1,
+    "slot_count": 4,
+    "text_slot_count": 1,
+    "media_slot_count": 3,
+    "renderer": "remotion"
+  },
+  "slots": [
+    {
+      "slot_id": "global.audio.audio_file",
+      "scene_id": null,
+      "kind": "audio",
+      "media_kind": "audio",
+      "required": true,
+      "fill_strategy": "reuse_source_trend_video",
+      "generation_policy": {
+        "model_route": null,
+        "prompt_file": null,
+        "reference_assets": [],
+        "renderer_use": "remotion_props"
+      },
+      "renderer_binding": {
+        "prop_path": "audioFile",
+        "default_value": "source_audio.mp3"
+      },
+      "approval_policy": {
+        "requires_slot_approval": false,
+        "approval_type": "not_required"
+      },
+      "validation": {
+        "warnings": [],
+        "blocking": []
+      }
+    },
+    {
+      "slot_id": "scene_001.media.background",
+      "scene_id": "scene_001",
+      "kind": "media",
+      "media_kind": "image",
+      "required": true,
+      "fill_strategy": "select_existing_asset",
+      "generation_policy": {
+        "model_route": null,
+        "prompt_file": null,
+        "reference_assets": [],
+        "renderer_use": "remotion_props"
+      },
+      "renderer_binding": {
+        "prop_path": "mediaInputs.background.src",
+        "default_value": "public/assets/background.png",
+        "partition_slot": "mediaInputs.background.src",
+        "partition_role": "background"
+      },
+      "approval_policy": {
+        "requires_slot_approval": true,
+        "approval_type": "post_template_slot"
+      },
+      "validation": {
+        "warnings": [],
+        "blocking": []
+      }
+    },
+    {
+      "slot_id": "scene_001.text.title",
+      "scene_id": "scene_001",
+      "kind": "text",
+      "media_kind": null,
+      "required": true,
+      "fill_strategy": "generate_text",
+      "generation_policy": {
+        "model_route": null,
+        "prompt_file": null,
+        "reference_assets": [],
+        "renderer_use": "remotion_props"
+      },
+      "renderer_binding": {
+        "prop_path": "title",
+        "default_value": "Editable title"
+      },
+      "approval_policy": {
+        "requires_slot_approval": true,
+        "approval_type": "post_template_slot"
+      },
+      "validation": {
+        "warnings": [],
+        "blocking": []
+      }
+    },
+    {
+      "slot_id": "global.audio.source",
+      "scene_id": null,
+      "kind": "audio",
+      "media_kind": "audio",
+      "required": true,
+      "fill_strategy": "reuse_source_trend_video",
+      "generation_policy": {
+        "model_route": null,
+        "prompt_file": null,
+        "reference_assets": [],
+        "renderer_use": "remotion_audio"
+      },
+      "renderer_binding": {
+        "prop_path": "audioFile",
+        "default_value": "source_audio.mp3"
+      },
+      "approval_policy": {
+        "requires_slot_approval": false,
+        "approval_type": "not_required"
+      },
+      "validation": {
+        "warnings": [],
+        "blocking": []
+      }
+    }
+  ]
+}

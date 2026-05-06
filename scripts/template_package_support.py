@@ -4,13 +4,15 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 import zipfile
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
 
-TEMPLATE_CONTRACT_VERSION = "1.0"
+TEMPLATE_CONTRACT_VERSION = "1.2"
+SUPPORTED_RENDERERS = {"shotstack", "remotion", "hyperframes", "hybrid"}
 TEMPLATE_TYPE_BY_CATEGORY = {
     "single": "A-7_trend_single",
     "continue": "A-6_trend_continue",
@@ -19,19 +21,31 @@ CONTENT_FILL_STRATEGIES = {
     "keep_locked",
     "reuse_template_asset",
     "select_existing_asset",
+    "generate_startframe",
+    "generate_image_slot",
+    "generate_video_slot",
     "generate_text",
-    "generate_media",
     "precompose_video",
     "reuse_source_trend_video",
 }
 SUPPORTED_SLOT_KINDS = {"media", "text", "color", "number", "audio", "overlay"}
+HYPERFRAMES_FORBIDDEN_GENERATION_VALUES = {"hyperframes", "hyperframes_package", "hyperframes_renderer"}
 HYBRID_INNER_RENDERERS = {"remotion", "hyperframes"}
 HYBRID_PRECOMPOSE_AUDIO_POLICIES = {"mute", "strip"}
 HYBRID_PRECOMPOSE_STATUSES = {
     "planned",
     "package_created",
     "pending_render",
+    "blocked",
     "rendered",
+}
+PRECOMPOSE_BLOCKER_CODES = {
+    "missing_precompose_output",
+    "pending_adult_ai_materialization",
+    "missing_input_slot",
+    "missing_output_slot",
+    "invalid_renderer_binding",
+    "render_output_not_approved",
 }
 HYBRID_FORBIDDEN_RENDER_KEYS = {
     "final_video",
@@ -100,8 +114,13 @@ PROP_TOKEN_RE = re.compile(r"([^\.\[\]]+)|\[(\d+)\]")
 CONTENT_TYPE_RE = re.compile(r"^(A-\\d+)")
 CAMEL_BOUNDARY_RE = re.compile(r"(?<!^)(?=[A-Z])")
 ARCHIVE_EXCLUDE_PARTS = {"__pycache__", "node_modules", "renders"}
+ADULT_AI_TEMPLATE_CONSUMER_PROFILE = "adult_ai_influencer_template"
 ADULT_AI_INFLUENCER_CONSUMER_PROFILE = "adult_ai_influencer_media_template"
-ADULT_AI_INFLUENCER_CONSUMER_PROFILES = {ADULT_AI_INFLUENCER_CONSUMER_PROFILE}
+ADULT_AI_INFLUENCER_CONSUMER_PROFILES = {
+    ADULT_AI_TEMPLATE_CONSUMER_PROFILE,
+    ADULT_AI_INFLUENCER_CONSUMER_PROFILE,
+}
+ADULT_AI_TEMPLATE_CONTRACT_SCHEMA_VERSION = "adult_ai_influencer_template_contract.v1"
 ASSEMBLY_FLOW_SUGGESTION_SCHEMA_VERSION = "media_template_assembly_suggestion.v1"
 ASSEMBLY_FLOW_SCHEMA_VERSION = "media_template_assembly.v1"
 ADULT_ASSEMBLY_CONTRACT_SCHEMA_VERSION = "adult_ai_influencer_assembly_contract.v1"
@@ -155,6 +174,8 @@ FORBIDDEN_SUGGESTION_KEYS = {
     "provider_response",
     "provider_result",
     "provider_url",
+    "resolved_url",
+    "resolved_urls",
     "resolved_tool_inputs",
     "secret",
     "secure_url",
@@ -432,6 +453,23 @@ def build_consumer_profile_prompt_context(
     consumer_profile: str | None,
     caller_context_echo: dict[str, Any] | None = None,
 ) -> dict[str, Any] | None:
+    if consumer_profile == ADULT_AI_TEMPLATE_CONSUMER_PROFILE:
+        return {
+            "consumer_profile": consumer_profile,
+            "expected_artifact": "adult_ai_influencer_template_contract.json",
+            "source_contract": "template_contract.json",
+            "contract_version": TEMPLATE_CONTRACT_VERSION,
+            "tokenized_refs_only": True,
+            "runtime_boundary": {
+                "adult_db_lookup": False,
+                "cloudinary_resolution": False,
+                "provider_calls": False,
+                "paid_generation": False,
+                "rendering": False,
+            },
+            "known_template_type": infer_template_type(raw_context, caller_context_echo),
+        }
+
     if consumer_profile != ADULT_AI_INFLUENCER_CONSUMER_PROFILE:
         return None
 
@@ -486,6 +524,8 @@ def _tokenize_prop_path(path: str) -> list[str]:
 
 
 def _camel_to_snake(value: str) -> str:
+    if value.upper() == value:
+        return value.lower()
     return CAMEL_BOUNDARY_RE.sub("_", value).replace("-", "_").lower()
 
 
@@ -512,6 +552,70 @@ def _safe_scene_id(scene_ids: list[str]) -> str | None:
 def _set_scene_ids(slot: dict[str, Any], scene_ids: list[str]) -> None:
     if len(scene_ids) > 1:
         slot["scene_ids"] = scene_ids
+
+
+def _slot_media_kind(kind: str, media_kind: Any = None) -> str | None:
+    if kind == "audio":
+        return "audio"
+    if kind in {"text", "color", "number"}:
+        return None
+    if isinstance(media_kind, str) and media_kind in {"image", "video", "audio", "thumbnail"}:
+        return media_kind
+    if kind in {"media", "overlay"}:
+        return "image"
+    return None
+
+
+def _slot_generation_policy(
+    *,
+    model_route: Any = None,
+    prompt_file: Any = None,
+    reference_assets: Any = None,
+    renderer_use: str | None = None,
+) -> dict[str, Any]:
+    if isinstance(model_route, str) and model_route in HYPERFRAMES_FORBIDDEN_GENERATION_VALUES:
+        model_route = None
+    return {
+        "model_route": model_route if isinstance(model_route, str) and model_route else None,
+        "prompt_file": prompt_file if isinstance(prompt_file, str) and prompt_file else None,
+        "reference_assets": reference_assets if isinstance(reference_assets, list) else [],
+        "renderer_use": renderer_use,
+    }
+
+
+def _slot_approval_policy(fill_strategy: str, *, required: bool = True) -> dict[str, Any]:
+    requires_slot_approval = fill_strategy not in {
+        "keep_locked",
+        "reuse_template_asset",
+        "reuse_source_trend_video",
+    }
+    return {
+        "requires_slot_approval": bool(required and requires_slot_approval),
+        "approval_type": "post_template_slot" if requires_slot_approval else "not_required",
+    }
+
+
+def _slot_validation(*, warnings: list[str] | None = None, blocking: list[str] | None = None) -> dict[str, Any]:
+    return {
+        "warnings": warnings or [],
+        "blocking": blocking or [],
+    }
+
+
+def _enrich_slot_v12(slot: dict[str, Any], *, renderer_use: str | None = None) -> dict[str, Any]:
+    kind = str(slot.get("kind") or "")
+    fill_strategy = str(slot.get("fill_strategy") or "")
+    slot["media_kind"] = _slot_media_kind(kind, slot.get("media_kind"))
+    slot.setdefault(
+        "generation_policy",
+        _slot_generation_policy(renderer_use=renderer_use),
+    )
+    slot.setdefault(
+        "approval_policy",
+        _slot_approval_policy(fill_strategy, required=bool(slot.get("required", True))),
+    )
+    slot.setdefault("validation", _slot_validation())
+    return slot
 
 
 def _get_value_by_path(data: Any, path: str) -> Any:
@@ -695,7 +799,7 @@ def validate_hybrid_precompose_blueprint(
         status = precompose.get("status")
         if status not in HYBRID_PRECOMPOSE_STATUSES:
             errors.append(
-                f"{scene_label}: precompose.status must be planned, package_created, pending_render, or rendered"
+                f"{scene_label}: precompose.status must be planned, package_created, pending_render, blocked, or rendered"
             )
         elif status == "rendered":
             errors.append(f"{scene_label}: precompose.status cannot be rendered without explicit render approval")
@@ -724,8 +828,10 @@ def _derive_shotstack_media_fill_strategy(scene: dict[str, Any]) -> str:
 
     if video_mode == "input-extract":
         return "reuse_source_trend_video"
-    if video_mode in {"generate", "motion-control", "reuse-generated"} or startframe_required is True:
-        return "generate_media"
+    if video_mode in {"generate", "motion-control", "reuse-generated"}:
+        return "generate_video_slot"
+    if startframe_required is True:
+        return "generate_startframe"
     if video_mode == "still-image-effect":
         return "select_existing_asset"
     return "select_existing_asset"
@@ -738,17 +844,24 @@ def derive_shotstack_slots(blueprint: dict[str, Any]) -> list[dict[str, Any]]:
         merge_key = audio.get("shotstack_merge_key")
         if isinstance(merge_key, str) and merge_key:
             slots.append(
-                {
+                _enrich_slot_v12(
+                    {
                     "slot_id": _build_slot_id(None, "audio", "source"),
                     "scene_id": None,
                     "kind": "audio",
+                    "media_kind": "audio",
                     "required": True,
                     "fill_strategy": "reuse_source_trend_video",
+                    "generation_policy": _slot_generation_policy(
+                        renderer_use="source_audio",
+                    ),
                     "renderer_binding": {
                         "merge_key": merge_key,
                         "source_file": audio.get("source_file"),
                     },
-                }
+                    },
+                    renderer_use="shotstack",
+                )
             )
 
     for scene in blueprint.get("scenes", []):
@@ -758,6 +871,32 @@ def derive_shotstack_slots(blueprint: dict[str, Any]) -> list[dict[str, Any]]:
         shotstack = scene.get("shotstack")
         if not isinstance(scene_id, str) or not isinstance(shotstack, dict):
             continue
+
+        startframe = scene.get("startframe")
+        if isinstance(startframe, dict) and startframe.get("required") is True:
+            slots.append(
+                _enrich_slot_v12(
+                    {
+                        "slot_id": _build_slot_id(scene_id, "media", "startframe"),
+                        "scene_id": scene_id,
+                        "kind": "media",
+                        "media_kind": "image",
+                        "required": True,
+                        "fill_strategy": "generate_startframe",
+                        "generation_policy": _slot_generation_policy(
+                            model_route=startframe.get("model"),
+                            prompt_file=startframe.get("prompt_file"),
+                            reference_assets=startframe.get("reference_assets"),
+                            renderer_use="startframe_generation",
+                        ),
+                        "renderer_binding": {
+                            "role": "startframe_input",
+                            "prompt_file": startframe.get("prompt_file"),
+                        },
+                    },
+                    renderer_use="shotstack",
+                )
+            )
 
         merge_key = shotstack.get("merge_key")
         if isinstance(merge_key, str) and merge_key:
@@ -770,16 +909,26 @@ def derive_shotstack_slots(blueprint: dict[str, Any]) -> list[dict[str, Any]]:
             precompose = scene.get("precompose")
             if isinstance(precompose, dict):
                 renderer_binding["precompose"] = _compact_precompose_binding(precompose)
+            video = scene.get("video") if isinstance(scene.get("video"), dict) else {}
             slots.append(
-                {
+                _enrich_slot_v12(
+                    {
                     "slot_id": _build_slot_id(scene_id, "media", suffix),
                     "scene_id": scene_id,
                     "kind": "media",
                     "media_kind": media_kind if isinstance(media_kind, str) else None,
                     "required": True,
                     "fill_strategy": _derive_shotstack_media_fill_strategy(scene),
+                    "generation_policy": _slot_generation_policy(
+                        model_route=video.get("model") if isinstance(video, dict) else None,
+                        prompt_file=video.get("prompt_file") if isinstance(video, dict) else None,
+                        reference_assets=video.get("reference_assets") if isinstance(video, dict) else None,
+                        renderer_use="shotstack_final_media",
+                    ),
                     "renderer_binding": renderer_binding,
-                }
+                    },
+                    renderer_use="shotstack",
+                )
             )
 
         for overlay in shotstack.get("text_overlays", []):
@@ -796,8 +945,12 @@ def derive_shotstack_slots(blueprint: dict[str, Any]) -> list[dict[str, Any]]:
                 ),
                 "scene_id": scene_id,
                 "kind": "text",
+                "media_kind": None,
                 "required": True,
                 "fill_strategy": "generate_text",
+                "generation_policy": _slot_generation_policy(
+                    renderer_use="editable_text",
+                ),
                 "renderer_binding": {
                     "merge_key": text_key,
                     "placement": overlay.get("placement"),
@@ -806,7 +959,7 @@ def derive_shotstack_slots(blueprint: dict[str, Any]) -> list[dict[str, Any]]:
             constraints = _style_constraints_from_text_overlay(overlay)
             if constraints is not None:
                 slot["style_constraints"] = constraints
-            slots.append(slot)
+            slots.append(_enrich_slot_v12(slot, renderer_use="shotstack"))
 
         for overlay_index, overlay in enumerate(shotstack.get("overlay_layers", []), start=1):
             if not isinstance(overlay, dict):
@@ -815,7 +968,8 @@ def derive_shotstack_slots(blueprint: dict[str, Any]) -> list[dict[str, Any]]:
             if not isinstance(overlay_merge_key, str) or not overlay_merge_key:
                 continue
             slots.append(
-                {
+                _enrich_slot_v12(
+                    {
                     "slot_id": _build_slot_id(
                         scene_id,
                         "overlay",
@@ -834,7 +988,9 @@ def derive_shotstack_slots(blueprint: dict[str, Any]) -> list[dict[str, Any]]:
                         "merge_key": overlay_merge_key,
                         "placement": overlay.get("placement") or overlay.get("position"),
                     },
-                }
+                    },
+                    renderer_use="shotstack",
+                )
             )
     return slots
 
@@ -895,8 +1051,10 @@ def derive_remotion_slots(
             "slot_id": slot_id,
             "scene_id": slot_scene_id,
             "kind": kind,
+            "media_kind": _slot_media_kind(kind),
             "required": True,
             "fill_strategy": fill_strategy,
+            "generation_policy": _slot_generation_policy(renderer_use="remotion_props"),
             "renderer_binding": {
                 "prop_path": prop_path,
             },
@@ -923,28 +1081,114 @@ def derive_remotion_slots(
                 slot["renderer_binding"]["default_keys"] = sorted(default_value.keys())
 
         _set_scene_ids(slot, scene_ids)
-        slots.append(slot)
+        slots.append(_enrich_slot_v12(slot, renderer_use="remotion"))
 
     audio_file = default_props.get("audioFile") if isinstance(default_props, dict) else None
     if isinstance(audio_file, str):
         slots.append(
-            {
+            _enrich_slot_v12(
+                {
                 "slot_id": _build_slot_id(None, "audio", "source"),
                 "scene_id": None,
                 "kind": "audio",
+                "media_kind": "audio",
                 "required": True,
                 "fill_strategy": (
                     "reuse_source_trend_video"
                     if audio_file == "source_audio.mp3"
                     else "select_existing_asset"
                 ),
+                "generation_policy": _slot_generation_policy(renderer_use="remotion_audio"),
                 "renderer_binding": {
                     "prop_path": "audioFile",
                     "default_value": audio_file,
                 },
-            }
+                },
+                renderer_use="remotion",
+            )
         )
 
+    return slots
+
+
+def derive_hyperframes_slots(blueprint: dict[str, Any]) -> list[dict[str, Any]]:
+    slots: list[dict[str, Any]] = []
+    hyperframes_package = blueprint.get("hyperframes_package")
+    if not isinstance(hyperframes_package, dict):
+        hyperframes_package = {}
+
+    raw_bindings = hyperframes_package.get("slot_bindings")
+    if isinstance(raw_bindings, dict):
+        binding_items = [
+            {"slot_id": slot_id, "graph_ref": graph_ref}
+            for slot_id, graph_ref in raw_bindings.items()
+        ]
+    elif isinstance(raw_bindings, list):
+        binding_items = [item for item in raw_bindings if isinstance(item, dict)]
+    else:
+        binding_items = []
+
+    for index, binding in enumerate(binding_items, start=1):
+        slot_id = binding.get("slot_id")
+        kind = binding.get("kind", "media")
+        if kind not in SUPPORTED_SLOT_KINDS:
+            kind = "media"
+        if not isinstance(slot_id, str) or not slot_id:
+            scene_id = binding.get("scene_id")
+            suffix = binding.get("role") or f"slot_{index:03d}"
+            slot_id = _build_slot_id(scene_id if isinstance(scene_id, str) else None, str(kind), str(suffix))
+        fill_strategy = binding.get("fill_strategy")
+        if fill_strategy not in CONTENT_FILL_STRATEGIES:
+            fill_strategy = "select_existing_asset" if kind in {"media", "overlay", "audio"} else "generate_text"
+        slot = {
+            "slot_id": slot_id,
+            "scene_id": binding.get("scene_id") if isinstance(binding.get("scene_id"), str) else None,
+            "kind": kind,
+            "media_kind": _slot_media_kind(str(kind), binding.get("media_kind")),
+            "required": bool(binding.get("required", True)),
+            "fill_strategy": fill_strategy,
+            "generation_policy": _slot_generation_policy(
+                model_route=binding.get("model_route"),
+                prompt_file=binding.get("prompt_file"),
+                reference_assets=binding.get("reference_assets"),
+                renderer_use="hyperframes_input",
+            ),
+            "renderer_binding": {
+                "graph_ref": binding.get("graph_ref") or binding.get("node_ref"),
+                "node_id": binding.get("node_id"),
+                "input_path": binding.get("input_path"),
+                "package_dir": hyperframes_package.get("package_dir", "hyperframes_package"),
+            },
+        }
+        slots.append(_enrich_slot_v12(slot, renderer_use="hyperframes"))
+
+    if not slots:
+        for scene in blueprint.get("scenes", []):
+            if not isinstance(scene, dict):
+                continue
+            scene_id = scene.get("scene_id")
+            if not isinstance(scene_id, str):
+                continue
+            slots.append(
+                _enrich_slot_v12(
+                    {
+                        "slot_id": _build_slot_id(scene_id, "media", "main"),
+                        "scene_id": scene_id,
+                        "kind": "media",
+                        "media_kind": "image",
+                        "required": True,
+                        "fill_strategy": "select_existing_asset",
+                        "generation_policy": _slot_generation_policy(
+                            renderer_use="hyperframes_input",
+                        ),
+                        "renderer_binding": {
+                            "graph_ref": f"nodes.{scene_id}.asset",
+                            "package_dir": hyperframes_package.get("package_dir", "hyperframes_package"),
+                        },
+                    },
+                    renderer_use="hyperframes",
+                )
+            )
     return slots
 
 
@@ -967,6 +1211,112 @@ def build_package_summary_from_slots(
         "media_slot_count": media_slot_count,
         "renderer": renderer,
     }
+
+
+def _infer_duration_seconds(blueprint: dict[str, Any]) -> float | None:
+    total = 0.0
+    seen = False
+    for scene in blueprint.get("scenes", []):
+        if isinstance(scene, dict) and isinstance(scene.get("duration_sec"), (int, float)):
+            total += float(scene["duration_sec"])
+            seen = True
+    return round(total, 3) if seen else None
+
+
+def _infer_aspect_ratio(blueprint: dict[str, Any]) -> str:
+    for key in ("aspect_ratio", "aspectRatio"):
+        value = blueprint.get(key)
+        if isinstance(value, str) and value:
+            return value
+    for package_key in ("remotion_package", "hyperframes_package"):
+        package = blueprint.get(package_key)
+        if isinstance(package, dict):
+            value = package.get("aspect_ratio") or package.get("aspectRatio")
+            if isinstance(value, str) and value:
+                return value
+    return "9:16"
+
+
+def _build_renderer_bindings(renderer: str, slots: list[dict[str, Any]]) -> dict[str, Any]:
+    bindings: dict[str, Any] = {
+        "renderer": renderer,
+        "slot_bindings": {},
+    }
+    for slot in slots:
+        slot_id = slot.get("slot_id")
+        binding = slot.get("renderer_binding")
+        if not isinstance(slot_id, str) or not isinstance(binding, dict):
+            continue
+        if renderer in {"shotstack", "hybrid"} and isinstance(binding.get("merge_key"), str):
+            bindings["slot_bindings"][slot_id] = {"merge_key": binding["merge_key"]}
+        elif renderer == "remotion" and isinstance(binding.get("prop_path"), str):
+            bindings["slot_bindings"][slot_id] = {"prop_path": binding["prop_path"]}
+        elif renderer == "hyperframes":
+            bindings["slot_bindings"][slot_id] = {
+                key: value
+                for key, value in {
+                    "graph_ref": binding.get("graph_ref"),
+                    "node_id": binding.get("node_id"),
+                    "input_path": binding.get("input_path"),
+                }.items()
+                if value not in (None, "")
+            }
+    return bindings
+
+
+def _build_precompose_plan(blueprint: dict[str, Any], slots: list[dict[str, Any]]) -> dict[str, Any]:
+    slot_ids = {slot.get("slot_id") for slot in slots if isinstance(slot.get("slot_id"), str)}
+    slots_by_scene: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for slot in slots:
+        scene_id = slot.get("scene_id")
+        if isinstance(scene_id, str):
+            slots_by_scene[scene_id].append(slot)
+
+    steps: list[dict[str, Any]] = []
+    for scene in blueprint.get("scenes", []):
+        if not isinstance(scene, dict):
+            continue
+        scene_id = scene.get("scene_id")
+        precompose = scene.get("precompose")
+        if not isinstance(scene_id, str) or not isinstance(precompose, dict):
+            continue
+        output_slot = _build_slot_id(scene_id, "media", "main")
+        input_slots = [
+            slot["slot_id"]
+            for slot in slots_by_scene.get(scene_id, [])
+            if slot.get("slot_id") != output_slot
+            and slot.get("fill_strategy") != "precompose_video"
+        ]
+        blockers: list[dict[str, str]] = []
+        status = precompose.get("status") if isinstance(precompose.get("status"), str) else "planned"
+        if output_slot not in slot_ids:
+            blockers.append({"code": "missing_output_slot", "message": f"Missing output slot {output_slot}."})
+        if status != "rendered":
+            blockers.append(
+                {
+                    "code": "missing_precompose_output",
+                    "message": "Precompose output is not rendered in this review-gated package.",
+                }
+            )
+            blockers.append(
+                {
+                    "code": "pending_adult_ai_materialization",
+                    "message": "Adult AI must materialize and approve the precompose output before final render.",
+                }
+            )
+        steps.append(
+            {
+                "step_id": f"precompose_{scene_id}",
+                "renderer": precompose.get("renderer"),
+                "input_slots": input_slots,
+                "output_slot": output_slot,
+                "package_dir": precompose.get("package_dir"),
+                "required": True,
+                "status": status,
+                "blockers": blockers,
+            }
+        )
+    return {"steps": steps}
 
 
 def build_source_summary(
@@ -1025,11 +1375,12 @@ def build_template_contract(
         if isinstance(partition_file, str) and (package_dir / partition_file).exists():
             template_partition = load_json(package_dir / partition_file)
 
-    slots = (
-        derive_remotion_slots(blueprint, default_props, template_partition)
-        if renderer == "remotion"
-        else derive_shotstack_slots(blueprint)
-    )
+    if renderer == "remotion":
+        slots = derive_remotion_slots(blueprint, default_props, template_partition)
+    elif renderer == "hyperframes":
+        slots = derive_hyperframes_slots(blueprint)
+    else:
+        slots = derive_shotstack_slots(blueprint)
 
     scene_count = len(blueprint.get("scene_order", [])) if isinstance(blueprint.get("scene_order"), list) else len(blueprint.get("scenes", []))
     template_type = infer_template_type(caller_context, caller_context_echo)
@@ -1038,9 +1389,14 @@ def build_template_contract(
         scene_count=scene_count,
         slots=slots,
     )
+    precompose_plan = _build_precompose_plan(blueprint, slots)
+    precompose_required = bool(precompose_plan["steps"]) or any(
+        slot.get("fill_strategy") == "precompose_video" for slot in slots
+    )
     fill_requirements = {
         "requires_generated_media": any(
-            slot.get("fill_strategy") == "generate_media" for slot in slots
+            slot.get("fill_strategy") in {"generate_startframe", "generate_image_slot", "generate_video_slot"}
+            for slot in slots
         ),
         "requires_precompose_video": any(
             slot.get("fill_strategy") == "precompose_video" for slot in slots
@@ -1056,13 +1412,31 @@ def build_template_contract(
         ),
     }
 
+    preferred_renderer = (
+        caller_context_echo.get("preferred_renderer")
+        if isinstance(caller_context_echo, dict)
+        else renderer
+    )
+    if preferred_renderer not in SUPPORTED_RENDERERS:
+        preferred_renderer = renderer
+
     contract = {
         "contract_version": TEMPLATE_CONTRACT_VERSION,
         "job_id": blueprint.get("job_id"),
+        "template_id": blueprint.get("template_id") or f"{template_type or 'template'}:{blueprint.get('job_id')}",
         "renderer": renderer,
+        "preferred_renderer": preferred_renderer,
+        "fallback_renderers": blueprint.get("fallback_renderers", []),
         "template_type": template_type,
+        "aspect_ratio": _infer_aspect_ratio(blueprint),
+        "duration_seconds": _infer_duration_seconds(blueprint),
+        "precompose_required": precompose_required,
         "supported_content_types": infer_supported_content_types(template_type),
         "fill_requirements": fill_requirements,
+        "renderer_bindings": _build_renderer_bindings(renderer, slots),
+        "precompose_plan": precompose_plan,
+        "consumer_profiles": {},
+        "validation": _slot_validation(),
         "package_summary": package_summary,
         "slots": slots,
     }
@@ -1411,6 +1785,149 @@ def validate_assembly_flow_suggestion(payload: Any) -> tuple[list[str], list[str
     return errors, warnings
 
 
+def _git_head_sha(package_dir: Path) -> str:
+    try:
+        completed = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=Path(__file__).resolve().parents[1],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+    except Exception:
+        return ""
+    return completed.stdout.strip() if completed.returncode == 0 else ""
+
+
+def _token_ref_for_slot(slot_id: str) -> str:
+    token_id = re.sub(r"[^A-Za-z0-9_.-]+", "_", slot_id)
+    return f"{{{{slot.{token_id}}}}}"
+
+
+def build_adult_ai_template_contract(
+    package_dir: Path,
+    *,
+    template_contract: dict[str, Any],
+) -> dict[str, Any]:
+    slots = []
+    for slot in template_contract.get("slots", []):
+        if not isinstance(slot, dict):
+            continue
+        slot_id = slot.get("slot_id")
+        if not isinstance(slot_id, str) or not slot_id:
+            continue
+        generation_policy = slot.get("generation_policy") if isinstance(slot.get("generation_policy"), dict) else {}
+        prompt_file = generation_policy.get("prompt_file")
+        slots.append(
+            {
+                "slot_id": slot_id,
+                "scene_id": slot.get("scene_id"),
+                "kind": slot.get("kind"),
+                "media_kind": slot.get("media_kind"),
+                "required": slot.get("required", True),
+                "fill_strategy": slot.get("fill_strategy"),
+                "token_ref": _token_ref_for_slot(slot_id),
+                "prompt_file": Path(prompt_file).name if isinstance(prompt_file, str) and prompt_file else None,
+                "generation_policy": {
+                    "model_route": generation_policy.get("model_route"),
+                    "prompt_file": Path(prompt_file).name if isinstance(prompt_file, str) and prompt_file else None,
+                    "renderer_use": generation_policy.get("renderer_use"),
+                },
+                "approval_policy": slot.get("approval_policy"),
+                "renderer_binding": slot.get("renderer_binding"),
+                "validation": slot.get("validation"),
+            }
+        )
+
+    return {
+        "consumer_profile": ADULT_AI_TEMPLATE_CONSUMER_PROFILE,
+        "schema_version": ADULT_AI_TEMPLATE_CONTRACT_SCHEMA_VERSION,
+        "contract_version": template_contract.get("contract_version"),
+        "source": {
+            "repo": "nakajang11/Video_Template",
+            "commit": _git_head_sha(package_dir),
+            "job_id": template_contract.get("job_id"),
+        },
+        "template": {
+            "template_id": template_contract.get("template_id"),
+            "template_type": template_contract.get("template_type"),
+            "supported_content_types": template_contract.get("supported_content_types", []),
+            "renderer": template_contract.get("renderer"),
+            "aspect_ratio": template_contract.get("aspect_ratio"),
+            "duration_seconds": template_contract.get("duration_seconds"),
+            "precompose_required": template_contract.get("precompose_required", False),
+        },
+        "slots": slots,
+        "renderer": {
+            "name": template_contract.get("renderer"),
+            "renderer_bindings": template_contract.get("renderer_bindings", {}),
+            "precompose_plan": template_contract.get("precompose_plan", {"steps": []}),
+        },
+        "validation": {
+            "source_contract_validation": template_contract.get("validation", {}),
+            "tokenized_refs_only": True,
+            "paid_generation_performed": False,
+            "provider_calls_performed": False,
+            "adult_runtime_mutation_performed": False,
+        },
+    }
+
+
+def validate_adult_ai_template_contract(payload: Any) -> tuple[list[str], list[str]]:
+    errors: list[str] = []
+    warnings: list[str] = []
+    if not isinstance(payload, dict):
+        return ["adult_ai_influencer_template_contract.json must contain a JSON object."], warnings
+    if payload.get("consumer_profile") != ADULT_AI_TEMPLATE_CONSUMER_PROFILE:
+        errors.append(
+            "adult_ai_influencer_template_contract.consumer_profile must be "
+            f"`{ADULT_AI_TEMPLATE_CONSUMER_PROFILE}`."
+        )
+    if payload.get("schema_version") != ADULT_AI_TEMPLATE_CONTRACT_SCHEMA_VERSION:
+        errors.append(
+            "adult_ai_influencer_template_contract.schema_version must be "
+            f"`{ADULT_AI_TEMPLATE_CONTRACT_SCHEMA_VERSION}`."
+        )
+    if payload.get("contract_version") != TEMPLATE_CONTRACT_VERSION:
+        errors.append(
+            f"adult_ai_influencer_template_contract.contract_version must be `{TEMPLATE_CONTRACT_VERSION}`."
+        )
+    slots = payload.get("slots")
+    if not isinstance(slots, list) or not slots:
+        errors.append("adult_ai_influencer_template_contract.slots must be a non-empty array.")
+    else:
+        seen: set[str] = set()
+        for index, slot in enumerate(slots, start=1):
+            if not isinstance(slot, dict):
+                errors.append(f"adult consumer slot {index} must be an object.")
+                continue
+            slot_id = slot.get("slot_id")
+            if not isinstance(slot_id, str) or not slot_id:
+                errors.append(f"adult consumer slot {index} requires slot_id.")
+                continue
+            if slot_id in seen:
+                errors.append(f"adult consumer duplicate slot_id: {slot_id}")
+            seen.add(slot_id)
+            token_ref = slot.get("token_ref")
+            if not isinstance(token_ref, str) or not TOKEN_ONLY_RE.match(token_ref):
+                errors.append(f"adult consumer slot {slot_id} requires tokenized token_ref.")
+
+    for path, key, value in _iter_json_items(payload):
+        normalized_key = key.lower()
+        if normalized_key in FORBIDDEN_SUGGESTION_KEYS or any(
+            part in normalized_key for part in FORBIDDEN_SUGGESTION_KEY_PARTS
+        ):
+            errors.append(f"adult consumer contract contains forbidden key at {path}.")
+        if isinstance(value, str):
+            if URL_VALUE_RE.search(value):
+                errors.append(f"adult consumer contract contains a resolved URL at {path}.")
+            if LOCAL_ABSOLUTE_PATH_RE.match(value) and not TOKEN_ONLY_RE.match(value):
+                errors.append(f"adult consumer contract contains a local absolute path at {path}.")
+            if re.search(r"\b(?:sk-|api[_-]?key|secret|password|adult_db_id|database_id|db_id)\b", value, re.IGNORECASE):
+                errors.append(f"adult consumer contract contains secret or runtime id text at {path}.")
+    return errors, warnings
+
+
 def resolve_review_status(
     *,
     initial_review_status: str | None,
@@ -1432,7 +1949,7 @@ def resolve_review_status(
             candidates.append(review_status)
 
     resolved = candidates[0] if candidates else "not_started"
-    if preferred_renderer in {"shotstack", "remotion", "hybrid"} and actual_renderer != preferred_renderer:
+    if preferred_renderer in SUPPORTED_RENDERERS and actual_renderer != preferred_renderer:
         return "review_required"
     return resolved
 
@@ -1530,6 +2047,76 @@ def maybe_write_assembly_flow_suggestion(
     _upsert_manifest_artifact(
         artifacts,
         artifact_type="assembly_flow_suggestion",
+        path=rel_path,
+        scene_id=None,
+        status="created",
+    )
+    write_json(manifest_path, manifest)
+    return {
+        "requested": True,
+        "created": True,
+        "path": rel_path,
+        "errors": [],
+        "warnings": warnings,
+    }
+
+
+def maybe_write_adult_ai_template_contract(
+    package_dir: Path,
+    *,
+    consumer_profile: str | None,
+    template_contract: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    if consumer_profile != ADULT_AI_TEMPLATE_CONSUMER_PROFILE:
+        return {
+            "requested": False,
+            "created": False,
+            "path": None,
+            "errors": [],
+            "warnings": [],
+        }
+    if not isinstance(template_contract, dict):
+        return {
+            "requested": True,
+            "created": False,
+            "path": None,
+            "errors": ["template_contract is required before adult consumer contract generation."],
+            "warnings": [],
+        }
+
+    rel_path = "adult_ai_influencer_template_contract.json"
+    payload = build_adult_ai_template_contract(
+        package_dir,
+        template_contract=template_contract,
+    )
+    errors, warnings = validate_adult_ai_template_contract(payload)
+
+    manifest_path = package_dir / "manifest.json"
+    manifest = load_json(manifest_path) if manifest_path.exists() else {}
+    if not isinstance(manifest, dict):
+        manifest = {}
+    artifacts = manifest.get("artifacts")
+    if not isinstance(artifacts, list):
+        artifacts = []
+        manifest["artifacts"] = artifacts
+
+    if errors:
+        removed = _remove_manifest_artifact(artifacts, path=rel_path)
+        if removed:
+            write_json(manifest_path, manifest)
+        return {
+            "requested": True,
+            "created": False,
+            "path": None,
+            "errors": errors,
+            "warnings": warnings,
+        }
+
+    write_json(package_dir / rel_path, payload)
+    manifest["job_id"] = manifest.get("job_id") or package_dir.name
+    _upsert_manifest_artifact(
+        artifacts,
+        artifact_type="adult_ai_consumer_contract",
         path=rel_path,
         scene_id=None,
         status="created",
@@ -1650,11 +2237,23 @@ def validate_template_contract(
         errors.append(
             f"template_contract.json renderer must be `{expected_renderer}`, found `{renderer}`."
         )
+    if renderer not in SUPPORTED_RENDERERS:
+        errors.append(f"template_contract.json has unsupported renderer `{renderer}`.")
+    if contract.get("contract_version") != TEMPLATE_CONTRACT_VERSION:
+        errors.append(
+            f"template_contract.json contract_version must be `{TEMPLATE_CONTRACT_VERSION}`."
+        )
 
     package_summary = contract.get("package_summary")
     slots = contract.get("slots")
     if not isinstance(package_summary, dict):
         errors.append("template_contract.json must contain package_summary.")
+    if not isinstance(contract.get("renderer_bindings"), dict):
+        errors.append("template_contract.json must contain renderer_bindings.")
+    if "precompose_required" not in contract:
+        errors.append("template_contract.json must contain precompose_required.")
+    if not isinstance(contract.get("precompose_plan"), dict):
+        errors.append("template_contract.json must contain precompose_plan.")
     if not isinstance(slots, list):
         errors.append("template_contract.json must contain slots[].")
         return errors, warnings, contract
@@ -1677,17 +2276,42 @@ def validate_template_contract(
         kind = slot.get("kind")
         if kind not in SUPPORTED_SLOT_KINDS:
             errors.append(f"template_contract slot {slot_id} has unsupported kind `{kind}`.")
+        media_kind = slot.get("media_kind")
+        if kind in {"text", "color", "number"} and media_kind is not None:
+            errors.append(f"template_contract slot {slot_id} media_kind must be null for {kind}.")
+        if kind == "audio" and media_kind != "audio":
+            errors.append(f"template_contract slot {slot_id} media_kind must be audio.")
+        if kind in {"media", "overlay"} and media_kind not in {"image", "video", "audio", "thumbnail"}:
+            errors.append(f"template_contract slot {slot_id} requires media_kind for {kind}.")
         fill_strategy = slot.get("fill_strategy")
         if fill_strategy not in CONTENT_FILL_STRATEGIES:
             errors.append(
                 f"template_contract slot {slot_id} has unsupported fill_strategy `{fill_strategy}`."
             )
+        if fill_strategy == "generate_media":
+            errors.append(f"template_contract slot {slot_id} must not use legacy generate_media in v1.2.")
+        generation_policy = slot.get("generation_policy")
+        if not isinstance(generation_policy, dict):
+            errors.append(f"template_contract slot {slot_id} requires generation_policy.")
+        else:
+            model_route = generation_policy.get("model_route")
+            if isinstance(model_route, str) and model_route.lower() in HYPERFRAMES_FORBIDDEN_GENERATION_VALUES:
+                errors.append(
+                    f"template_contract slot {slot_id} must not use Hyperframes as a generation model."
+                )
+        approval_policy = slot.get("approval_policy")
+        if not isinstance(approval_policy, dict):
+            errors.append(f"template_contract slot {slot_id} requires approval_policy.")
+        validation = slot.get("validation")
+        if not isinstance(validation, dict):
+            errors.append(f"template_contract slot {slot_id} requires validation.")
         renderer_binding = slot.get("renderer_binding")
         if not isinstance(renderer_binding, dict):
             errors.append(f"template_contract slot {slot_id} requires renderer_binding.")
         elif expected_renderer in {"shotstack", "hybrid"}:
             merge_key = renderer_binding.get("merge_key")
-            if not isinstance(merge_key, str) or not merge_key:
+            needs_merge_key = fill_strategy not in {"generate_startframe", "select_existing_asset"}
+            if needs_merge_key and (not isinstance(merge_key, str) or not merge_key):
                 errors.append(
                     f"template_contract slot {slot_id} requires renderer_binding.merge_key."
                 )
@@ -1696,6 +2320,12 @@ def validate_template_contract(
             if not isinstance(prop_path, str) or not prop_path:
                 errors.append(
                     f"template_contract slot {slot_id} requires renderer_binding.prop_path."
+                )
+        elif expected_renderer == "hyperframes":
+            graph_ref = renderer_binding.get("graph_ref")
+            if not isinstance(graph_ref, str) or not graph_ref:
+                errors.append(
+                    f"template_contract slot {slot_id} requires renderer_binding.graph_ref."
                 )
 
         if kind == "text":
@@ -1722,5 +2352,40 @@ def validate_template_contract(
             errors.append(
                 "template_contract package_summary.renderer does not match package renderer."
             )
+
+    precompose_required = contract.get("precompose_required")
+    precompose_plan = contract.get("precompose_plan")
+    if precompose_required is True:
+        steps = precompose_plan.get("steps") if isinstance(precompose_plan, dict) else None
+        if not isinstance(steps, list) or not steps:
+            errors.append("template_contract precompose_required requires precompose_plan.steps[].")
+        else:
+            for index, step in enumerate(steps, start=1):
+                if not isinstance(step, dict):
+                    errors.append(f"precompose_plan step {index} must be an object.")
+                    continue
+                output_slot = step.get("output_slot")
+                if output_slot not in slot_ids:
+                    errors.append(f"precompose_plan step {index} output_slot does not exist.")
+                else:
+                    output = next((slot for slot in slots if slot.get("slot_id") == output_slot), {})
+                    if output.get("fill_strategy") != "precompose_video":
+                        errors.append(
+                            f"precompose_plan step {index} output_slot must use precompose_video."
+                        )
+                for input_slot in step.get("input_slots", []):
+                    if input_slot not in slot_ids:
+                        errors.append(f"precompose_plan step {index} input_slot `{input_slot}` does not exist.")
+                status = step.get("status")
+                if status not in HYBRID_PRECOMPOSE_STATUSES:
+                    errors.append(f"precompose_plan step {index} has unsupported status `{status}`.")
+                blockers = step.get("blockers")
+                if status != "rendered" and not blockers:
+                    errors.append(f"precompose_plan step {index} requires blockers until rendered.")
+                if isinstance(blockers, list):
+                    for blocker in blockers:
+                        code = blocker.get("code") if isinstance(blocker, dict) else None
+                        if code not in PRECOMPOSE_BLOCKER_CODES:
+                            errors.append(f"precompose_plan step {index} has unsupported blocker code `{code}`.")
 
     return errors, warnings, contract
